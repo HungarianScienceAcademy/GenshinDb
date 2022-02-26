@@ -1,58 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/presentation/shared/app_fab.dart';
-import 'package:genshindb/presentation/shared/extensions/scroll_controller_extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/injection.dart';
+import 'package:shiori/presentation/shared/scaffold_with_fab.dart';
 
 import 'widgets/character_detail.dart';
-import 'widgets/character_detail_top.dart';
 
-class CharacterPage extends StatefulWidget {
-  const CharacterPage({Key key}) : super(key: key);
+class CharacterPage extends StatelessWidget {
+  final String itemKey;
+
+  const CharacterPage({Key? key, required this.itemKey}) : super(key: key);
 
   @override
-  _CharacterPageState createState() => _CharacterPageState();
+  Widget build(BuildContext context) {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    return BlocProvider<CharacterBloc>(
+      create: (context) => Injection.characterBloc..add(CharacterEvent.loadFromKey(key: itemKey)),
+      child: isPortrait ? const _PortraitLayout() : const _LandscapeLayout(),
+    );
+  }
 }
 
-class _CharacterPageState extends State<CharacterPage> with SingleTickerProviderStateMixin {
-  ScrollController _scrollController;
-  AnimationController _hideFabAnimController;
+class _PortraitLayout extends StatelessWidget {
+  const _PortraitLayout({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-
-    _scrollController = ScrollController();
-    _hideFabAnimController = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-      value: 0, // initially not visible
+  Widget build(BuildContext context) {
+    return ScaffoldWithFab(
+      child: Stack(
+        fit: StackFit.passthrough,
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: const [
+          CharacterDetailTop(),
+          CharacterDetailBottom(),
+        ],
+      ),
     );
-    _scrollController.addListener(() => _scrollController.handleScrollForFab(_hideFabAnimController));
   }
+}
+
+class _LandscapeLayout extends StatelessWidget {
+  const _LandscapeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Stack(
-            fit: StackFit.passthrough,
-            clipBehavior: Clip.none,
-            children: const [CharacterDetailTop(), CharacterDetailBottom()],
-          ),
+        child: Row(
+          children: const [
+            Expanded(child: CharacterDetailTop()),
+            Expanded(child: CharacterDetailBottom()),
+          ],
         ),
       ),
-      floatingActionButton: AppFab(
-        hideFabAnimController: _hideFabAnimController,
-        scrollController: _scrollController,
-      ),
     );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _hideFabAnimController.dispose();
-    super.dispose();
   }
 }

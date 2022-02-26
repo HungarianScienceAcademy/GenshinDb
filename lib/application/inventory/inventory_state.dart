@@ -1,12 +1,10 @@
 part of 'inventory_bloc.dart';
 
 @freezed
-abstract class InventoryState implements _$InventoryState {
-  const factory InventoryState.loading() = _LoadingState;
-
+class InventoryState with _$InventoryState {
   const factory InventoryState.loaded({
-    @required List<CharacterCardModel> characters,
-    @required List<WeaponCardModel> weapons,
-    @required List<MaterialCardModel> materials,
+    required List<CharacterCardModel> characters,
+    required List<WeaponCardModel> weapons,
+    required List<MaterialCardModel> materials,
   }) = _LoadedState;
 }

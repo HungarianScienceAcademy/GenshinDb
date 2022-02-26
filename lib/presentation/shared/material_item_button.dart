@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/presentation/material/material_page.dart' as mp;
+import 'package:shiori/presentation/material/material_page.dart' as mp;
 
 class MaterialItemButton extends StatelessWidget {
+  final String itemKey;
   final String image;
   final double size;
 
   const MaterialItemButton({
-    Key key,
-    @required this.image,
+    Key? key,
+    required this.itemKey,
+    required this.image,
     this.size = 30,
   }) : super(key: key);
 
@@ -26,10 +26,7 @@ class MaterialItemButton extends StatelessWidget {
   }
 
   Future<void> _gotoMaterialPage(BuildContext context) async {
-    final bloc = context.read<MaterialBloc>();
-    bloc.add(MaterialEvent.loadFromImg(image: image));
-    final route = MaterialPageRoute(builder: (c) => mp.MaterialPage());
+    final route = MaterialPageRoute(builder: (c) => mp.MaterialPage(itemKey: itemKey));
     await Navigator.push(context, route);
-    bloc.pop();
   }
 }

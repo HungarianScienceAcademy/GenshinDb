@@ -1,24 +1,35 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/assets.dart';
-import 'package:genshindb/domain/enums/enums.dart';
+import 'package:shiori/domain/assets.dart';
+import 'package:shiori/domain/enums/enums.dart';
 
 part 'monster_file_model.freezed.dart';
 part 'monster_file_model.g.dart';
 
 @freezed
-abstract class MonsterFileModel implements _$MonsterFileModel {
-  @late
+class MonsterFileModel with _$MonsterFileModel {
   String get fullImagePath => Assets.getMonsterImgPath(image);
 
   factory MonsterFileModel({
-    @required String key,
-    @required String image,
-    @required MonsterType type,
-    @required bool isComingSoon,
-    @required List<String> drops,
+    required String key,
+    required String image,
+    required MonsterType type,
+    required bool isComingSoon,
+    required List<MonsterDropFileModel> drops,
   }) = _MonsterFileModel;
 
   MonsterFileModel._();
 
   factory MonsterFileModel.fromJson(Map<String, dynamic> json) => _$MonsterFileModelFromJson(json);
+}
+
+@freezed
+class MonsterDropFileModel with _$MonsterDropFileModel {
+  factory MonsterDropFileModel({
+    required String key,
+    required MonsterDropType type,
+  }) = _MonsterDropFileModel;
+
+  MonsterDropFileModel._();
+
+  factory MonsterDropFileModel.fromJson(Map<String, dynamic> json) => _$MonsterDropFileModelFromJson(json);
 }

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/extensions/weapon_type_extensions.dart';
-import 'package:genshindb/generated/l10n.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/extensions/weapon_type_extensions.dart';
+import 'package:shiori/generated/l10n.dart';
 
 import 'extensions/i18n_extensions.dart';
 
 class WeaponsButtonBar extends StatelessWidget {
   final List<WeaponType> selectedValues;
   final Function(WeaponType) onClick;
+  final double iconSize;
+  final bool enabled;
 
   const WeaponsButtonBar({
-    Key key,
-    @required this.onClick,
+    Key? key,
+    required this.onClick,
     this.selectedValues = const [],
+    this.iconSize = 24,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -30,11 +34,12 @@ class WeaponsButtonBar extends StatelessWidget {
   Widget _buildIconButton(WeaponType value, String tooltip) {
     final isSelected = selectedValues.isEmpty || !selectedValues.contains(value);
     return IconButton(
+      iconSize: iconSize,
       icon: Opacity(
         opacity: !isSelected ? 1 : 0.2,
         child: Image.asset(value.getWeaponAssetPath()),
       ),
-      onPressed: () => onClick(value),
+      onPressed: !enabled ? null : () => onClick(value),
       tooltip: tooltip,
     );
   }

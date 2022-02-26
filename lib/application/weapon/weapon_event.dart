@@ -1,19 +1,10 @@
 part of 'weapon_bloc.dart';
 
 @freezed
-abstract class WeaponEvent with _$WeaponEvent {
-  const factory WeaponEvent.loadFromName({
-    @required String key,
-    @Default(true) bool addToQueue,
-  }) = _LoadWeaponFromName;
+class WeaponEvent with _$WeaponEvent {
+  const factory WeaponEvent.loadFromKey({required String key}) = _LoadWeaponFromName;
 
-  const factory WeaponEvent.loadFromImg({
-    @required String image,
-    @Default(true) bool addToQueue,
-  }) = _LoadWeaponFromImg;
+  const factory WeaponEvent.addToInventory({required String key}) = _AddToInventory;
 
-  const factory WeaponEvent.addedToInventory({
-    @required String key,
-    @required bool wasAdded,
-  }) = _AddedToInventory;
+  const factory WeaponEvent.deleteFromInventory({required String key}) = _DeleteFromInventory;
 }

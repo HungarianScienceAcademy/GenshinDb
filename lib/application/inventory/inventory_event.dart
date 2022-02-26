@@ -1,29 +1,35 @@
 part of 'inventory_bloc.dart';
 
 @freezed
-abstract class InventoryEvent implements _$InventoryEvent {
+class InventoryEvent with _$InventoryEvent {
   const factory InventoryEvent.init() = _Init;
 
   const factory InventoryEvent.addCharacter({
-    @required String key,
+    required String key,
   }) = _AddCharacter;
 
   const factory InventoryEvent.addWeapon({
-    @required String key,
+    required String key,
   }) = _AddWeapon;
 
   const factory InventoryEvent.deleteCharacter({
-    @required String key,
+    required String key,
   }) = _DeleteCharacter;
 
   const factory InventoryEvent.deleteWeapon({
-    @required String key,
+    required String key,
   }) = _DeleteWeapon;
 
   const factory InventoryEvent.updateMaterial({
-    @required String key,
-    @required int quantity,
+    required String key,
+    required int quantity,
   }) = _AddMaterial;
 
-  const factory InventoryEvent.close() = _Close;
+  const factory InventoryEvent.clearAllCharacters() = _ClearAllCharacters;
+
+  const factory InventoryEvent.clearAllWeapons() = _ClearAllWeapons;
+
+  const factory InventoryEvent.clearAllMaterials() = _ClearAllMaterials;
+
+  const factory InventoryEvent.refresh({required ItemType type}) = _Refresh;
 }

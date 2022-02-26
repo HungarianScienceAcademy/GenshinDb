@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/common_table_cell.dart';
-import 'package:genshindb/presentation/shared/extensions/element_type_extensions.dart';
-import 'package:genshindb/presentation/shared/item_description_detail.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
-import 'package:genshindb/presentation/shared/wrapped_ascension_material.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/common_table_cell.dart';
+import 'package:shiori/presentation/shared/extensions/element_type_extensions.dart';
+import 'package:shiori/presentation/shared/images/wrapped_ascension_material.dart';
+import 'package:shiori/presentation/shared/item_description_detail.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class CharacterDetailTalentAscensionMaterialsCard extends StatelessWidget {
   final ElementType elementType;
-  final List<CharacterFileTalentAscensionMaterialModel> talentAscensionMaterials;
-  final List<CharacterFileMultiTalentAscensionMaterialModel> multiTalentAscensionMaterials;
+  final List<CharacterTalentAscensionModel> talentAscensionMaterials;
+  final List<CharacterMultiTalentAscensionModel> multiTalentAscensionMaterials;
 
   const CharacterDetailTalentAscensionMaterialsCard.withTalents({
-    Key key,
-    @required this.elementType,
-    @required this.talentAscensionMaterials,
+    Key? key,
+    required this.elementType,
+    required this.talentAscensionMaterials,
   })  : multiTalentAscensionMaterials = const [],
         super(key: key);
 
   const CharacterDetailTalentAscensionMaterialsCard.withMultiTalents({
-    Key key,
-    @required this.elementType,
-    @required this.multiTalentAscensionMaterials,
+    Key? key,
+    required this.elementType,
+    required this.multiTalentAscensionMaterials,
   })  : talentAscensionMaterials = const [],
         super(key: key);
 
@@ -42,7 +42,7 @@ class CharacterDetailTalentAscensionMaterialsCard extends StatelessWidget {
 
   Widget _buildTableCard(
     String title,
-    List<CharacterFileTalentAscensionMaterialModel> materials,
+    List<CharacterTalentAscensionModel> materials,
     BuildContext context,
   ) {
     final s = S.of(context);
@@ -77,8 +77,8 @@ class CharacterDetailTalentAscensionMaterialsCard extends StatelessWidget {
     );
   }
 
-  TableRow _buildTalentAscensionRow(CharacterFileTalentAscensionMaterialModel model) {
-    final materials = model.materials.map((m) => WrappedAscensionMaterial(image: m.fullImagePath, quantity: m.quantity)).toList();
+  TableRow _buildTalentAscensionRow(CharacterTalentAscensionModel model) {
+    final materials = model.materials.map((m) => WrappedAscensionMaterial(itemKey: m.key, image: m.image, quantity: m.quantity)).toList();
     return TableRow(
       children: [
         CommonTableCell(
@@ -86,7 +86,6 @@ class CharacterDetailTalentAscensionMaterialsCard extends StatelessWidget {
           padding: Styles.edgeInsetAll10,
         ),
         CommonTableCell.child(
-          padding: Styles.edgeInsetAll5,
           child: Wrap(alignment: WrapAlignment.center, children: materials),
         ),
       ],

@@ -11,17 +11,18 @@ class IncrementButton extends StatelessWidget {
   final Function(int) onAdd;
 
   const IncrementButton({
-    Key key,
-    @required this.title,
-    @required this.value,
-    @required this.onMinus,
-    @required this.onAdd,
+    Key? key,
+    required this.title,
+    required this.value,
+    required this.onMinus,
+    required this.onAdd,
     this.incrementIsDisabled = false,
     this.decrementIsDisabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.secondary;
     return Container(
       margin: Styles.edgeInsetVertical5,
       child: Column(
@@ -35,6 +36,7 @@ class IncrementButton extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.remove),
                   splashRadius: 20,
+                  color: color,
                   constraints: const BoxConstraints(),
                   onPressed: decrementIsDisabled ? null : () => onMinus(value - 1),
                 ),
@@ -45,7 +47,7 @@ class IncrementButton extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.add),
                   splashRadius: 20,
-                  color: Colors.red,
+                  color: color,
                   constraints: const BoxConstraints(),
                   onPressed: incrementIsDisabled ? null : () => onAdd(value + 1),
                 ),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/application/settings/settings_bloc.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/extensions/i18n_extensions.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/application/settings/settings_bloc.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/common_dropdown_button.dart';
+import 'package:shiori/presentation/shared/extensions/i18n_extensions.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/shared/utils/enum_utils.dart';
 
 import 'settings_card.dart';
 
@@ -42,43 +44,48 @@ class OtherSettings extends StatelessWidget {
                 loaded: (settingsState) => Column(
                   children: [
                     SwitchListTile(
-                      activeColor: theme.accentColor,
+                      activeColor: theme.colorScheme.secondary,
                       title: Text(s.showCharacterDetails),
                       value: settingsState.showCharacterDetails,
                       onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.showCharacterDetailsChanged(newValue: newVal)),
                     ),
                     SwitchListTile(
-                      activeColor: theme.accentColor,
+                      activeColor: theme.colorScheme.secondary,
                       title: Text(s.showWeaponDetails),
                       value: settingsState.showWeaponDetails,
                       onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.showWeaponDetailsChanged(newValue: newVal)),
                     ),
                     SwitchListTile(
-                      activeColor: theme.accentColor,
+                      activeColor: theme.colorScheme.secondary,
                       title: Text(s.pressOnceAgainToExit),
                       value: settingsState.doubleBackToClose,
                       onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.doubleBackToCloseChanged(newValue: newVal)),
                     ),
                     SwitchListTile(
-                      activeColor: theme.accentColor,
+                      activeColor: theme.colorScheme.secondary,
                       title: Text(s.useOfficialMap),
                       value: settingsState.useOfficialMap,
                       onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.useOfficialMapChanged(newValue: newVal)),
+                    ),
+                    SwitchListTile(
+                      activeColor: theme.colorScheme.secondary,
+                      title: Text(s.use24HourFormatOnDates),
+                      value: settingsState.useTwentyFourHoursFormat,
+                      onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.useTwentyFourHoursFormat(newValue: newVal)),
                     ),
                     ListTile(
                       dense: true,
                       contentPadding: EdgeInsets.zero,
                       title: Padding(
                         padding: Styles.edgeInsetHorizontal16,
-                        child: DropdownButton<AppServerResetTimeType>(
-                          isExpanded: true,
-                          hint: Text(s.chooseServer),
-                          value: settingsState.serverResetTime,
-                          underline: Container(height: 0, color: Colors.transparent),
-                          onChanged: (v) => context.read<SettingsBloc>().add(SettingsEvent.serverResetTimeChanged(newValue: v)),
-                          items: AppServerResetTimeType.values
-                              .map((type) => DropdownMenuItem<AppServerResetTimeType>(value: type, child: Text(s.translateServerResetTimeType(type))))
-                              .toList(),
+                        child: CommonDropdownButton<AppServerResetTimeType>(
+                          hint: s.chooseServer,
+                          currentValue: settingsState.serverResetTime,
+                          values: EnumUtils.getTranslatedAndSortedEnum<AppServerResetTimeType>(
+                            AppServerResetTimeType.values,
+                            (val, _) => s.translateServerResetTimeType(val),
+                          ),
+                          onChanged: (v, context) => context.read<SettingsBloc>().add(SettingsEvent.serverResetTimeChanged(newValue: v)),
                         ),
                       ),
                       subtitle: Container(

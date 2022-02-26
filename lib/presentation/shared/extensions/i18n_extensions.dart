@@ -1,3 +1,5 @@
+import 'package:shiori/domain/app_constants.dart';
+
 import '../../../domain/enums/enums.dart';
 import '../../../generated/l10n.dart';
 
@@ -15,21 +17,34 @@ extension I18nExtensions on S {
 
   String translateAppLanguageType(AppLanguageType lang) {
     switch (lang) {
-      case AppLanguageType.french:
       case AppLanguageType.english:
         return english;
       case AppLanguageType.spanish:
-        return '$spanish ($partial)';
+        return spanish;
       case AppLanguageType.russian:
-        return '$russian ($partial)';
+        return russian;
       case AppLanguageType.simplifiedChinese:
-        return '$simplifiedChinese ($partial)';
+        return simplifiedChinese;
       case AppLanguageType.portuguese:
-        return '$portuguese ($partial)';
+        return portuguese;
       case AppLanguageType.italian:
-        return '$italian ($partial)';
+        return '$italian ($unofficial)';
       case AppLanguageType.japanese:
-        return '$japanese ($partial)';
+        return japanese;
+      case AppLanguageType.vietnamese:
+        return vietnamese;
+      case AppLanguageType.indonesian:
+        return indonesian;
+      case AppLanguageType.deutsch:
+        return deutsch;
+      case AppLanguageType.french:
+        return french;
+      case AppLanguageType.traditionalChinese:
+        return traditionalChinese;
+      case AppLanguageType.korean:
+        return korean;
+      case AppLanguageType.thai:
+        return thai;
       default:
         throw Exception('The provided app lang = $lang is not valid');
     }
@@ -55,7 +70,7 @@ extension I18nExtensions on S {
   String translateItemLocationType(ItemLocationType type) {
     switch (type) {
       case ItemLocationType.na:
-        return 'N/A';
+        return na;
       case ItemLocationType.gacha:
         return gacha;
       case ItemLocationType.crafting:
@@ -68,8 +83,8 @@ extension I18nExtensions on S {
         return bpBounty;
       case ItemLocationType.quest:
         return quest;
-      case ItemLocationType.all:
-        return all;
+      case ItemLocationType.playstation:
+        return playstation;
       default:
         throw Exception('The provided location type = $type is not valid');
     }
@@ -89,8 +104,6 @@ extension I18nExtensions on S {
 
   String translateStatType(StatType type, double value) {
     switch (type) {
-      case StatType.all:
-        return all;
       case StatType.atk:
         return atk(value);
       case StatType.atkPercentage:
@@ -105,7 +118,7 @@ extension I18nExtensions on S {
         return critRatePercentage(value);
       case StatType.defPercentage:
         return defPercentage(value);
-      case StatType.elementaryMastery:
+      case StatType.elementalMastery:
         return elementaryMastery(value);
       case StatType.energyRechargePercentage:
         return energyRechargePercentage(value);
@@ -113,7 +126,7 @@ extension I18nExtensions on S {
         return hpPercentage(value);
       case StatType.none:
         return none;
-      case StatType.physDmgBonusPercentage:
+      case StatType.physDmgBonus:
         return physDmgBonus(value);
       case StatType.physDmgPercentage:
         return physDmgPercentage(value);
@@ -199,8 +212,6 @@ extension I18nExtensions on S {
 
   String translateReleasedUnreleasedType(ItemStatusType type) {
     switch (type) {
-      case ItemStatusType.all:
-        return all;
       case ItemStatusType.released:
         return released;
       case ItemStatusType.comingSoon:
@@ -249,18 +260,20 @@ extension I18nExtensions on S {
     }
   }
 
-  String translateCharacterType(CharacterRoleType type) {
+  String translateCharacterRoleType(CharacterRoleType type) {
     switch (type) {
-      case CharacterRoleType.mainDps:
-        return mainDps;
-      case CharacterRoleType.supportDps:
-        return supportDps;
-      case CharacterRoleType.utility:
-        return utility;
+      case CharacterRoleType.dps:
+        return charRoleDps;
+      case CharacterRoleType.subDps:
+        return charRoleSubDps;
+      case CharacterRoleType.burstSupport:
+        return charRoleBurstSupport;
+      case CharacterRoleType.support:
+        return charRoleSupport;
+      case CharacterRoleType.offFieldDps:
+        return charRoleOffFieldDps;
       case CharacterRoleType.na:
         return na;
-      case CharacterRoleType.all:
-        return all;
       default:
         throw Exception('Invalid character type = $type');
     }
@@ -374,8 +387,6 @@ extension I18nExtensions on S {
 
   String translateMaterialType(MaterialType type) {
     switch (type) {
-      case MaterialType.all:
-        return all;
       case MaterialType.common:
         return common;
       case MaterialType.elementalStone:
@@ -405,8 +416,6 @@ extension I18nExtensions on S {
 
   String translateMonsterType(MonsterType type) {
     switch (type) {
-      case MonsterType.all:
-        return all;
       case MonsterType.abyssOrder:
         return abyssOrder;
       case MonsterType.elementalLifeForm:
@@ -436,6 +445,181 @@ extension I18nExtensions on S {
         return name;
       default:
         throw Exception('Invalid monster filter type = $type');
+    }
+  }
+
+  String translateAppNotificationType(AppNotificationType type) {
+    switch (type) {
+      case AppNotificationType.resin:
+        return resin;
+      case AppNotificationType.expedition:
+        return expedition;
+      case AppNotificationType.farmingMaterials:
+        return '$farming ($materials)';
+      case AppNotificationType.farmingArtifacts:
+        return '$farming ($artifacts)';
+      case AppNotificationType.gadget:
+        return gadget;
+      case AppNotificationType.furniture:
+        return furnishing;
+      case AppNotificationType.realmCurrency:
+        return realmCurrency;
+      case AppNotificationType.weeklyBoss:
+        return boss;
+      case AppNotificationType.custom:
+        return custom;
+      case AppNotificationType.dailyCheckIn:
+        return dailyCheckIn;
+      default:
+        throw Exception('Invalid app notification type = $type');
+    }
+  }
+
+  String translateExpeditionTimeType(ExpeditionTimeType type) {
+    switch (type) {
+      case ExpeditionTimeType.fourHours:
+        return xHours(4);
+      case ExpeditionTimeType.eightHours:
+        return xHours(8);
+      case ExpeditionTimeType.twelveHours:
+        return xHours(12);
+      case ExpeditionTimeType.twentyHours:
+        return xHours(20);
+      default:
+        throw Exception('Invalid expedition time type = $type');
+    }
+  }
+
+  String translateAppNotificationItemType(AppNotificationItemType type) {
+    switch (type) {
+      case AppNotificationItemType.character:
+        return characters;
+      case AppNotificationItemType.weapon:
+        return weapons;
+      case AppNotificationItemType.artifact:
+        return artifacts;
+      case AppNotificationItemType.monster:
+        return monsters;
+      case AppNotificationItemType.material:
+        return materials;
+      default:
+        throw Exception('Invalid app notification item type = $type');
+    }
+  }
+
+  String translateArtifactFarmingTimeType(ArtifactFarmingTimeType type) {
+    switch (type) {
+      case ArtifactFarmingTimeType.twelveHours:
+        return xHours(12);
+      case ArtifactFarmingTimeType.twentyFourHours:
+        return xHours(24);
+      default:
+        throw Exception('Invalid artifact farming time type = $type');
+    }
+  }
+
+  String translateFurnitureCraftingTimeType(FurnitureCraftingTimeType type) {
+    switch (type) {
+      case FurnitureCraftingTimeType.twelveHours:
+        return xHours(12);
+      case FurnitureCraftingTimeType.fourteenHours:
+        return xHours(14);
+      case FurnitureCraftingTimeType.sixteenHours:
+        return xHours(16);
+      default:
+        throw Exception('Invalid furniture crafting time type = $type');
+    }
+  }
+
+  String translateRealRankType(RealmRankType type, {bool showRatio = false}) {
+    var translation = '';
+    switch (type) {
+      case RealmRankType.bareBones:
+        translation = bareBones;
+        break;
+      case RealmRankType.humbleAbode:
+        translation = humbleAbode;
+        break;
+      case RealmRankType.cozy:
+        translation = cozy;
+        break;
+      case RealmRankType.queenSize:
+        translation = queenSize;
+        break;
+      case RealmRankType.elegant:
+        translation = elegant;
+        break;
+      case RealmRankType.exquisite:
+        translation = exquisite;
+        break;
+      case RealmRankType.extraordinary:
+        translation = extraordinary;
+        break;
+      case RealmRankType.stately:
+        translation = stately;
+        break;
+      case RealmRankType.luxury:
+        translation = luxury;
+        break;
+      case RealmRankType.fitForAKing:
+        translation = fitForAKing;
+        break;
+      default:
+        throw Exception('Invalid realm rank type = $type');
+    }
+    if (!showRatio) {
+      return translation;
+    }
+
+    final ratioInHours = '+${getRealmIncreaseRatio(type)}';
+    return '$translation (${xEachHour(ratioInHours)})';
+  }
+
+  String translateCharacterRoleSubType(CharacterRoleSubType type) {
+    switch (type) {
+      case CharacterRoleSubType.none:
+        return none;
+      case CharacterRoleSubType.anemo:
+        return anemo;
+      case CharacterRoleSubType.geo:
+        return geo;
+      case CharacterRoleSubType.electro:
+        return electro;
+      case CharacterRoleSubType.dendro:
+        return dendro;
+      case CharacterRoleSubType.hydro:
+        return hydro;
+      case CharacterRoleSubType.pyro:
+        return pyro;
+      case CharacterRoleSubType.cryo:
+        return cryo;
+      case CharacterRoleSubType.elementalMastery:
+        return translateStatTypeWithoutValue(StatType.elementalMastery, removeExtraSigns: true);
+      case CharacterRoleSubType.physical:
+        return translateStatTypeWithoutValue(StatType.physDmgPercentage, removeExtraSigns: true);
+      case CharacterRoleSubType.melt:
+        return melt;
+      case CharacterRoleSubType.freeze:
+        return freeze;
+      case CharacterRoleSubType.shield:
+        return shield;
+      case CharacterRoleSubType.healer:
+        return healer;
+    }
+  }
+
+  String translateArtifactType(ArtifactType type) {
+    switch (type) {
+      case ArtifactType.flower:
+        return flower;
+      case ArtifactType.plume:
+        return plume;
+      case ArtifactType.clock:
+        return clock;
+      case ArtifactType.goblet:
+        return goblet;
+      case ArtifactType.crown:
+        return crown;
     }
   }
 }

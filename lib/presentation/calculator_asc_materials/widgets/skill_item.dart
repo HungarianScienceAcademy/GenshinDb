@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/increment_button.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/increment_button.dart';
 
 class SkillItem extends StatelessWidget {
   final int index;
@@ -15,15 +15,15 @@ class SkillItem extends StatelessWidget {
   final bool isDesiredDecEnabled;
 
   const SkillItem({
-    Key key,
-    @required this.index,
-    @required this.name,
-    @required this.currentLevel,
-    @required this.desiredLevel,
-    @required this.isCurrentIncEnabled,
-    @required this.isCurrentDecEnabled,
-    @required this.isDesiredIncEnabled,
-    @required this.isDesiredDecEnabled,
+    Key? key,
+    required this.index,
+    required this.name,
+    required this.currentLevel,
+    required this.desiredLevel,
+    required this.isCurrentIncEnabled,
+    required this.isCurrentDecEnabled,
+    required this.isDesiredIncEnabled,
+    required this.isDesiredDecEnabled,
   }) : super(key: key);
 
   @override

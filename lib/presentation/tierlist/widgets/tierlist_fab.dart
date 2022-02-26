@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/presentation/shared/circle_character.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/presentation/shared/images/circle_character.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class TierListFab extends StatelessWidget {
   @override
@@ -18,25 +19,31 @@ class TierListFab extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  children: state.charsAvailable.map((e) => _buildDraggableItem(e)).toList(),
+                  children: state.charsAvailable.map((e) => _DraggableItem(item: e)).toList(),
                 ),
               ),
             )
           : Container(),
     );
   }
+}
 
-  Widget _buildDraggableItem(String charImg) {
-    return Draggable<String>(
-      data: charImg,
-      feedback: CircleCharacter(image: charImg, forDrag: true),
+class _DraggableItem extends StatelessWidget {
+  final ItemCommon item;
+  const _DraggableItem({Key? key, required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Draggable<ItemCommon>(
+      data: item,
+      feedback: CircleCharacter.fromItem(item: item, forDrag: true),
       childWhenDragging: CircleAvatar(
         backgroundColor: Colors.black.withOpacity(0.4),
         radius: 40,
       ),
       child: Container(
         margin: Styles.edgeInsetHorizontal16,
-        child: CircleCharacter(image: charImg, radius: 40),
+        child: CircleCharacter.fromItem(item: item, radius: 40),
       ),
     );
   }

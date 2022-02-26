@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:darq/darq.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/app_constants.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/enums/material_type.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
+import 'package:shiori/domain/app_constants.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
 
 part 'materials_bloc.freezed.dart';
 part 'materials_event.dart';
@@ -23,7 +22,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
   @override
   Stream<MaterialsState> mapEventToState(MaterialsEvent event) async* {
     final s = event.map(
-      init: (e) => _buildInitialState(),
+      init: (e) => _buildInitialState(excludeKeys: e.excludeKeys),
       rarityChanged: (e) => currentState.copyWith.call(tempRarity: e.rarity),
       sortDirectionTypeChanged: (e) => currentState.copyWith.call(tempSortDirectionType: e.sortDirectionType),
       typeChanged: (e) => currentState.copyWith.call(tempType: e.type),
@@ -48,21 +47,27 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
         tempSortDirectionType: currentState.sortDirectionType,
         tempType: currentState.type,
       ),
-      close: (e) => currentState.copyWith.call(materials: []),
+      resetFilters: (_) => _buildInitialState(
+        excludeKeys: state.maybeMap(loaded: (state) => state.excludeKeys, orElse: () => []),
+      ),
     );
 
     yield s;
   }
 
   MaterialsState _buildInitialState({
-    String search,
+    String? search,
+    List<String> excludeKeys = const [],
     int rarity = 0,
-    MaterialType type = MaterialType.all,
+    MaterialType? type,
     MaterialFilterType filterType = MaterialFilterType.grouped,
     SortDirectionType sortDirectionType = SortDirectionType.asc,
   }) {
     final isLoaded = state is _LoadedState;
     var data = _genshinService.getAllMaterialsForCard();
+    if (excludeKeys.isNotEmpty) {
+      data = data.where((el) => !excludeKeys.contains(el.key)).toList();
+    }
 
     if (!isLoaded) {
       return MaterialsState.loaded(
@@ -76,6 +81,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
         tempFilterType: filterType,
         sortDirectionType: sortDirectionType,
         tempSortDirectionType: sortDirectionType,
+        excludeKeys: excludeKeys,
       );
     }
 
@@ -87,7 +93,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
       data = data.where((el) => el.rarity == rarity).toList();
     }
 
-    if (type != MaterialType.all) {
+    if (type != null) {
       switch (type) {
         case MaterialType.expWeapon:
         case MaterialType.expCharacter:
@@ -114,15 +120,12 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
       tempFilterType: filterType,
       sortDirectionType: sortDirectionType,
       tempSortDirectionType: sortDirectionType,
+      excludeKeys: excludeKeys,
     );
     return s;
   }
 
-  List<MaterialCardModel> _sortData(
-    List<MaterialCardModel> data,
-    MaterialFilterType filterType,
-    SortDirectionType sortDirectionType,
-  ) {
+  List<MaterialCardModel> _sortData(List<MaterialCardModel> data, MaterialFilterType filterType, SortDirectionType sortDirectionType) {
     switch (filterType) {
       case MaterialFilterType.name:
         return sortDirectionType == SortDirectionType.asc ? data.orderBy((el) => el.name).toList() : data.orderByDescending((el) => el.name).toList();

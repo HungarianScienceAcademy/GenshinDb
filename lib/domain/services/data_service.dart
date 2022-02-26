@@ -1,8 +1,25 @@
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/entities.dart';
-import 'package:genshindb/domain/models/models.dart';
+import 'dart:async';
+
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/entities.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/persistence/custom_builds_data_service.dart';
 
 abstract class DataService {
+  StreamController<ItemType> get itemAddedToInventory;
+
+  StreamController<ItemType> get itemUpdatedInInventory;
+
+  StreamController<ItemType> get itemDeletedFromInventory;
+
+  CustomBuildsDataService get customBuilds;
+
+  Future<void> init({String dir = 'shiori_data'});
+
+  Future<void> deleteThemAll();
+
+  Future<void> closeThemAll();
+
   List<CalculatorSessionModel> getAllCalAscMatSessions();
 
   CalculatorSessionModel getCalcAscMatSession(int sessionKey);
@@ -12,6 +29,8 @@ abstract class DataService {
   Future<void> updateCalAscMatSession(int sessionKey, String name, int position, {bool redistributeMaterials = false});
 
   Future<void> deleteCalAscMatSession(int sessionKey);
+
+  Future<void> deleteAllCalAscMatSession();
 
   Future<void> addCalAscMatSessionItems(int sessionKey, List<ItemAscensionMaterials> items);
 
@@ -37,17 +56,31 @@ abstract class DataService {
 
   Future<void> deleteCalAscMatSessionItem(int sessionKey, int itemIndex, {bool redistribute = true});
 
+  Future<void> deleteAllCalAscMatSessionItems(int sessionKey);
+
   List<CharacterCardModel> getAllCharactersInInventory();
 
   List<WeaponCardModel> getAllWeaponsInInventory();
 
   List<MaterialCardModel> getAllMaterialsInInventory();
 
-  Future<void> addItemToInventory(String key, ItemType type, int quantity);
+  MaterialCardModel getMaterialFromInventory(String image);
 
-  Future<void> updateItemInInventory(String key, ItemType type, int quantity);
+  Future<void> addCharacterToInventory(String key, {bool raiseEvent = true});
 
-  Future<void> deleteItemFromInventory(String key, ItemType type);
+  Future<void> deleteCharacterFromInventory(String key, {bool raiseEvent = true});
+
+  Future<void> addWeaponToInventory(String key, {bool raiseEvent = true});
+
+  Future<void> deleteWeaponFromInventory(String key, {bool raiseEvent = true});
+
+  Future<void> addItemToInventory(String key, ItemType type, int quantity, {bool raiseEvent = true});
+
+  Future<void> updateItemInInventory(String key, ItemType type, int quantity, {bool raiseEvent = true});
+
+  Future<void> deleteItemFromInventory(String key, ItemType type, {bool raiseEvent = true});
+
+  Future<void> deleteItemsFromInventory(ItemType type, {bool raiseEvent = true});
 
   bool isItemInInventory(String key, ItemType type);
 
@@ -68,7 +101,11 @@ abstract class DataService {
 
   List<GameCodeModel> getAllGameCodes();
 
-  List<String> getAllUsedGameCodes();
+  Future<void> saveGameCodes(List<GameCodeModel> items);
+
+  Future<void> saveGameCodeRewards(int gameCodeKey, List<ItemAscensionMaterialModel> rewards);
+
+  Future<void> deleteAllGameCodeRewards(int gameCodeKey);
 
   Future<void> markCodeAsUsed(String code, {bool wasUsed = true});
 
@@ -77,4 +114,208 @@ abstract class DataService {
   Future<void> saveTierList(List<TierListRowModel> tierList);
 
   Future<void> deleteTierList();
+
+  List<NotificationItem> getAllNotifications();
+
+  NotificationItem getNotification(int key, AppNotificationType type);
+
+  Future<NotificationItem> saveResinNotification(
+    String itemKey,
+    String title,
+    String body,
+    int currentResinValue, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveExpeditionNotification(
+    String itemKey,
+    String title,
+    String body,
+    ExpeditionTimeType expeditionTimeType, {
+    String? note,
+    bool showNotification = true,
+    bool withTimeReduction = false,
+  });
+
+  Future<NotificationItem> saveGadgetNotification(
+    String itemKey,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveFurnitureNotification(
+    String itemKey,
+    FurnitureCraftingTimeType type,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveFarmingArtifactNotification(
+    String itemKey,
+    ArtifactFarmingTimeType type,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveFarmingMaterialNotification(
+    String itemKey,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveRealmCurrencyNotification(
+    String itemKey,
+    RealmRankType realmRankType,
+    int currentTrustRankLevel,
+    int currentRealmCurrency,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveWeeklyBossNotification(
+    String itemKey,
+    AppServerResetTimeType serverResetTimeType,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveCustomNotification(
+    String itemKey,
+    String title,
+    String body,
+    DateTime completesAt,
+    AppNotificationItemType notificationItemType, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<NotificationItem> saveDailyCheckInNotification(
+    String itemKey,
+    String title,
+    String body, {
+    String? note,
+    bool showNotification = true,
+  });
+
+  Future<void> deleteNotification(int key, AppNotificationType type);
+
+  Future<NotificationItem> resetNotification(int key, AppNotificationType type, AppServerResetTimeType serverResetTimeType);
+
+  Future<NotificationItem> stopNotification(int key, AppNotificationType type);
+
+  Future<NotificationItem> updateResinNotification(
+    int key,
+    String itemKey,
+    String title,
+    String body,
+    int currentResinValue,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateExpeditionNotification(
+    int key,
+    String itemKey,
+    ExpeditionTimeType expeditionTimeType,
+    String title,
+    String body,
+    bool showNotification,
+    bool withTimeReduction, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateFurnitureNotification(
+    int key,
+    String itemKey,
+    FurnitureCraftingTimeType type,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateFarmingMaterialNotification(
+    int key,
+    String itemKey,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateFarmingArtifactNotification(
+    int key,
+    String itemKey,
+    ArtifactFarmingTimeType type,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateGadgetNotification(
+    int key,
+    String itemKey,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateRealmCurrencyNotification(
+    int key,
+    String itemKey,
+    RealmRankType realmRankType,
+    int currentTrustRankLevel,
+    int currentRealmCurrency,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateWeeklyBossNotification(
+    int key,
+    AppServerResetTimeType serverResetTimeType,
+    String itemKey,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateCustomNotification(
+    int key,
+    String itemKey,
+    String title,
+    String body,
+    DateTime completesAt,
+    bool showNotification,
+    AppNotificationItemType notificationItemType, {
+    String? note,
+  });
+
+  Future<NotificationItem> updateDailyCheckInNotification(
+    int key,
+    String itemKey,
+    String title,
+    String body,
+    bool showNotification, {
+    String? note,
+  });
+
+  Future<NotificationItem> reduceNotificationHours(int key, AppNotificationType type, int hours);
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/common_table_cell.dart';
-import 'package:genshindb/presentation/shared/extensions/element_type_extensions.dart';
-import 'package:genshindb/presentation/shared/extensions/i18n_extensions.dart';
-import 'package:genshindb/presentation/shared/item_description_detail.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/common_table_cell.dart';
+import 'package:shiori/presentation/shared/extensions/element_type_extensions.dart';
+import 'package:shiori/presentation/shared/extensions/i18n_extensions.dart';
+import 'package:shiori/presentation/shared/item_description_detail.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class CharacterDetailStatsCard extends StatelessWidget {
   final StatType subStatType;
@@ -14,10 +14,10 @@ class CharacterDetailStatsCard extends StatelessWidget {
   final List<CharacterFileStatModel> stats;
 
   const CharacterDetailStatsCard({
-    Key key,
-    @required this.subStatType,
-    @required this.elementType,
-    @required this.stats,
+    Key? key,
+    required this.subStatType,
+    required this.elementType,
+    required this.stats,
   }) : super(key: key);
 
   @override
@@ -57,7 +57,7 @@ class CharacterDetailStatsCard extends StatelessWidget {
         CommonTableCell(text: '${e.baseHp}', padding: Styles.edgeInsetAll5),
         CommonTableCell(text: '${e.baseAtk}', padding: Styles.edgeInsetAll5),
         CommonTableCell(text: '${e.baseDef}', padding: Styles.edgeInsetAll5),
-        CommonTableCell(text: '${e.specificValue}', padding: Styles.edgeInsetAll5),
+        CommonTableCell(text: '${e.statValue}', padding: Styles.edgeInsetAll5),
       ],
     );
   }

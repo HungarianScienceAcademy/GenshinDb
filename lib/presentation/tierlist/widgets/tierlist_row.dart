@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/circle_character.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/images/circle_character.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/shared/utils/size_utils.dart';
 
 import 'rename_tierlist_dialog.dart';
 import 'tierlist_row_color_picker.dart';
@@ -20,7 +23,7 @@ class TierListRow extends StatelessWidget {
   final int index;
   final String title;
   final Color color;
-  final List<String> images;
+  final List<ItemCommon> items;
   final bool showButtons;
   final bool isUpButtonEnabled;
   final bool isDownButtonEnabled;
@@ -28,13 +31,13 @@ class TierListRow extends StatelessWidget {
   final bool isTheLastRow;
 
   const TierListRow({
-    Key key,
-    @required this.index,
-    @required this.title,
-    @required this.color,
-    @required this.images,
-    @required this.numberOfRows,
-    @required this.isTheLastRow,
+    Key? key,
+    required this.index,
+    required this.title,
+    required this.color,
+    required this.items,
+    required this.numberOfRows,
+    required this.isTheLastRow,
     this.showButtons = true,
     this.isUpButtonEnabled = true,
     this.isDownButtonEnabled = true,
@@ -43,8 +46,18 @@ class TierListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return DragTarget<String>(
-      builder: (BuildContext context, List<String> incoming, List<dynamic> rejected) => Column(
+    final width = MediaQuery.of(context).size.width;
+    var flexA = 25;
+    var flexB = showButtons ? 65 : 75;
+    var flexC = 10;
+    if (width > 1200) {
+      flexA = 20;
+      flexB = showButtons ? 70 : 80;
+      flexC = 10;
+    }
+
+    return DragTarget<ItemCommon>(
+      builder: (BuildContext context, List<ItemCommon?> incoming, List<dynamic> rejected) => Column(
         children: [
           IntrinsicHeight(
             child: Row(
@@ -52,9 +65,8 @@ class TierListRow extends StatelessWidget {
               children: [
                 Flexible(
                   fit: FlexFit.tight,
-                  flex: 15,
+                  flex: flexA,
                   child: Container(
-                    constraints: const BoxConstraints(minHeight: 120),
                     color: color,
                     child: Center(
                       child: Text(
@@ -67,28 +79,32 @@ class TierListRow extends StatelessWidget {
                 ),
                 Flexible(
                   fit: FlexFit.tight,
-                  flex: showButtons ? 75 : 85,
+                  flex: flexB,
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
-                    children: images
-                        .map((e) => CircleCharacter(
-                              image: e,
-                              radius: 30,
-                              onTap: (img) => context.read<TierListBloc>().add(TierListEvent.deleteCharacterFromRow(index: index, charImg: e)),
-                            ))
+                    children: items
+                        .map(
+                          (e) => CircleCharacter(
+                            itemKey: e.key,
+                            image: e.image,
+                            radius: SizeUtils.getSizeForCircleImages(context),
+                            onTap: (img) => context.read<TierListBloc>().add(TierListEvent.deleteCharacterFromRow(index: index, item: e)),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
                 if (showButtons)
                   Flexible(
                     fit: FlexFit.tight,
-                    flex: 10,
+                    flex: flexC,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
                           icon: const Icon(Icons.keyboard_arrow_up),
+                          splashRadius: Styles.smallButtonSplashRadius,
                           onPressed: isUpButtonEnabled
                               ? () => context.read<TierListBloc>().add(TierListEvent.rowPositionChanged(index: index, newIndex: index - 1))
                               : null,
@@ -115,7 +131,7 @@ class TierListRow extends StatelessWidget {
                                 value: TierListRowOptionsType.delete,
                                 child: _buildOption(Icons.delete, s.deleteRow),
                               ),
-                            if (images.isNotEmpty)
+                            if (items.isNotEmpty)
                               PopupMenuItem<TierListRowOptionsType>(
                                 value: TierListRowOptionsType.clear,
                                 child: _buildOption(Icons.clear_all, s.clearRow),
@@ -128,6 +144,7 @@ class TierListRow extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
+                          splashRadius: Styles.smallButtonSplashRadius,
                           onPressed: isDownButtonEnabled
                               ? () => context.read<TierListBloc>().add(TierListEvent.rowPositionChanged(index: index, newIndex: index + 1))
                               : null,
@@ -138,10 +155,10 @@ class TierListRow extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(),
+          const Divider(height: 1),
         ],
       ),
-      onAccept: (charImg) => context.read<TierListBloc>().add(TierListEvent.addCharacterToRow(index: index, charImg: charImg)),
+      onAccept: (item) => context.read<TierListBloc>().add(TierListEvent.addCharacterToRow(index: index, item: item)),
     );
   }
 
@@ -181,22 +198,25 @@ class TierListRow extends StatelessWidget {
     await showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
-      builder: (_) => RenameTierListRowDialog(
-        title: title,
-        index: index,
+      builder: (_) => BlocProvider.value(
+        value: context.read<TierListBloc>(),
+        child: RenameTierListRowDialog(
+          title: title,
+          index: index,
+        ),
       ),
     );
-    context.read<TierListFormBloc>().add(const TierListFormEvent.close());
   }
 
   Future<void> _showColorPicker(BuildContext context) async {
+    final bloc = context.read<TierListBloc>();
     final newColor = await showDialog<Color>(
       context: context,
       builder: (_) => TierListRowColorPicker(currentColor: color),
     );
 
     if (newColor != null && newColor != color) {
-      context.read<TierListBloc>().add(TierListEvent.rowColorChanged(index: index, newColor: newColor.value));
+      bloc.add(TierListEvent.rowColorChanged(index: index, newColor: newColor.value));
     }
   }
 }

@@ -1,8 +1,8 @@
-import 'package:genshindb/domain/app_constants.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/calculator_service.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
+import 'package:shiori/domain/app_constants.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/calculator_service.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
 import 'package:tuple/tuple.dart';
 
 class CalculatorServiceImpl implements CalculatorService {
@@ -17,25 +17,34 @@ class CalculatorServiceImpl implements CalculatorService {
     final summary = <AscensionMaterialSummaryType, List<MaterialSummary>>{};
     for (var i = 0; i < flattened.length; i++) {
       final item = flattened[i];
-      final material = _genshinService.getMaterialByImage(item.fullImagePath);
+      final material = _genshinService.getMaterial(item.key);
 
       MaterialSummary newValue;
       AscensionMaterialSummaryType key;
 
       if (material.isFromBoss) {
         key = AscensionMaterialSummaryType.worldBoss;
-        newValue = MaterialSummary.fromBoss(
+        newValue = MaterialSummary(
           key: material.key,
-          materialType: item.materialType,
-          fullImagePath: item.fullImagePath,
+          type: material.type,
+          rarity: material.rarity,
+          position: material.position,
+          level: material.level,
+          hasSiblings: material.hasSiblings,
+          fullImagePath: material.fullImagePath,
           quantity: item.quantity,
+          days: [],
         );
       } else if (material.days.isNotEmpty) {
         key = AscensionMaterialSummaryType.day;
-        newValue = MaterialSummary.fromDays(
+        newValue = MaterialSummary(
           key: material.key,
-          materialType: item.materialType,
-          fullImagePath: item.fullImagePath,
+          type: material.type,
+          rarity: material.rarity,
+          position: material.position,
+          level: material.level,
+          hasSiblings: material.hasSiblings,
+          fullImagePath: material.fullImagePath,
           quantity: item.quantity,
           days: material.days,
         );
@@ -44,21 +53,24 @@ class CalculatorServiceImpl implements CalculatorService {
           case MaterialType.common:
             key = AscensionMaterialSummaryType.common;
             break;
+          //some characters use ingredient / local specialities, so we label them all as local
           case MaterialType.local:
+          case MaterialType.ingredient:
             key = AscensionMaterialSummaryType.local;
             break;
           case MaterialType.currency:
             key = AscensionMaterialSummaryType.currency;
             break;
+          //there are some weapon secondary materials used by some characters, so I pretty much group them as common
           case MaterialType.weapon:
           case MaterialType.weaponPrimary:
             key = AscensionMaterialSummaryType.common;
             break;
+          //this case shouldn't be common except for the traveler, since the elementalStone they use is no dropped from boss
           case MaterialType.elementalStone:
           case MaterialType.jewels:
           case MaterialType.talents:
           case MaterialType.others:
-          case MaterialType.ingredient:
             key = AscensionMaterialSummaryType.others;
             break;
           case MaterialType.expWeapon:
@@ -66,24 +78,31 @@ class CalculatorServiceImpl implements CalculatorService {
             key = AscensionMaterialSummaryType.exp;
             break;
         }
-        newValue = MaterialSummary.others(
+        newValue = MaterialSummary(
           key: material.key,
-          materialType: material.type,
+          type: material.type,
+          rarity: material.rarity,
+          position: material.position,
+          level: material.level,
+          hasSiblings: material.hasSiblings,
           fullImagePath: material.fullImagePath,
           quantity: item.quantity,
+          days: [],
         );
       }
 
       if (summary.containsKey(key)) {
-        summary[key].add(newValue);
+        summary[key]!.add(newValue);
       } else {
         summary.putIfAbsent(key, () => [newValue]);
       }
 
-      summary[key].sort((x, y) => x.key.compareTo(y.key));
+      summary[key]!.sort((x, y) => x.key.compareTo(y.key));
     }
 
-    return summary.entries.map((entry) => AscensionMaterialsSummary(type: entry.key, materials: entry.value)).toList();
+    return summary.entries
+        .map((entry) => AscensionMaterialsSummary(type: entry.key, materials: sortMaterialsByGrouping(entry.value, SortDirectionType.desc)))
+        .toList();
   }
 
   @override
@@ -95,13 +114,12 @@ class CalculatorServiceImpl implements CalculatorService {
     int desiredAscensionLevel,
     List<CharacterSkill> skills,
   ) {
-    final expMaterials = _getItemExperienceMaterials(currentLevel, desiredLevel, true);
+    final expMaterials = _getItemExperienceMaterials(currentLevel, desiredLevel, char.rarity, true);
 
     final ascensionMaterials = char.ascensionMaterials
         .where((m) => m.rank > currentAscensionLevel && m.rank <= desiredAscensionLevel)
-        .expand(
-          (e) => e.materials,
-        )
+        .expand((e) => e.materials)
+        .map((e) => ItemAscensionMaterialModel.fromFile(e, _genshinService.getMaterialImg(e.key)))
         .toList();
 
     final skillMaterials = <ItemAscensionMaterialModel>[];
@@ -111,20 +129,22 @@ class CalculatorServiceImpl implements CalculatorService {
         final materials = char.talentAscensionMaterials
             .where((m) => m.level > skill.currentLevel && m.level <= skill.desiredLevel)
             .expand((m) => m.materials)
+            .map((e) => ItemAscensionMaterialModel.fromFile(e, _genshinService.getMaterialImg(e.key)))
             .toList();
 
         skillMaterials.addAll(materials);
       }
-    } else if (char.multiTalentAscensionMaterials != null && char.multiTalentAscensionMaterials.isNotEmpty) {
+    } else if (char.multiTalentAscensionMaterials != null && char.multiTalentAscensionMaterials!.isNotEmpty) {
       //The traveler has different materials depending on the skill, that's why we need to retrieve the right amount for the provided skill
       //Also, we are assuming that the skill's order are fixed
       var talentNumber = 1;
       for (final skill in skills) {
-        final materials = char.multiTalentAscensionMaterials
+        final materials = char.multiTalentAscensionMaterials!
             .where((mt) => mt.number == talentNumber)
             .expand((mt) => mt.materials)
             .where((m) => m.level > skill.currentLevel && m.level <= skill.desiredLevel)
             .expand((m) => m.materials)
+            .map((e) => ItemAscensionMaterialModel.fromFile(e, _genshinService.getMaterialImg(e.key)))
             .toList();
 
         skillMaterials.addAll(materials);
@@ -144,10 +164,11 @@ class CalculatorServiceImpl implements CalculatorService {
     int currentAscensionLevel,
     int desiredAscensionLevel,
   ) {
-    final expMaterials = _getItemExperienceMaterials(currentLevel, desiredLevel, false);
+    final expMaterials = _getItemExperienceMaterials(currentLevel, desiredLevel, weapon.rarity, false);
     final materials = weapon.ascensionMaterials
         .where((m) => m.level > _mapToWeaponLevel(currentAscensionLevel) && m.level <= _mapToWeaponLevel(desiredAscensionLevel))
         .expand((m) => m.materials)
+        .map((e) => ItemAscensionMaterialModel.fromFile(e, _genshinService.getMaterialImg(e.key)))
         .toList();
 
     return _flatMaterialsList(expMaterials + materials);
@@ -314,9 +335,9 @@ class CalculatorServiceImpl implements CalculatorService {
 
   List<ItemAscensionMaterialModel> _flatMaterialsList(List<ItemAscensionMaterialModel> current) {
     final materials = <ItemAscensionMaterialModel>[];
-    for (final image in current.map((e) => e.fullImagePath).toSet().toList()) {
-      final item = current.firstWhere((m) => m.fullImagePath == image);
-      final int quantity = current.where((m) => m.fullImagePath == image).map((e) => e.quantity).fold(0, (previous, current) => previous + current);
+    for (final key in current.map((e) => e.key).toSet().toList()) {
+      final item = current.firstWhere((m) => m.key == key);
+      final int quantity = current.where((m) => m.key == key).map((e) => e.quantity).fold(0, (previous, current) => previous + current);
 
       materials.add(item.copyWith.call(quantity: quantity));
     }
@@ -336,29 +357,43 @@ class CalculatorServiceImpl implements CalculatorService {
     }
   }
 
-  List<ItemAscensionMaterialModel> _getItemExperienceMaterials(int currentLevel, int desiredLevel, bool forCharacters) {
+  List<ItemAscensionMaterialModel> _getItemExperienceMaterials(int currentLevel, int desiredLevel, int rarity, bool forCharacters) {
     final materials = <ItemAscensionMaterialModel>[];
     //Here we order the exp materials in a way that the one that gives more exp is first and so on
     final expMaterials = _genshinService.getMaterials(forCharacters ? MaterialType.expCharacter : MaterialType.expWeapon)
-      ..sort((x, y) => (y.experienceAttributes.experience - x.experienceAttributes.experience).round());
-    var requiredExp = getItemTotalExp(currentLevel, desiredLevel, forCharacters);
-    final moraMaterial = _genshinService.getMaterials(MaterialType.currency).first;
+      ..sort((x, y) => (y.experienceAttributes!.experience - x.experienceAttributes!.experience).round());
+    var requiredExp = getItemTotalExp(currentLevel, desiredLevel, rarity, forCharacters);
+    final moraMaterial = _genshinService.getMoraMaterial();
 
     for (final material in expMaterials) {
       if (requiredExp <= 0) {
         break;
       }
 
-      final matExp = material.experienceAttributes.experience;
+      final matExp = material.experienceAttributes!.experience;
       final quantity = (requiredExp / matExp).floor();
       if (quantity == 0) {
         continue;
       }
-      materials.add(ItemAscensionMaterialModel(quantity: quantity, image: material.image, materialType: material.type));
+      materials.add(
+        ItemAscensionMaterialModel(
+          key: material.key,
+          type: material.type,
+          image: material.fullImagePath,
+          quantity: quantity,
+        ),
+      );
       requiredExp -= quantity * matExp;
 
-      final requiredMora = quantity * material.experienceAttributes.pricePerUsage;
-      materials.add(ItemAscensionMaterialModel(quantity: requiredMora.round(), image: moraMaterial.image, materialType: moraMaterial.type));
+      final requiredMora = quantity * material.experienceAttributes!.pricePerUsage;
+      materials.add(
+        ItemAscensionMaterialModel(
+          key: moraMaterial.key,
+          type: moraMaterial.type,
+          image: moraMaterial.fullImagePath,
+          quantity: requiredMora.round(),
+        ),
+      );
     }
 
     return materials.reversed.toList();

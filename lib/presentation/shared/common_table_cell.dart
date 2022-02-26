@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/extensions/string_extensions.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/domain/extensions/string_extensions.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class CommonTableCell extends StatelessWidget {
   final EdgeInsets padding;
-  final String text;
-  final TextAlign textAlign;
+  final String? text;
+  final TextAlign? textAlign;
 
-  final Widget child;
+  final Widget? child;
 
   const CommonTableCell({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
     this.textAlign = TextAlign.center,
     this.padding = Styles.edgeInsetVertical5,
   })  : child = null,
         super(key: key);
 
   const CommonTableCell.child({
-    Key key,
-    @required this.child,
-    this.padding = Styles.edgeInsetVertical5,
+    Key? key,
+    required this.child,
   })  : text = null,
         textAlign = null,
+        padding = Styles.edgeInsetVertical5,
         super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class CommonTableCell extends StatelessWidget {
     return TableCell(
       verticalAlignment: TableCellVerticalAlignment.middle,
       child: text.isNullEmptyOrWhitespace
-          ? child
+          ? child!
           : Center(
               child: Padding(
                 padding: padding,
@@ -38,7 +38,7 @@ class CommonTableCell extends StatelessWidget {
                   child: Tooltip(
                     message: text,
                     child: Text(
-                      text,
+                      text!,
                       textAlign: textAlign,
                     ),
                   ),

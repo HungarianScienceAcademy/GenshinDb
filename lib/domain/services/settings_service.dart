@@ -1,5 +1,5 @@
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
 
 abstract class SettingsService {
   AppSettings get appSettings;
@@ -30,6 +30,9 @@ abstract class SettingsService {
 
   bool get useOfficialMap;
   set useOfficialMap(bool value);
+
+  bool get useTwentyFourHoursFormat;
+  set useTwentyFourHoursFormat(bool value);
 
   Future<void> init();
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
-import 'package:genshindb/presentation/shared/text_link.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/app_constants.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/dialogs/changelog_dialog.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/shared/text_link.dart';
 
 import 'settings_card.dart';
 
@@ -68,13 +70,17 @@ class AboutSettingsCard extends StatelessWidget {
                   },
                 ),
                 Text(s.aboutSummary, textAlign: TextAlign.center),
+                TextLink.withoutLink(
+                  text: 'Changelog',
+                  onTap: () => showDialog(context: context, builder: (ctx) => const ChangelogDialog()),
+                ),
                 TextLink(text: s.discordServer, url: 'https://discord.gg/A8SgudQMwP'),
                 TextLink(text: s.otherApps, url: 'https://wolfteam.github.io'),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Text(
                     s.disclaimer,
-                    style: textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -84,15 +90,32 @@ class AboutSettingsCard extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Text(
+                    s.privacy,
+                    style: textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(s.privacyMsgA),
+                      Text(s.privacyMsgB),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Text(
                     s.support,
-                    style: textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Text(s.supportMsg),
                 ),
-                const TextLink(text: 'GitHub', url: 'https://github.com/Wolfteam/GenshinDb/issues'),
+                const TextLink(text: 'GitHub', url: '$githubPage/issues'),
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Text('${s.youCanAlsoSendMeAnEmail}:', textAlign: TextAlign.center),

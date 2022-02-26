@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/generated/l10n.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 typedef SearchChanged = void Function(String val);
 
 class SearchBox extends StatefulWidget {
-  final String value;
+  final String? value;
   final bool showClearButton;
   final SearchChanged searchChanged;
 
   const SearchBox({
-    Key key,
-    @required this.value,
-    @required this.searchChanged,
+    Key? key,
+    this.value,
+    required this.searchChanged,
     this.showClearButton = true,
   }) : super(key: key);
 
@@ -21,7 +23,7 @@ class SearchBox extends StatefulWidget {
 
 class _SearchBoxState extends State<SearchBox> {
   final _searchFocusNode = FocusNode();
-  TextEditingController _searchBoxTextController;
+  late TextEditingController _searchBoxTextController;
 
   @override
   void initState() {
@@ -41,36 +43,45 @@ class _SearchBoxState extends State<SearchBox> {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final theme = Theme.of(context);
-    return Card(
-      elevation: 3,
-      margin: const EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Row(
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(left: 10),
-            child: const Icon(Icons.search),
-          ),
-          Expanded(
-            child: TextField(
-              controller: _searchBoxTextController,
-              focusNode: _searchFocusNode,
-              cursorColor: theme.accentColor,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.go,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                hintText: '${s.search}...',
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    final maxWidth = MediaQuery.of(context).size.width;
+    final device = getDeviceType(MediaQuery.of(context).size);
+    final maxSize = device == DeviceScreenType.mobile && isPortrait ? maxWidth : maxWidth * 0.7;
+
+    return Container(
+      constraints: BoxConstraints(maxWidth: maxSize),
+      child: Card(
+        elevation: 3,
+        margin: Styles.edgeInsetAll10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              child: const Icon(Icons.search),
+            ),
+            Expanded(
+              child: TextField(
+                controller: _searchBoxTextController,
+                focusNode: _searchFocusNode,
+                cursorColor: theme.colorScheme.secondary,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.go,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  hintText: '${s.search}...',
+                ),
               ),
             ),
-          ),
-          if (widget.showClearButton)
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: _cleanSearchText,
-            ),
-        ],
+            if (widget.showClearButton)
+              IconButton(
+                icon: const Icon(Icons.close),
+                splashRadius: Styles.smallButtonSplashRadius,
+                onPressed: _cleanSearchText,
+              ),
+          ],
+        ),
       ),
     );
   }

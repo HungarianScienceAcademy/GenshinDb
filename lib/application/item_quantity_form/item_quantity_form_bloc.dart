@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'item_quantity_form_bloc.freezed.dart';
 part 'item_quantity_form_event.dart';
@@ -24,7 +23,6 @@ class ItemQuantityFormBloc extends Bloc<ItemQuantityFormEvent, ItemQuantityFormS
 
         return state.copyWith.call(quantity: e.quantity, isQuantityDirty: isDirty, isQuantityValid: isValid);
       },
-      close: (_) => _defaultState,
     );
 
     yield s;

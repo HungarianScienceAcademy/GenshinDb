@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import '../items/item_ascension_material_model.dart';
+import 'package:shiori/domain/models/models.dart';
 
 class CharacterAscensionModel {
   final int rank;
@@ -8,8 +6,8 @@ class CharacterAscensionModel {
   final List<ItemAscensionMaterialModel> materials;
 
   CharacterAscensionModel({
-    @required this.rank,
-    @required this.level,
-    @required this.materials,
+    required this.rank,
+    required this.level,
+    required this.materials,
   });
 }

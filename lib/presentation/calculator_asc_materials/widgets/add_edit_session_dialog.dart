@@ -1,31 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/injection.dart';
 
-class AddEditSessionDialog extends StatefulWidget {
-  final int sessionKey;
-  final String name;
+class AddEditSessionDialog extends StatelessWidget {
+  final int? sessionKey;
+  final String? name;
 
   const AddEditSessionDialog.create({
-    Key key,
+    Key? key,
   })  : sessionKey = null,
         name = '',
         super(key: key);
 
   const AddEditSessionDialog.update({
-    Key key,
-    @required this.sessionKey,
-    @required this.name,
+    Key? key,
+    required this.sessionKey,
+    required this.name,
   }) : super(key: key);
 
   @override
-  _AddEditSessionDialogState createState() => _AddEditSessionDialogState();
+  Widget build(BuildContext context) {
+    return BlocProvider<CalculatorAscMaterialsSessionFormBloc>(
+      create: (ctx) => Injection.calculatorAscMaterialsSessionFormBloc,
+      child: _Body(sessionKey: sessionKey, name: name),
+    );
+  }
 }
 
-class _AddEditSessionDialogState extends State<AddEditSessionDialog> {
-  TextEditingController _textEditingController;
-  String _currentValue;
+class _Body extends StatefulWidget {
+  final int? sessionKey;
+  final String? name;
+
+  const _Body({Key? key, this.sessionKey, this.name}) : super(key: key);
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  late TextEditingController _textEditingController;
+  String? _currentValue;
 
   @override
   void initState() {
@@ -82,7 +98,7 @@ class _AddEditSessionDialogState extends State<AddEditSessionDialog> {
       return;
     }
     _currentValue = _textEditingController.text;
-    context.read<CalculatorAscMaterialsSessionFormBloc>().add(CalculatorAscMaterialsSessionFormEvent.nameChanged(name: _currentValue));
+    context.read<CalculatorAscMaterialsSessionFormBloc>().add(CalculatorAscMaterialsSessionFormEvent.nameChanged(name: _currentValue!));
   }
 
   void _saveSession() {
@@ -100,7 +116,7 @@ class _AddEditSessionDialogState extends State<AddEditSessionDialog> {
 
   void _updateSession() => context
       .read<CalculatorAscMaterialsSessionsBloc>()
-      .add(CalculatorAscMaterialsSessionsEvent.updateSession(key: widget.sessionKey, name: _textEditingController.text));
+      .add(CalculatorAscMaterialsSessionsEvent.updateSession(key: widget.sessionKey!, name: _textEditingController.text));
 
   void _close() => Navigator.pop(context);
 }

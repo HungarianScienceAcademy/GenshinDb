@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_calculators_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_daily_check_in_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_game_codes_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_materials_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_monsters_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_settings_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_tierlist_card.dart';
-import 'package:genshindb/presentation/home/widgets/sliver_wish_simulator_card.dart';
-import 'package:genshindb/presentation/today_materials/today_materials_page.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/home/widgets/calculators_card.dart';
+import 'package:shiori/presentation/home/widgets/custom_builds_card.dart';
+import 'package:shiori/presentation/home/widgets/daily_check_in_card.dart';
+import 'package:shiori/presentation/home/widgets/elements_card.dart';
+import 'package:shiori/presentation/home/widgets/game_codes_card.dart';
+import 'package:shiori/presentation/home/widgets/materials_card.dart';
+import 'package:shiori/presentation/home/widgets/monsters_card.dart';
+import 'package:shiori/presentation/home/widgets/notifications_card.dart';
+import 'package:shiori/presentation/home/widgets/settings_card.dart';
+import 'package:shiori/presentation/home/widgets/tierlist_card.dart';
+import 'package:shiori/presentation/home/widgets/wish_simulator_card.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/today_materials/today_materials_page.dart';
 
+import 'widgets/my_inventory_card.dart';
 import 'widgets/sliver_characters_birthday_card.dart';
-import 'widgets/sliver_elements_card.dart';
 import 'widgets/sliver_main_title.dart';
-import 'widgets/sliver_my_inventory_card.dart';
 import 'widgets/sliver_today_char_ascension_materials.dart';
 import 'widgets/sliver_today_main_title.dart';
 import 'widgets/sliver_today_weapon_materials.dart';
+import 'widgets/tierlist_card.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,70 +39,113 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
     super.build(context);
 
     final s = S.of(context);
-    return CustomScrollView(
-      slivers: [
-        SliverCharactersBirthdayCard(),
-        const SliverTodayMainTitle(),
-        _buildClickableTitle(s.forCharacters, s.seeAll, context, onClick: () => _gotoMaterialsPage(context)),
-        SliverTodayCharAscensionMaterials(),
-        _buildClickableTitle(s.forWeapons, s.seeAll, context, onClick: () => _gotoMaterialsPage(context)),
-        SliverTodayWeaponMaterials(),
-        SliverMainTitle(title: s.elements),
-        SliverElementsCard(),
-        ..._buildMenu(s),
-      ],
+    return ResponsiveBuilder(
+      builder: (ctx, size) => CustomScrollView(
+        slivers: [
+          SliverCharactersBirthdayCard(),
+          const SliverTodayMainTitle(),
+          _buildClickableTitle(s.forCharacters, s.seeAll, context, onClick: () => _gotoMaterialsPage(context)),
+          SliverTodayCharAscensionMaterials(),
+          _buildClickableTitle(s.forWeapons, s.seeAll, context, onClick: () => _gotoMaterialsPage(context)),
+          SliverTodayWeaponMaterials(),
+          SliverMainTitle(title: s.gameSpecific),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: Styles.homeCardHeight,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: 3,
+                itemBuilder: (context, index) => _buildGameSectionMenus(index),
+              ),
+            ),
+          ),
+          SliverMainTitle(title: s.tools),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: Styles.homeCardHeight,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) => _buildToolsSectionMenu(index),
+              ),
+            ),
+          ),
+          SliverMainTitle(title: s.others),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: Styles.homeCardHeight,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: 3,
+                itemBuilder: (context, index) => _buildOthersSectionMenu(index),
+              ),
+            ),
+          ),
+          if (size.isMobile) SliverMainTitle(title: s.settings),
+          if (size.isMobile)
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: Styles.homeCardHeight,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 1,
+                  itemBuilder: (context, index) => const SettingsCard(iconToTheLeft: true),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
-  List<Widget> _buildMenu(S s) {
-    var iconToTheLeft = false;
-    final map = <String, int>{
-      s.myInventory: 1,
-      s.calculators: 2,
-      s.materials: 3,
-      s.monsters: 4,
-      s.dailyCheckIn: 5,
-      s.wishSimulator: 6,
-      s.tierListBuilder: 7,
-      s.gameCodes: 8,
-      s.settings: 9,
-    };
-    final menu = <Widget>[];
-
-    for (final kvp in map.entries) {
-      menu.add(SliverMainTitle(title: kvp.key));
-      menu.add(_getItemCard(kvp.value, iconToTheLeft));
-      iconToTheLeft = !iconToTheLeft;
-    }
-    return menu;
-  }
-
-  Widget _getItemCard(int position, bool iconToTheLeft) {
-    switch (position) {
+  Widget _buildGameSectionMenus(int index) {
+    switch (index) {
+      case 0:
+        return const MaterialsCard(iconToTheLeft: true);
       case 1:
-        return SliverMyInventoryCard(iconToTheLeft: iconToTheLeft);
+        return const MonstersCard(iconToTheLeft: true);
       case 2:
-        return SliverCalculatorsCard(iconToTheLeft: iconToTheLeft);
-      case 3:
-        return SliverMaterialsCard(iconToTheLeft: iconToTheLeft);
-      case 4:
-        return SliverMonstersCard(iconToTheLeft: iconToTheLeft);
-      case 5:
-        return SliverDailyCheckInCard(iconToTheLeft: iconToTheLeft);
-      case 6:
-        return SliverWishSimulatorCard(iconToTheLeft: iconToTheLeft);
-      case 7:
-        return SliverTierList(iconToTheLeft: iconToTheLeft);
-      case 8:
-        return SliverGameCodesCard(iconToTheLeft: iconToTheLeft);
-      case 9:
-        return SliverSettingsCard(iconToTheLeft: iconToTheLeft);
+        return ElementsCard();
       default:
-        throw Exception('Invalid menu item card');
+        throw Exception('Invalid game section');
     }
   }
 
-  Widget _buildClickableTitle(String title, String buttonText, BuildContext context, {Function onClick}) {
+  Widget _buildToolsSectionMenu(int index) {
+    switch (index) {
+      case 0:
+        return const MyInventoryCard(iconToTheLeft: true);
+      case 1:
+        return const CalculatorsCard(iconToTheLeft: true);
+      case 2:
+        return const NotificationsCard(iconToTheLeft: true);
+      case 3:
+        return const CustomBuildsCard(iconToTheLeft: true);
+      case 4:
+        return const TierListCard(iconToTheLeft: true);
+      default:
+        throw Exception('Invalid tool section');
+    }
+  }
+
+  Widget _buildOthersSectionMenu(int index) {
+    switch (index) {
+      case 0:
+        return const DailyCheckInCard(iconToTheLeft: true);
+      case 1:
+        return const GameCodesCard(iconToTheLeft: true);
+      case 2:
+        return const WishSimulatorCard(iconToTheLeft: true);
+      default:
+        throw Exception('Invalid other section');
+    }
+  }
+
+  Widget _buildClickableTitle(String title, String? buttonText, BuildContext context, {Function? onClick}) {
     final theme = Theme.of(context);
     final row = buttonText != null
         ? Row(
@@ -117,7 +165,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
           title: Text(
             title,
             textAlign: TextAlign.start,
-            style: theme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
       ),

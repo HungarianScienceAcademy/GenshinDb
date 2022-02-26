@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/calculator_asc_materials/calculator_ascension_materials_page.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/calculator_asc_materials/calculator_ascension_materials_page.dart';
+import 'package:shiori/presentation/shared/utils/size_utils.dart';
 
 import 'add_edit_session_dialog.dart';
 
@@ -12,8 +13,8 @@ class SessionListItem extends StatelessWidget {
   final CalculatorSessionModel session;
 
   const SessionListItem({
-    Key key,
-    @required this.session,
+    Key? key,
+    required this.session,
   }) : super(key: key);
 
   @override
@@ -21,24 +22,33 @@ class SessionListItem extends StatelessWidget {
     final s = S.of(context);
     final numberOfChars = session.items.where((e) => e.isCharacter).length;
     final numberOfWeapons = session.items.where((e) => !e.isCharacter).length;
+    final extentRatio = SizeUtils.getExtentRatioForSlidablePane(context);
     return Slidable(
-      actionPane: const SlidableDrawerActionPane(),
-      actions: [
-        IconSlideAction(
-          caption: s.delete,
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () => _showDeleteSessionDialog(session.key, session.name, context),
-        ),
-      ],
-      secondaryActions: [
-        IconSlideAction(
-          caption: s.edit,
-          color: Colors.lightBlueAccent,
-          icon: Icons.edit,
-          onTap: () => _showEditSessionDialog(session.key, session.name, context),
-        ),
-      ],
+      key: ValueKey(session.key),
+      startActionPane: ActionPane(
+        extentRatio: extentRatio,
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            label: s.delete,
+            backgroundColor: Colors.red,
+            icon: Icons.delete,
+            onPressed: (_) => _showDeleteSessionDialog(session.key, session.name, context),
+          ),
+        ],
+      ),
+      endActionPane: ActionPane(
+        extentRatio: extentRatio,
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            label: s.edit,
+            backgroundColor: Colors.lightBlueAccent,
+            icon: Icons.edit,
+            onPressed: (_) => _showEditSessionDialog(session.key, session.name, context),
+          ),
+        ],
+      ),
       child: ListTile(
         onLongPress: () => _showEditSessionDialog(session.key, session.name, context),
         title: Text(session.name),
@@ -56,8 +66,13 @@ class SessionListItem extends StatelessWidget {
   }
 
   Future<void> _showEditSessionDialog(int sessionKey, String name, BuildContext context) async {
-    await showDialog(context: context, builder: (_) => AddEditSessionDialog.update(sessionKey: sessionKey, name: name));
-    context.read<CalculatorAscMaterialsSessionFormBloc>().add(const CalculatorAscMaterialsSessionFormEvent.close());
+    await showDialog(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<CalculatorAscMaterialsSessionsBloc>(),
+        child: AddEditSessionDialog.update(sessionKey: sessionKey, name: name),
+      ),
+    );
   }
 
   Future<void> _showDeleteSessionDialog(int sessionKey, String name, BuildContext context) async {
@@ -86,11 +101,13 @@ class SessionListItem extends StatelessWidget {
   }
 
   Future<void> _gotoCalculatorAscensionMaterialsPage(BuildContext context) async {
-    context.read<CalculatorAscMaterialsBloc>().add(CalculatorAscMaterialsEvent.init(sessionKey: session.key));
-    final route = MaterialPageRoute(builder: (c) => CalculatorAscensionMaterialsPage(sessionKey: session.key));
+    final route = MaterialPageRoute(
+      builder: (c) => BlocProvider.value(
+        value: context.read<CalculatorAscMaterialsSessionsBloc>(),
+        child: CalculatorAscensionMaterialsPage(sessionKey: session.key),
+      ),
+    );
     await Navigator.push(context, route);
     await route.completed;
-    context.read<CalculatorAscMaterialsBloc>().add(const CalculatorAscMaterialsEvent.close());
-    context.read<CalculatorAscMaterialsOrderBloc>().add(const CalculatorAscMaterialsOrderEvent.discardChanges());
   }
 }

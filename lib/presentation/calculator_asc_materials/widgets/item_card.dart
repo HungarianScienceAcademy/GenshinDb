@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/child_item_disabled.dart';
-import 'package:genshindb/presentation/shared/extensions/rarity_extensions.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/child_item_disabled.dart';
+import 'package:shiori/presentation/shared/extensions/element_type_extensions.dart';
+import 'package:shiori/presentation/shared/extensions/rarity_extensions.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/shared/utils/modal_bottom_sheet_utils.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'add_edit_item_bottom_sheet.dart';
@@ -21,26 +24,34 @@ class ItemCard extends StatelessWidget {
   final bool isWeapon;
   final List<ItemAscensionMaterialModel> materials;
   final bool isActive;
+  final ElementType? elementType;
 
   const ItemCard({
-    Key key,
-    @required this.sessionKey,
-    @required this.index,
-    @required this.itemKey,
-    @required this.name,
-    @required this.image,
-    @required this.rarity,
-    @required this.isWeapon,
-    @required this.materials,
-    @required this.isActive,
+    Key? key,
+    required this.sessionKey,
+    required this.index,
+    required this.itemKey,
+    required this.name,
+    required this.image,
+    required this.rarity,
+    required this.isWeapon,
+    required this.materials,
+    required this.isActive,
+    this.elementType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final s = S.of(context);
-    final cardColor = rarity.getRarityColors().last;
-
+    final cardColor = elementType != null ? elementType!.getElementColorFromContext(context) : rarity.getRarityColors().last;
+    final size = MediaQuery.of(context).size;
+    var height = size.height / 2.5;
+    if (height > 500) {
+      height = 500;
+    } else if (height < 280) {
+      height = 280;
+    }
     return InkWell(
       borderRadius: Styles.mainCardBorderRadius,
       onTap: () => _editItem(context),
@@ -49,25 +60,30 @@ class ItemCard extends StatelessWidget {
         shape: Styles.mainCardShape,
         elevation: Styles.cardTenElevation,
         color: cardColor,
+        shadowColor: Colors.transparent,
         child: ChildItemDisabled(
           isDisabled: !isActive,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FadeInImage(
-                height: 280,
-                placeholder: MemoryImage(kTransparentImage),
-                image: AssetImage(image),
-                fit: BoxFit.cover,
+              SizedBox(
+                height: height,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                  clipBehavior: Clip.hardEdge,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: AssetImage(image),
+                  ),
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(35),
-                    bottomRight: Radius.circular(35),
-                    // topLeft: Radius.circular(20),
-                    // topRight: Radius.circular(20),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(Styles.cardBottomRadius),
+                    bottomRight: Radius.circular(Styles.cardBottomRadius),
                   ),
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -81,7 +97,7 @@ class ItemCard extends StatelessWidget {
                         margin: Styles.edgeInsetAll5,
                         child: Text(
                           name,
-                          style: theme.textTheme.headline6.copyWith(color: Colors.white),
+                          style: theme.textTheme.headline6!.copyWith(color: Colors.white),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                         ),
@@ -90,7 +106,7 @@ class ItemCard extends StatelessWidget {
                     Text(
                       s.materials,
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.subtitle2.copyWith(color: Colors.white),
+                      style: theme.textTheme.subtitle2!.copyWith(color: Colors.white),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 12, right: 5, left: 5),
@@ -103,10 +119,12 @@ class ItemCard extends StatelessWidget {
                           itemBuilder: (ctx, index) {
                             final item = materials[index];
                             return MaterialItem(
-                              type: item.materialType,
-                              image: item.fullImagePath,
+                              itemKey: item.key,
+                              type: item.type,
+                              image: item.image,
                               quantity: item.quantity,
                               textColor: Colors.white,
+                              sessionKey: sessionKey,
                             );
                           },
                         ),
@@ -138,12 +156,10 @@ class ItemCard extends StatelessWidget {
           ),
         );
 
-    await showModalBottomSheet<bool>(
-      context: context,
-      shape: Styles.modalBottomSheetShape,
-      isDismissible: true,
-      isScrollControlled: true,
-      builder: (_) => AddEditItemBottomSheet.toEditItem(sessionKey: sessionKey, index: index, isAWeapon: isWeapon, isActive: isActive),
+    await ModalBottomSheetUtils.showAppModalBottomSheet(
+      context,
+      EndDrawerItemType.calculatorAscMaterialsEdit,
+      args: AddEditItemBottomSheet.buildNavigationArgsToEditItem(sessionKey, index, isActive, isAWeapon: isWeapon),
     );
   }
 }

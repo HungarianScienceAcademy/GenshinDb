@@ -1,47 +1,29 @@
-import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
 
-import '../../enums/ascension_material_summary_type.dart';
-import '../../enums/material_type.dart';
+part 'ascension_materials_summary.freezed.dart';
 
-class AscensionMaterialsSummary {
-  final AscensionMaterialSummaryType type;
-  final List<MaterialSummary> materials;
-
-  const AscensionMaterialsSummary({
-    @required this.type,
-    @required this.materials,
-  });
+@freezed
+class AscensionMaterialsSummary with _$AscensionMaterialsSummary {
+  const factory AscensionMaterialsSummary({
+    required AscensionMaterialSummaryType type,
+    required List<MaterialSummary> materials,
+  }) = _AscensionMaterialsSummary;
 }
 
-class MaterialSummary {
-  final String key;
-  final MaterialType materialType;
-  final String fullImagePath;
-  final int quantity;
-  final bool isFromBoss;
-  final List<int> days;
-
-  const MaterialSummary.others({
-    @required this.key,
-    @required this.materialType,
-    @required this.fullImagePath,
-    @required this.quantity,
-  })  : isFromBoss = false,
-        days = const [];
-
-  const MaterialSummary.fromBoss({
-    @required this.key,
-    @required this.materialType,
-    @required this.fullImagePath,
-    @required this.quantity,
-  })  : isFromBoss = true,
-        days = const [];
-
-  const MaterialSummary.fromDays({
-    @required this.key,
-    @required this.materialType,
-    @required this.fullImagePath,
-    @required this.quantity,
-    @required this.days,
-  }) : isFromBoss = false;
+@freezed
+class MaterialSummary with _$MaterialSummary implements SortableGroupedMaterial {
+  @Implements<SortableGroupedMaterial>()
+  const factory MaterialSummary({
+    required String key,
+    required MaterialType type,
+    required int rarity,
+    required int position,
+    required double level,
+    required bool hasSiblings,
+    required String fullImagePath,
+    required int quantity,
+    required List<int> days,
+  }) = _MaterialSummary;
 }

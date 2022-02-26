@@ -1,34 +1,29 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/enums/enums.dart';
+import 'package:shiori/domain/enums/enums.dart';
 
 import '../../../assets.dart';
-import '../../../enums/item_location_type.dart';
-import '../../../enums/stat_type.dart';
-import '../../../enums/weapon_type.dart';
 import '../../models.dart';
 
 part 'weapon_file_model.freezed.dart';
 part 'weapon_file_model.g.dart';
 
 @freezed
-abstract class WeaponFileModel implements _$WeaponFileModel {
-  @late
+class WeaponFileModel with _$WeaponFileModel {
   String get fullImagePath => Assets.getWeaponPath(image, type);
 
   factory WeaponFileModel({
-    @required String key,
-    @required String image,
-    @required WeaponType type,
-    @required int atk,
-    @required int rarity,
-    @required StatType secondaryStat,
-    @required double secondaryStatValue,
-    @required ItemLocationType location,
-    @required bool isComingSoon,
-    @required List<WeaponFileAscensionMaterial> ascensionMaterials,
-    @required List<WeaponFileRefinement> refinements,
-    @required List<WeaponFileStatModel> stats,
-    List<ItemAscensionMaterialModel> craftingMaterials,
+    required String key,
+    required String image,
+    required WeaponType type,
+    required double atk,
+    required int rarity,
+    required StatType secondaryStat,
+    required double secondaryStatValue,
+    required ItemLocationType location,
+    required bool isComingSoon,
+    required List<WeaponFileAscensionMaterial> ascensionMaterials,
+    required List<WeaponFileStatModel> stats,
+    @Default(<ItemAscensionMaterialFileModel>[]) List<ItemAscensionMaterialFileModel> craftingMaterials,
   }) = _WeaponFileModel;
 
   WeaponFileModel._();
@@ -37,10 +32,10 @@ abstract class WeaponFileModel implements _$WeaponFileModel {
 }
 
 @freezed
-abstract class WeaponFileAscensionMaterial implements _$WeaponFileAscensionMaterial {
+class WeaponFileAscensionMaterial with _$WeaponFileAscensionMaterial {
   factory WeaponFileAscensionMaterial({
-    @required int level,
-    @required List<ItemAscensionMaterialModel> materials,
+    required int level,
+    required List<ItemAscensionMaterialFileModel> materials,
   }) = _WeaponFileAscensionMaterial;
 
   const WeaponFileAscensionMaterial._();
@@ -49,24 +44,12 @@ abstract class WeaponFileAscensionMaterial implements _$WeaponFileAscensionMater
 }
 
 @freezed
-abstract class WeaponFileRefinement implements _$WeaponFileRefinement {
-  factory WeaponFileRefinement({
-    @required int level,
-    @required List<double> values,
-  }) = _WeaponFileRefinement;
-
-  const WeaponFileRefinement._();
-
-  factory WeaponFileRefinement.fromJson(Map<String, dynamic> json) => _$WeaponFileRefinementFromJson(json);
-}
-
-@freezed
-abstract class WeaponFileStatModel implements _$WeaponFileStatModel {
+class WeaponFileStatModel with _$WeaponFileStatModel {
   factory WeaponFileStatModel({
-    @required int level,
-    @required double baseAtk,
-    @required bool isAnAscension,
-    @required double specificValue,
+    required int level,
+    required double baseAtk,
+    required bool isAnAscension,
+    required double statValue,
   }) = _WeaponFileStatModel;
 
   const WeaponFileStatModel._();

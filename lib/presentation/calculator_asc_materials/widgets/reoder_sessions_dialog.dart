@@ -1,49 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/utils/toast_utils.dart';
-
-const double _itemHeight = 50;
-const double _maxHeight = 300;
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/injection.dart';
+import 'package:shiori/presentation/shared/extensions/media_query_extensions.dart';
+import 'package:shiori/presentation/shared/utils/toast_utils.dart';
 
 class ReorderSessionsDialog extends StatelessWidget {
+  final List<CalculatorSessionModel> sessions;
+
+  const ReorderSessionsDialog({Key? key, required this.sessions}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CalculatorAscMaterialsSessionsOrderBloc>(
+      create: (ctx) => Injection.getCalculatorAscMaterialsSessionsOrderBloc(context.read<CalculatorAscMaterialsSessionsBloc>())
+        ..add(CalculatorAscMaterialsSessionsOrderEvent.init(sessions: sessions)),
+      child: const _Body(),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  const _Body({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final s = S.of(context);
     final fToast = ToastUtils.of(context);
+    final mq = MediaQuery.of(context);
     return AlertDialog(
       title: Text(s.priority),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BlocBuilder<CalculatorAscMaterialsSessionsOrderBloc, CalculatorAscMaterialsSessionsOrderState>(
-            builder: (ctx, state) {
-              final desiredHeight = _itemHeight * state.sessions.length;
-              final heightToUse = desiredHeight >= _maxHeight ? _maxHeight : desiredHeight;
-              return SizedBox(
-                height: heightToUse,
-                width: double.maxFinite,
-                child: ReorderableListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.sessions.length,
-                  itemBuilder: (ctx, index) {
-                    final session = state.sessions[index];
-                    final position = index + 1;
-                    return ListTile(
-                      key: Key('$index'),
-                      title: Text('#$position - ${session.name}', overflow: TextOverflow.ellipsis),
-                      onTap: () => ToastUtils.showInfoToast(fToast, s.holdToReorder),
-                    );
-                  },
-                  onReorder: (oldIndex, newIndex) => _onReorder(oldIndex, newIndex, context),
-                ),
+      content: BlocBuilder<CalculatorAscMaterialsSessionsOrderBloc, CalculatorAscMaterialsSessionsOrderState>(
+        builder: (ctx, state) => SizedBox(
+          height: mq.getHeightForDialogs(state.sessions.length),
+          width: mq.getWidthForDialogs(),
+          child: ReorderableListView.builder(
+            shrinkWrap: true,
+            itemCount: state.sessions.length,
+            itemBuilder: (ctx, index) {
+              final session = state.sessions[index];
+              final position = index + 1;
+              return ListTile(
+                key: Key('$index'),
+                title: Text('#$position - ${session.name}', overflow: TextOverflow.ellipsis),
+                onTap: () => ToastUtils.showInfoToast(fToast, s.holdToReorder),
               );
             },
+            onReorder: (oldIndex, newIndex) => _onReorder(oldIndex, newIndex, ctx),
           ),
-        ],
+        ),
       ),
       actions: [
         OutlinedButton(

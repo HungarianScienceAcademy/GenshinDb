@@ -1,11 +1,13 @@
-# GenshinDb
+# Shiori
 <p align="center">
   <img height="120px" src="assets/icon/icon.png">
 </p>
 
 > A Genshin Impact database kinda app
 
-> This app is not affiliated with or endorsed by miHoYo. GenshinDb is just a database app for the Genshin Impact game
+> This app is not affiliated with or endorsed by miHoYo. Shiori is just a database app for the Genshin Impact game
+
+![Tests](https://github.com/Wolfteam/Shiori/actions/workflows/tests.yml/badge.svg)
 <p align="center">
   <img src="images/banner.png">
 </p>
@@ -18,7 +20,7 @@
 * Materials
 * And many more to come
 
-[<img height="100" width="250" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.miraisoft.genshindb)
+[<img height="100" width="250" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.miraisoft.shiori)
 
 [<img height="100" width="250" src="https://static.wikia.nocookie.net/discordapp/images/d/dd/Discord.png/revision/latest?cb=20201124013658&path-prefix=es" />](https://discord.gg/A8SgudQMwP)
 
@@ -43,10 +45,10 @@ Currently the app supports English and Spanish (There are some folks working on 
 If you want to help me with the translations, I encourage you to check the following files:
 
 * The main one (where all the data of the characters / artifacts / etc. are stored):
-[Main](https://github.com/Wolfteam/GenshinDb/blob/develop/assets/i18n/en.json)
+[Main](https://github.com/Wolfteam/Shiori/blob/develop/assets/i18n/en.json)
 
 * The general one (where common strings are stored [not related specifically to the game]):
-[General](https://github.com/Wolfteam/GenshinDb/blob/develop/lib/l10n/intl_en.arb)
+[General](https://github.com/Wolfteam/Shiori/blob/develop/lib/l10n/intl_en.arb)
 
 To translate the general one is very simple, create a copy of the file, keeping the keys and translate the values:
 E.g (in spanish) : "dark" :"Oscuro"
@@ -63,6 +65,7 @@ The {{x}} is a placeholder and the value shouldn't be changed, but the position 
 ### Special Thanks
 
 * To  [Uzair Ashraf](https://github.com/uzair-ashraf) for his wish simulator
+* To the [Genshin Helper Team](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq-sQxkvdbvaJtQAGG6iVz2q2UN9FCKZ8Mkyis87QHFptcOU3ViLh0_PJyMxFSgwJZrd10kbYpQFl1/pubhtml) for their builds
 * The folk(s) that developed the [Map](https://genshin-impact-map.appsample.com/#/)
 * And the folks from [Honey Impact](https://genshin.honeyhunterworld), [Fandom Wiki](https://genshin-impact.fandom.com/wiki/Genshin_Impact), [Genshin.in](https://www.gensh.in/), [Genshin.Center](https://genshin-center.com/) that provide useful data
 
@@ -70,11 +73,11 @@ The {{x}} is a placeholder and the value shouldn't be changed, but the position 
 
 Translating the app to other languages won't have been possible without the following contributors
 
-|Chinese |Russian|Portuguese|Italian|Japanese|
-|---|---|---|---|---|
-|2O48#9733|SipTik#8026|Brunoff#0261|Reniel [Skidex ツ]#7982|𝕽𝖚𝖗𝖎#3080|
-| |KKTS#8567|DanPS#4336|Septenebris#7356||
-| |KlimeLime#7577||||
-| |Avantel#8880||||
-| |чебилин#5968||||
-| |Anixty#3279||||
+|Chinese |Russian|Portuguese|Italian|Japanese|Vietnamese|Indonesian|
+|---|---|---|---|---|---|---|
+|2O48#9733|SipTik#8026|Brunoff#0261|Reniel [Skidex ツ]#7982|𝕽𝖚𝖗𝖎#3080|Ren Toky#5263|Arctara#7162|
+| |KKTS#8567|DanPS#4336|Septenebris#7356||||
+| |KlimeLime#7577||||||
+| |Avantel#8880||||||
+| |чебилин#5968||||||
+| |Anixty#3279||||||

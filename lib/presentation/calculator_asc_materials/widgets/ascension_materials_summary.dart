@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/extensions/i18n_extensions.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/extensions/i18n_extensions.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 import 'material_item.dart';
 
 class AscensionMaterialsSummaryWidget extends StatelessWidget {
+  final int sessionKey;
   final AscensionMaterialsSummary summary;
 
   const AscensionMaterialsSummaryWidget({
-    Key key,
-    @required this.summary,
+    Key? key,
+    required this.sessionKey,
+    required this.summary,
   }) : super(key: key);
 
   @override
@@ -26,12 +28,14 @@ class AscensionMaterialsSummaryWidget extends StatelessWidget {
           children: [
             Text(
               s.translateAscensionSummaryType(summary.type),
-              style: theme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
             ),
             Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: summary.materials.map((m) => MaterialItem(image: m.fullImagePath, quantity: m.quantity, type: m.materialType)).toList(),
+              children: summary.materials
+                  .map((m) => MaterialItem(itemKey: m.key, image: m.fullImagePath, quantity: m.quantity, type: m.type, sessionKey: sessionKey))
+                  .toList(),
             )
           ],
         ),
@@ -63,13 +67,15 @@ class AscensionMaterialsSummaryWidget extends StatelessWidget {
       if (materials.isNotEmpty)
         Text(
           s.translateDays(materials.expand((e) => e.days).toSet().toList()),
-          style: theme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
         ),
       if (materials.isNotEmpty)
         Wrap(
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
-          children: materials.map((m) => MaterialItem(image: m.fullImagePath, quantity: m.quantity, type: m.materialType)).toList(),
+          children: materials
+              .map((m) => MaterialItem(itemKey: m.key, image: m.fullImagePath, quantity: m.quantity, type: m.type, sessionKey: sessionKey))
+              .toList(),
         ),
     ];
   }

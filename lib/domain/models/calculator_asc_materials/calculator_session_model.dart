@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:genshindb/domain/models/models.dart';
+import 'package:shiori/domain/models/models.dart';
 
 class CalculatorSessionModel {
   final int key;
@@ -8,9 +7,9 @@ class CalculatorSessionModel {
   final List<ItemAscensionMaterials> items;
 
   CalculatorSessionModel({
-    @required this.key,
-    @required this.name,
-    @required this.position,
-    @required this.items,
+    required this.key,
+    required this.name,
+    required this.position,
+    required this.items,
   });
 }

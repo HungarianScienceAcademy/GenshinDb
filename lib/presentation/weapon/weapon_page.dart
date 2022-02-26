@@ -1,84 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/presentation/shared/app_fab.dart';
-import 'package:genshindb/presentation/shared/extensions/scroll_controller_extensions.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/weapon/widgets/weapon_detail_bottom.dart';
-import 'package:genshindb/presentation/weapon/widgets/weapon_detaill_top.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/injection.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/scaffold_with_fab.dart';
+import 'package:shiori/presentation/weapon/widgets/weapon_detail_bottom.dart';
+import 'package:shiori/presentation/weapon/widgets/weapon_detail_top.dart';
 
-class WeaponPage extends StatefulWidget {
+class WeaponPage extends StatelessWidget {
+  final String itemKey;
+
+  const WeaponPage({Key? key, required this.itemKey}) : super(key: key);
+
   @override
-  _WeaponPageState createState() => _WeaponPageState();
+  Widget build(BuildContext context) {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    return BlocProvider(
+      create: (context) => Injection.weaponBloc..add(WeaponEvent.loadFromKey(key: itemKey)),
+      child: isPortrait ? const _PortraitLayout() : const _LandscapeLayout(),
+    );
+  }
 }
 
-class _WeaponPageState extends State<WeaponPage> with SingleTickerProviderStateMixin {
-  ScrollController _scrollController;
-  AnimationController _hideFabAnimController;
+class _PortraitLayout extends StatelessWidget {
+  const _PortraitLayout({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-
-    _scrollController = ScrollController();
-    _hideFabAnimController = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-      value: 0, // initially not visible
+  Widget build(BuildContext context) {
+    return ScaffoldWithFab(
+      child: BlocBuilder<WeaponBloc, WeaponState>(
+        builder: (context, state) {
+          return state.map(
+            loading: (_) => const Loading(useScaffold: false),
+            loaded: (state) => Stack(
+              fit: StackFit.passthrough,
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
+              children: [
+                WeaponDetailTop(
+                  name: state.name,
+                  atk: state.atk,
+                  rarity: state.rarity,
+                  secondaryStatType: state.secondaryStat,
+                  secondaryStatValue: state.secondaryStatValue,
+                  type: state.weaponType,
+                  locationType: state.locationType,
+                  image: state.fullImage,
+                ),
+                WeaponDetailBottom(
+                  rarity: state.rarity,
+                  description: state.description,
+                  ascensionMaterials: state.ascensionMaterials,
+                  charImgs: state.characters,
+                  craftingMaterials: state.craftingMaterials,
+                  refinements: state.refinements,
+                  secondaryStatType: state.secondaryStat,
+                  stats: state.stats,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
-    _scrollController.addListener(() => _scrollController.handleScrollForFab(_hideFabAnimController));
   }
+}
+
+class _LandscapeLayout extends StatelessWidget {
+  const _LandscapeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: BlocBuilder<WeaponBloc, WeaponState>(
-            builder: (context, state) {
-              return state.map(
-                loading: (_) => const Loading(useScaffold: false),
-                loaded: (s) => Stack(
-                  children: [
-                    WeaponDetailTop(
-                      name: s.name,
-                      atk: s.atk,
-                      rarity: s.rarity,
-                      secondaryStatType: s.secondaryStat,
-                      secondaryStatValue: s.secondaryStatValue,
-                      type: s.weaponType,
-                      locationType: s.locationType,
-                      image: s.fullImage,
-                    ),
-                    WeaponDetailBottom(
-                      description: s.description,
-                      rarity: s.rarity,
-                      secondaryStatType: s.secondaryStat,
-                      stats: s.stats,
-                      ascensionMaterials: s.ascensionMaterials,
-                      refinements: s.refinements,
-                      charImgs: s.charImages,
-                      craftingMaterials: s.craftingMaterials,
-                    ),
-                  ],
+        child: BlocBuilder<WeaponBloc, WeaponState>(
+          builder: (ctx, state) => state.map(
+            loading: (_) => const Loading(useScaffold: false),
+            loaded: (state) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 40,
+                  child: WeaponDetailTop(
+                    name: state.name,
+                    atk: state.atk,
+                    rarity: state.rarity,
+                    secondaryStatType: state.secondaryStat,
+                    secondaryStatValue: state.secondaryStatValue,
+                    type: state.weaponType,
+                    locationType: state.locationType,
+                    image: state.fullImage,
+                  ),
                 ),
-              );
-            },
+                Expanded(
+                  flex: 60,
+                  child: WeaponDetailBottom(
+                    rarity: state.rarity,
+                    description: state.description,
+                    ascensionMaterials: state.ascensionMaterials,
+                    charImgs: state.characters,
+                    craftingMaterials: state.craftingMaterials,
+                    refinements: state.refinements,
+                    secondaryStatType: state.secondaryStat,
+                    stats: state.stats,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      floatingActionButton: AppFab(
-        hideFabAnimController: _hideFabAnimController,
-        scrollController: _scrollController,
-      ),
     );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _hideFabAnimController.dispose();
-    super.dispose();
   }
 }

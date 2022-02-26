@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/generated/l10n.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/generated/l10n.dart';
 
 import 'extensions/i18n_extensions.dart';
 import 'item_popupmenu_filter.dart';
@@ -8,11 +8,13 @@ import 'item_popupmenu_filter.dart';
 class SortDirectionPopupMenuFilter extends StatelessWidget {
   final SortDirectionType selectedSortDirection;
   final Function(SortDirectionType) onSelected;
+  final Icon icon;
 
   const SortDirectionPopupMenuFilter({
-    Key key,
-    @required this.selectedSortDirection,
-    @required this.onSelected,
+    Key? key,
+    required this.selectedSortDirection,
+    required this.onSelected,
+    this.icon = const Icon(Icons.sort),
   }) : super(key: key);
 
   @override
@@ -23,8 +25,8 @@ class SortDirectionPopupMenuFilter extends StatelessWidget {
       selectedValue: selectedSortDirection,
       values: SortDirectionType.values,
       onSelected: onSelected,
-      icon: const Icon(Icons.sort),
-      itemText: (val) => s.translateSortDirectionType(val),
+      icon: icon,
+      itemText: (val, _) => s.translateSortDirectionType(val),
     );
   }
 }

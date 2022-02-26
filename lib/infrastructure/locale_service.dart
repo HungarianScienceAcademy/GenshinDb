@@ -1,10 +1,10 @@
-import 'package:genshindb/domain/app_constants.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/extensions/string_extensions.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/locale_service.dart';
-import 'package:genshindb/domain/services/settings_service.dart';
 import 'package:intl/intl.dart';
+import 'package:shiori/domain/app_constants.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/extensions/string_extensions.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/locale_service.dart';
+import 'package:shiori/domain/services/settings_service.dart';
 
 class LocaleServiceImpl implements LocaleService {
   final SettingsService _settingsService;
@@ -12,23 +12,28 @@ class LocaleServiceImpl implements LocaleService {
   LocaleServiceImpl(this._settingsService);
 
   @override
-  DateTime getCharBirthDate(String birthday) {
+  DateTime getCharBirthDate(String? birthday) {
     if (birthday.isNullEmptyOrWhitespace) {
       throw Exception('Character birthday must not be null');
     }
+
+    if (birthday!.length != 5 || !birthday.contains('/')) {
+      throw Exception('Character birthday is not valid');
+    }
     final locale = getFormattedLocale(_settingsService.language);
-    final format = DateFormat('MM/dd', locale);
-    return format.parse(birthday);
+    final format = DateFormat('MM/dd/yyyy', locale);
+    //The format is in MM/dd, I use 2024 since that is a leap-year
+    return format.parse('$birthday/2024');
   }
 
   @override
-  String formatCharBirthDate(String birthday) {
+  String formatCharBirthDate(String? birthday) {
     if (birthday.isNullEmptyOrWhitespace) {
       return '';
     }
     final locale = getFormattedLocale(_settingsService.language);
     final birthdayDate = getCharBirthDate(birthday);
-    return toBeginningOfSentenceCase(DateFormat('MMMM d', locale).format(birthdayDate));
+    return toBeginningOfSentenceCase(DateFormat('MMMM d', locale).format(birthdayDate)) ?? '';
   }
 
   @override

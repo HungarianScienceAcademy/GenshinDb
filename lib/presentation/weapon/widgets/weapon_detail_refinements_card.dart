@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/common_table_cell.dart';
-import 'package:genshindb/presentation/shared/item_description_detail.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/common_table_cell.dart';
+import 'package:shiori/presentation/shared/highlighted_text.dart';
+import 'package:shiori/presentation/shared/item_description_detail.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class WeaponDetailRefinementsCard extends StatelessWidget {
   final Color rarityColor;
   final List<WeaponFileRefinementModel> refinements;
 
   const WeaponDetailRefinementsCard({
-    Key key,
-    @required this.rarityColor,
-    @required this.refinements,
+    Key? key,
+    required this.rarityColor,
+    required this.refinements,
   }) : super(key: key);
 
   @override
@@ -48,7 +49,12 @@ class WeaponDetailRefinementsCard extends StatelessWidget {
     return TableRow(
       children: [
         CommonTableCell(text: '${e.level}', padding: Styles.edgeInsetAll10),
-        CommonTableCell(text: e.description, padding: Styles.edgeInsetAll10, textAlign: TextAlign.start),
+        CommonTableCell.child(
+          child: HighlightedText.color(
+            text: e.description,
+            color: rarityColor,
+          ),
+        ),
       ],
     );
   }

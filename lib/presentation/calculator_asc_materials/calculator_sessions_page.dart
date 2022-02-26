@@ -1,41 +1,46 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/app_fab.dart';
-import 'package:genshindb/presentation/shared/bullet_list.dart';
-import 'package:genshindb/presentation/shared/extensions/scroll_controller_extensions.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/nothing_found_column.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/injection.dart';
+import 'package:shiori/presentation/shared/app_fab.dart';
+import 'package:shiori/presentation/shared/dialogs/confirm_dialog.dart';
+import 'package:shiori/presentation/shared/dialogs/info_dialog.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/mixins/app_fab_mixin.dart';
+import 'package:shiori/presentation/shared/nothing_found_column.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 import 'widgets/add_edit_session_dialog.dart';
 import 'widgets/reoder_sessions_dialog.dart';
 import 'widgets/session_list_item.dart';
 
-class CalculatorSessionsPage extends StatefulWidget {
+class CalculatorSessionsPage extends StatelessWidget {
+  const CalculatorSessionsPage({Key? key}) : super(key: key);
+
   @override
-  _CalculatorSessionsPageState createState() => _CalculatorSessionsPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<CalculatorAscMaterialsSessionsBloc>(
+      create: (ctx) => Injection.calculatorAscMaterialsSessionsBloc..add(const CalculatorAscMaterialsSessionsEvent.init()),
+      child: const _Body(),
+    );
+  }
 }
 
-class _CalculatorSessionsPageState extends State<CalculatorSessionsPage> with SingleTickerProviderStateMixin {
-  ScrollController _scrollController;
-  AnimationController _hideFabAnimController;
+class _Body extends StatefulWidget {
+  const _Body({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
+  _BodyState createState() => _BodyState();
+}
 
-    _scrollController = ScrollController();
-    _hideFabAnimController = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-      value: 1, // initially visible
-    );
-    _scrollController.addListener(() => _scrollController.handleScrollForFab(_hideFabAnimController, hideOnTop: false));
-  }
+class _BodyState extends State<_Body> with SingleTickerProviderStateMixin, AppFabMixin {
+  @override
+  bool get isInitiallyVisible => true;
+
+  @override
+  bool get hideOnTop => false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,21 +54,29 @@ class _CalculatorSessionsPageState extends State<CalculatorSessionsPage> with Si
             actions: [
               if (state.sessions.length > 1)
                 IconButton(
+                  tooltip: s.priority,
                   icon: const Icon(Icons.unfold_more),
-                  onPressed: () => _showReorderDialog(state.sessions, context),
+                  onPressed: () => _showReorderDialog(state.sessions),
+                ),
+              if (state.sessions.isNotEmpty)
+                IconButton(
+                  tooltip: s.delete,
+                  icon: const Icon(Icons.clear_all),
+                  onPressed: () => _showDeleteAllSessionsDialog(),
                 ),
               IconButton(
+                tooltip: s.information,
                 icon: const Icon(Icons.info),
-                onPressed: () => _showInfoDialog(context),
+                onPressed: () => _showInfoDialog(),
               ),
             ],
           ),
         ),
         floatingActionButton: AppFab(
-          onPressed: () => _showAddSessionDialog(context),
+          onPressed: () => _showAddSessionDialog(),
           icon: const Icon(Icons.add),
-          hideFabAnimController: _hideFabAnimController,
-          scrollController: _scrollController,
+          hideFabAnimController: hideFabAnimController,
+          scrollController: scrollController,
           mini: false,
         ),
         body: SafeArea(
@@ -76,9 +89,9 @@ class _CalculatorSessionsPageState extends State<CalculatorSessionsPage> with Si
                   return NothingFoundColumn(msg: s.noSessionsHaveBeenCreated);
                 }
                 return ListView.separated(
-                  controller: _scrollController,
+                  controller: scrollController,
                   itemCount: state.sessions.length,
-                  separatorBuilder: (ctx, index) => const Divider(),
+                  separatorBuilder: (ctx, index) => const Divider(height: 1),
                   itemBuilder: (ctx, index) => SessionListItem(session: state.sessions[index]),
                 );
               },
@@ -89,24 +102,27 @@ class _CalculatorSessionsPageState extends State<CalculatorSessionsPage> with Si
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _hideFabAnimController.dispose();
-    super.dispose();
+  Future<void> _showAddSessionDialog() async {
+    await showDialog(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<CalculatorAscMaterialsSessionsBloc>(),
+        child: const AddEditSessionDialog.create(),
+      ),
+    );
   }
 
-  Future<void> _showAddSessionDialog(BuildContext context) async {
-    await showDialog(context: context, builder: (_) => const AddEditSessionDialog.create());
-    context.read<CalculatorAscMaterialsSessionFormBloc>().add(const CalculatorAscMaterialsSessionFormEvent.close());
+  Future<void> _showReorderDialog(List<CalculatorSessionModel> sessions) async {
+    await showDialog(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<CalculatorAscMaterialsSessionsBloc>(),
+        child: ReorderSessionsDialog(sessions: sessions),
+      ),
+    );
   }
 
-  Future<void> _showReorderDialog(List<CalculatorSessionModel> sessions, BuildContext context) async {
-    context.read<CalculatorAscMaterialsSessionsOrderBloc>().add(CalculatorAscMaterialsSessionsOrderEvent.init(sessions: sessions));
-    await showDialog(context: context, builder: (_) => ReorderSessionsDialog());
-  }
-
-  Future<void> _showInfoDialog(BuildContext context) async {
+  Future<void> _showInfoDialog() async {
     final s = S.of(context);
     final explanations = [
       s.calcSessionInfoMsgA,
@@ -117,17 +133,18 @@ class _CalculatorSessionsPageState extends State<CalculatorSessionsPage> with Si
     ];
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(s.information),
-        content: SingleChildScrollView(
-          child: BulletList(items: explanations, fontSize: 14),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(s.ok),
-          )
-        ],
+      builder: (context) => InfoDialog(explanations: explanations),
+    );
+  }
+
+  Future<void> _showDeleteAllSessionsDialog() async {
+    final s = S.of(context);
+    await showDialog(
+      context: context,
+      builder: (_) => ConfirmDialog(
+        title: s.deleteAllSessions,
+        content: s.confirmQuestion,
+        onOk: () => context.read<CalculatorAscMaterialsSessionsBloc>().add(const CalculatorAscMaterialsSessionsEvent.deleteAllSessions()),
       ),
     );
   }

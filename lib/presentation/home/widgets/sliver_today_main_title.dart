@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/home/widgets/change_current_day_dialog.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/home/widgets/change_current_day_dialog.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 
 class SliverTodayMainTitle extends StatelessWidget {
-  const SliverTodayMainTitle({Key key}) : super(key: key);
+  const SliverTodayMainTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SliverTodayMainTitle extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   text: s.todayAscensionMaterials,
-                  style: theme.textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.headline6!.copyWith(fontWeight: FontWeight.bold),
                   children: <TextSpan>[
                     TextSpan(
                       text: ' [ ${state.dayName} ]',
@@ -43,19 +43,19 @@ class SliverTodayMainTitle extends StatelessWidget {
   }
 
   Future<void> _openDayWeekDialog(int currentSelectedDay, BuildContext context) async {
-    final selectedDay = await showDialog<int>(
+    await showDialog<int>(
       context: context,
       builder: (_) => ChangeCurrentDayDialog(currentSelectedDay: currentSelectedDay),
-    );
+    ).then((selectedDay) {
+      if (selectedDay == null) {
+        return;
+      }
 
-    if (selectedDay == null) {
-      return;
-    }
-
-    if (selectedDay < 0) {
-      context.read<HomeBloc>().add(const HomeEvent.init());
-    } else {
-      context.read<HomeBloc>().add(HomeEvent.dayChanged(newDay: selectedDay));
-    }
+      if (selectedDay < 0) {
+        context.read<HomeBloc>().add(const HomeEvent.init());
+      } else {
+        context.read<HomeBloc>().add(HomeEvent.dayChanged(newDay: selectedDay));
+      }
+    });
   }
 }

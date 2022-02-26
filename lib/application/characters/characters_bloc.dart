@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
-import 'package:genshindb/domain/services/settings_service.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
+import 'package:shiori/domain/services/settings_service.dart';
 
 part 'characters_bloc.freezed.dart';
 part 'characters_event.dart';
@@ -20,9 +20,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
   _LoadedState get currentState => state as _LoadedState;
 
   @override
-  Stream<CharactersState> mapEventToState(
-    CharactersEvent event,
-  ) async* {
+  Stream<CharactersState> mapEventToState(CharactersEvent event) async* {
     final s = event.map(
       init: (e) => _buildInitialState(excludeKeys: e.excludeKeys, elementTypes: ElementType.values, weaponTypes: WeaponType.values),
       characterFilterTypeChanged: (e) => currentState.copyWith.call(tempCharacterFilterType: e.characterFilterType),
@@ -69,6 +67,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
         weaponTypes: currentState.tempWeaponTypes,
         roleType: currentState.tempRoleType,
         excludeKeys: currentState.excludeKeys,
+        regionType: currentState.tempRegionType,
       ),
       cancelChanges: (_) => currentState.copyWith.call(
         tempCharacterFilterType: currentState.characterFilterType,
@@ -79,21 +78,29 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
         tempWeaponTypes: currentState.weaponTypes,
         tempRoleType: currentState.roleType,
         excludeKeys: currentState.excludeKeys,
+        tempRegionType: currentState.regionType,
+      ),
+      regionTypeChanged: (e) => currentState.copyWith.call(tempRegionType: e.regionType),
+      resetFilters: (_) => _buildInitialState(
+        excludeKeys: state.maybeMap(loaded: (state) => state.excludeKeys, orElse: () => []),
+        elementTypes: ElementType.values,
+        weaponTypes: WeaponType.values,
       ),
     );
     yield s;
   }
 
   CharactersState _buildInitialState({
-    String search,
+    String? search,
     List<String> excludeKeys = const [],
     List<WeaponType> weaponTypes = const [],
     List<ElementType> elementTypes = const [],
     int rarity = 0,
-    ItemStatusType statusType = ItemStatusType.all,
+    ItemStatusType? statusType,
     CharacterFilterType characterFilterType = CharacterFilterType.name,
     SortDirectionType sortDirectionType = SortDirectionType.asc,
-    CharacterRoleType roleType = CharacterRoleType.all,
+    CharacterRoleType? roleType,
+    RegionType? regionType,
   }) {
     final isLoaded = state is _LoadedState;
     var characters = _genshinService.getCharactersForCard();
@@ -124,6 +131,8 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
         roleType: roleType,
         tempRoleType: roleType,
         excludeKeys: excludeKeys,
+        regionType: regionType,
+        tempRegionType: regionType,
       );
     }
 
@@ -143,8 +152,12 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       characters = characters.where((el) => elementTypes.contains(el.elementType)).toList();
     }
 
-    if (roleType != CharacterRoleType.all) {
+    if (roleType != null) {
       characters = characters.where((el) => el.roleType == roleType).toList();
+    }
+
+    if (regionType != null) {
+      characters = characters.where((el) => el.regionType == regionType).toList();
     }
 
     switch (statusType) {
@@ -179,15 +192,15 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       sortDirectionType: sortDirectionType,
       tempSortDirectionType: sortDirectionType,
       excludeKeys: excludeKeys,
+      roleType: roleType,
+      tempRoleType: roleType,
+      regionType: regionType,
+      tempRegionType: regionType,
     );
     return s;
   }
 
-  void _sortData(
-    List<CharacterCardModel> data,
-    CharacterFilterType characterFilterType,
-    SortDirectionType sortDirectionType,
-  ) {
+  void _sortData(List<CharacterCardModel> data, CharacterFilterType characterFilterType, SortDirectionType sortDirectionType) {
     switch (characterFilterType) {
       case CharacterFilterType.name:
         if (sortDirectionType == SortDirectionType.asc) {

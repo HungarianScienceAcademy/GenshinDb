@@ -1,24 +1,16 @@
-import 'package:genshindb/domain/models/models.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
 
 abstract class TelemetryService {
   Future<void> initTelemetry();
 
-  Future<void> trackEventAsync(String name, [Map<String, String> properties]);
+  Future<void> trackEventAsync(String name, [Map<String, String>? properties]);
 
-  Future<void> trackCharacterLoaded(
-    String value, {
-    bool loadedFromName = true,
-  });
+  Future<void> trackCharacterLoaded(String value);
 
-  Future<void> trackWeaponLoaded(
-    String value, {
-    bool loadedFromName = true,
-  });
+  Future<void> trackWeaponLoaded(String value);
 
-  Future<void> trackArtifactLoaded(
-    String value, {
-    bool loadedFromName = true,
-  });
+  Future<void> trackArtifactLoaded(String value);
 
   Future<void> trackAscensionMaterialsOpened();
 
@@ -34,10 +26,7 @@ abstract class TelemetryService {
 
   Future<void> trackTierListBuilderScreenShootTaken();
 
-  Future<void> trackMaterialLoaded(
-    String key, {
-    bool loadedFromName = true,
-  });
+  Future<void> trackMaterialLoaded(String key);
 
   Future<void> trackCalculatorAscMaterialsSessionsLoaded();
 
@@ -45,11 +34,27 @@ abstract class TelemetryService {
 
   Future<void> trackCalculatorAscMaterialsSessionsUpdated();
 
-  Future<void> trackCalculatorAscMaterialsSessionsDeleted();
+  Future<void> trackCalculatorAscMaterialsSessionsDeleted({bool all = false});
 
   Future<void> trackItemAddedToInventory(String key, int quantity);
 
   Future<void> trackItemUpdatedInInventory(String key, int quantity);
 
   Future<void> trackItemDeletedFromInventory(String key);
+
+  Future<void> trackItemsDeletedFromInventory(ItemType type);
+
+  Future<void> trackNotificationCreated(AppNotificationType type);
+
+  Future<void> trackNotificationUpdated(AppNotificationType type);
+
+  Future<void> trackNotificationDeleted(AppNotificationType type);
+
+  Future<void> trackNotificationRestarted(AppNotificationType type);
+
+  Future<void> trackNotificationStopped(AppNotificationType type);
+
+  Future<void> trackCustomBuildSaved(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType);
+
+  Future<void> trackCustomBuildScreenShootTaken(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType);
 }

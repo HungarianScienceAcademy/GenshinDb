@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/device_info_service.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
-import 'package:genshindb/domain/services/locale_service.dart';
-import 'package:genshindb/domain/services/logging_service.dart';
-import 'package:genshindb/domain/services/settings_service.dart';
-import 'package:genshindb/domain/services/telemetry_service.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/device_info_service.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
+import 'package:shiori/domain/services/locale_service.dart';
+import 'package:shiori/domain/services/logging_service.dart';
+import 'package:shiori/domain/services/settings_service.dart';
+import 'package:shiori/domain/services/telemetry_service.dart';
 
 import '../bloc.dart';
 
@@ -29,7 +29,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   final WeaponsBloc _weaponsBloc;
   final HomeBloc _homeBloc;
   final ArtifactsBloc _artifactsBloc;
-  final ElementsBloc _elementsBloc;
 
   MainBloc(
     this._logger,
@@ -42,22 +41,18 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     this._weaponsBloc,
     this._homeBloc,
     this._artifactsBloc,
-    this._elementsBloc,
   ) : super(const MainState.loading());
 
   _MainLoadedState get currentState => state as _MainLoadedState;
 
   @override
-  Stream<MainState> mapEventToState(
-    MainEvent event,
-  ) async* {
+  Stream<MainState> mapEventToState(MainEvent event) async* {
     final s = await event.when(
       init: () async => _init(init: true),
       themeChanged: (theme) async => _loadThemeData(theme, _settingsService.accentColor),
       accentColorChanged: (accentColor) async => _loadThemeData(_settingsService.appTheme, accentColor),
       languageChanged: (language) async => _init(languageChanged: true),
     );
-
     yield s;
   }
 
@@ -71,7 +66,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       _weaponsBloc.add(const WeaponsEvent.init());
       _homeBloc.add(const HomeEvent.init());
       _artifactsBloc.add(const ArtifactsEvent.init());
-      _elementsBloc.add(const ElementsEvent.init());
     }
 
     final settings = _settingsService.appSettings;
@@ -91,7 +85,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     AppAccentColorType accentColor, {
     bool isInitialized = true,
   }) async {
-    _logger.info(runtimeType, '_init: Is first install = ${_settingsService.isFirstInstall}');
+    _logger.info(
+      runtimeType,
+      '_init: Is first install = ${_settingsService.isFirstInstall} ' + '-- versionChanged = ${_deviceInfoService.versionChanged}',
+    );
 
     return MainState.loaded(
       appTitle: _deviceInfoService.appName,
@@ -100,6 +97,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       initialized: isInitialized,
       theme: theme,
       firstInstall: _settingsService.isFirstInstall,
+      versionChanged: _deviceInfoService.versionChanged,
     );
   }
 }

@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
-import 'package:genshindb/domain/services/settings_service.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
+import 'package:shiori/domain/services/settings_service.dart';
 
 part 'weapons_bloc.freezed.dart';
 part 'weapons_event.dart';
@@ -20,11 +20,13 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
   _LoadedState get currentState => state as _LoadedState;
 
   @override
-  Stream<WeaponsState> mapEventToState(
-    WeaponsEvent event,
-  ) async* {
+  Stream<WeaponsState> mapEventToState(WeaponsEvent event) async* {
     final s = event.map(
-      init: (e) => _buildInitialState(excludeKeys: e.excludeKeys, weaponTypes: WeaponType.values),
+      init: (e) => _buildInitialState(
+        excludeKeys: e.excludeKeys,
+        weaponTypes: e.weaponTypes.isEmpty ? WeaponType.values : e.weaponTypes,
+        areWeaponTypesEnabled: e.areWeaponTypesEnabled,
+      ),
       weaponFilterTypeChanged: (e) => currentState.copyWith.call(tempWeaponFilterType: e.filterType),
       rarityChanged: (e) => currentState.copyWith.call(tempRarity: e.rarity),
       sortDirectionTypeChanged: (e) => currentState.copyWith.call(tempSortDirectionType: e.sortDirectionType),
@@ -48,6 +50,7 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
         weaponSubStatType: currentState.weaponSubStatType,
         locationType: currentState.weaponLocationType,
         excludeKeys: currentState.excludeKeys,
+        areWeaponTypesEnabled: currentState.areWeaponTypesEnabled,
       ),
       applyFilterChanges: (_) => _buildInitialState(
         search: currentState.search,
@@ -58,6 +61,7 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
         weaponSubStatType: currentState.tempWeaponSubStatType,
         locationType: currentState.tempWeaponLocationType,
         excludeKeys: currentState.excludeKeys,
+        areWeaponTypesEnabled: currentState.areWeaponTypesEnabled,
       ),
       cancelChanges: (_) => currentState.copyWith.call(
         tempWeaponFilterType: currentState.weaponFilterType,
@@ -67,6 +71,11 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
         tempWeaponSubStatType: currentState.weaponSubStatType,
         tempWeaponLocationType: currentState.weaponLocationType,
         excludeKeys: currentState.excludeKeys,
+        areWeaponTypesEnabled: currentState.areWeaponTypesEnabled,
+      ),
+      resetFilters: (_) => _buildInitialState(
+        excludeKeys: state.maybeMap(loaded: (state) => state.excludeKeys, orElse: () => []),
+        weaponTypes: WeaponType.values,
       ),
     );
 
@@ -74,14 +83,15 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
   }
 
   WeaponsState _buildInitialState({
-    String search,
+    String? search,
     List<String> excludeKeys = const [],
     List<WeaponType> weaponTypes = const [],
     int rarity = 0,
     WeaponFilterType weaponFilterType = WeaponFilterType.rarity,
     SortDirectionType sortDirectionType = SortDirectionType.asc,
-    StatType weaponSubStatType = StatType.all,
-    ItemLocationType locationType = ItemLocationType.all,
+    StatType? weaponSubStatType,
+    ItemLocationType? locationType,
+    bool areWeaponTypesEnabled = true,
   }) {
     final isLoaded = state is _LoadedState;
     var data = _genshinService.getWeaponsForCard();
@@ -90,7 +100,7 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
     }
 
     if (!isLoaded) {
-      final selectedWeaponTypes = WeaponType.values.toList();
+      final selectedWeaponTypes = weaponTypes.isEmpty ? WeaponType.values.toList() : weaponTypes;
       _sortData(data, weaponFilterType, sortDirectionType);
       return WeaponsState.loaded(
         weapons: data,
@@ -109,6 +119,7 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
         weaponLocationType: locationType,
         tempWeaponLocationType: locationType,
         excludeKeys: excludeKeys,
+        areWeaponTypesEnabled: areWeaponTypesEnabled,
       );
     }
 
@@ -124,11 +135,11 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
       data = data.where((el) => weaponTypes.contains(el.type)).toList();
     }
 
-    if (weaponSubStatType != StatType.all) {
+    if (weaponSubStatType != null) {
       data = data.where((el) => el.subStatType == weaponSubStatType).toList();
     }
 
-    if (locationType != ItemLocationType.all) {
+    if (locationType != null) {
       data = data.where((el) => el.locationType == locationType).toList();
     }
 
@@ -150,15 +161,12 @@ class WeaponsBloc extends Bloc<WeaponsEvent, WeaponsState> {
       weaponLocationType: locationType,
       tempWeaponLocationType: locationType,
       excludeKeys: excludeKeys,
+      areWeaponTypesEnabled: areWeaponTypesEnabled,
     );
     return s;
   }
 
-  void _sortData(
-    List<WeaponCardModel> data,
-    WeaponFilterType weaponFilterType,
-    SortDirectionType sortDirectionType,
-  ) {
+  void _sortData(List<WeaponCardModel> data, WeaponFilterType weaponFilterType, SortDirectionType sortDirectionType) {
     switch (weaponFilterType) {
       case WeaponFilterType.atk:
         if (sortDirectionType == SortDirectionType.asc) {

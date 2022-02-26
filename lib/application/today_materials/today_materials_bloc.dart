@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
-import 'package:genshindb/domain/services/telemetry_service.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
+import 'package:shiori/domain/services/telemetry_service.dart';
 
 part 'today_materials_bloc.freezed.dart';
 part 'today_materials_event.dart';
@@ -14,25 +14,23 @@ class TodayMaterialsBloc extends Bloc<TodayMaterialsEvent, TodayMaterialsState> 
   final GenshinService _genshinService;
   final TelemetryService _telemetryService;
 
+  static final days = [
+    DateTime.monday,
+    DateTime.tuesday,
+    DateTime.wednesday,
+    DateTime.thursday,
+    DateTime.friday,
+    DateTime.saturday,
+    DateTime.sunday,
+  ];
+
   TodayMaterialsBloc(this._genshinService, this._telemetryService) : super(const TodayMaterialsState.loading());
 
   @override
-  Stream<TodayMaterialsState> mapEventToState(
-    TodayMaterialsEvent event,
-  ) async* {
+  Stream<TodayMaterialsState> mapEventToState(TodayMaterialsEvent event) async* {
     await _telemetryService.trackAscensionMaterialsOpened();
     final s = event.when(
       init: () {
-        final days = [
-          DateTime.monday,
-          DateTime.tuesday,
-          DateTime.wednesday,
-          DateTime.thursday,
-          DateTime.friday,
-          DateTime.saturday,
-          DateTime.sunday,
-        ];
-
         final charMaterials = <TodayCharAscensionMaterialsModel>[];
         final weaponMaterials = <TodayWeaponAscensionMaterialModel>[];
 //TODO: YOU MAY WANT TO SHOW THE BOSS ITEMS AS WELL

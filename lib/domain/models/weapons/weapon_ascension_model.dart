@@ -1,13 +1,11 @@
-import 'package:flutter/widgets.dart';
-
-import '../items/item_ascension_material_model.dart';
+import 'package:shiori/domain/models/models.dart';
 
 class WeaponAscensionModel {
   final int level;
   final List<ItemAscensionMaterialModel> materials;
 
   WeaponAscensionModel({
-    @required this.level,
-    @required this.materials,
+    required this.level,
+    required this.materials,
   });
 }

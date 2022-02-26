@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:genshindb/domain/assets.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/bullet_list.dart';
-import 'package:genshindb/presentation/shared/extensions/i18n_extensions.dart';
-import 'package:genshindb/presentation/shared/item_expansion_panel.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/bullet_list.dart';
+import 'package:shiori/presentation/shared/extensions/i18n_extensions.dart';
+import 'package:shiori/presentation/shared/images/artifact_image_type.dart';
+import 'package:shiori/presentation/shared/item_expansion_panel.dart';
 
 class ArtifactInfoCard extends StatelessWidget {
   final bool isCollapsed;
-  final Function(bool) expansionCallback;
+  final Function(bool)? expansionCallback;
 
   const ArtifactInfoCard({
-    Key key,
-    @required this.isCollapsed,
+    Key? key,
+    required this.isCollapsed,
     this.expansionCallback,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final theme = Theme.of(context);
     final considerations = <String>[];
 
-    final hp = s.translateStatTypeWithoutValue(StatType.hpPercentage, removeExtraSigns: true);
+    final hp = s.translateStatTypeWithoutValue(StatType.hp, removeExtraSigns: true);
     final hpPercentage = s.translateStatTypeWithoutValue(StatType.hpPercentage);
     final atkPercentage = s.translateStatTypeWithoutValue(StatType.atkPercentage);
     final atk = s.translateStatTypeWithoutValue(StatType.atk);
-    final def = s.translateStatTypeWithoutValue(StatType.defPercentage, removeExtraSigns: true);
     final defPercentage = s.translateStatTypeWithoutValue(StatType.defPercentage);
     final energyRecharge = s.translateStatTypeWithoutValue(StatType.energyRechargePercentage, removeExtraSigns: true);
-    final elementaryMastery = s.translateStatTypeWithoutValue(StatType.elementaryMastery);
+    final elementaryMastery = s.translateStatTypeWithoutValue(StatType.elementalMastery);
     final critRate = s.translateStatTypeWithoutValue(StatType.critRate);
     final critDmg = s.translateStatTypeWithoutValue(StatType.critDmgPercentage, removeExtraSigns: true);
 
@@ -39,27 +37,22 @@ class ArtifactInfoCard extends StatelessWidget {
       '${s.clock}: $atkPercentage / $defPercentage / $hpPercentage / $energyRecharge / $elementaryMastery',
     );
     considerations.add(
-      '${s.goblet}: $atkPercentage / $defPercentage / $hpPercentage / $elementaryMastery / ${s.elementalDmgPercentage} (${s.translateElementType(ElementType.electro)}, ${s.translateElementType(ElementType.hydro)}...)',
+      '${s.goblet}: $atkPercentage / $defPercentage / $hpPercentage / $elementaryMastery / ${s.physDmgPercentage('').trim()} / ${s.elementalDmgPercentage} (${s.translateElementType(ElementType.electro)}, ${s.translateElementType(ElementType.hydro)}...)',
     );
     considerations.add(
       '${s.crown}: $atkPercentage / $defPercentage / $hpPercentage / $critRate / $critDmg / $elementaryMastery / ${s.healingBonus}',
     );
-
-    final panel = ItemExpansionPanel(
-      title: s.note,
-      body: BulletList(
-        items: considerations,
-        iconResolver: (index) => Image.asset(
-          Assets.getArtifactPathFromType(ArtifactType.values[index]),
-          width: 24,
-          height: 24,
-          color: theme.brightness == Brightness.dark ? Colors.white : Colors.black,
+    return SliverToBoxAdapter(
+      child: ItemExpansionPanel(
+        title: s.note,
+        body: BulletList(
+          items: considerations,
+          iconResolver: (index) => ArtifactImageType(index: index),
         ),
+        icon: const Icon(Icons.info_outline),
+        isCollapsed: isCollapsed,
+        expansionCallback: expansionCallback,
       ),
-      icon: const Icon(Icons.info_outline),
-      isCollapsed: isCollapsed,
-      expansionCallback: expansionCallback,
     );
-    return SliverToBoxAdapter(child: panel);
   }
 }

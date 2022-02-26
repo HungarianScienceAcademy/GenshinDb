@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/enums/enums.dart' as enums;
-import 'package:genshindb/domain/models/materials/material_card_model.dart';
-import 'package:genshindb/domain/utils/currency_utils.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/material/material_page.dart' as mp;
-import 'package:genshindb/presentation/shared/extensions/rarity_extensions.dart';
-import 'package:genshindb/presentation/shared/gradient_card.dart';
-import 'package:genshindb/presentation/shared/item_quantity_dialog.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/enums/enums.dart' as enums;
+import 'package:shiori/domain/models/materials/material_card_model.dart';
+import 'package:shiori/domain/utils/currency_utils.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/material/material_page.dart' as mp;
+import 'package:shiori/presentation/shared/dialogs/item_quantity_dialog.dart';
+import 'package:shiori/presentation/shared/extensions/rarity_extensions.dart';
+import 'package:shiori/presentation/shared/gradient_card.dart';
+import 'package:shiori/presentation/shared/styles.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 const double defaultWidth = 70;
@@ -17,7 +17,7 @@ const double defaultHeight = 60;
 
 class MaterialCard extends StatelessWidget {
   final String keyName;
-  final String name;
+  final String? name;
   final String image;
   final int rarity;
   final double imgWidth;
@@ -31,12 +31,12 @@ class MaterialCard extends StatelessWidget {
   final int usedQuantity;
 
   const MaterialCard({
-    Key key,
-    @required this.keyName,
-    @required this.name,
-    @required this.image,
-    @required this.rarity,
-    @required this.type,
+    Key? key,
+    required this.keyName,
+    required this.name,
+    required this.image,
+    required this.rarity,
+    required this.type,
     this.imgWidth = defaultWidth,
     this.imgHeight = defaultHeight,
     this.withElevation = true,
@@ -48,8 +48,8 @@ class MaterialCard extends StatelessWidget {
         super(key: key);
 
   MaterialCard.item({
-    Key key,
-    @required MaterialCardModel item,
+    Key? key,
+    required MaterialCardModel item,
     this.imgWidth = defaultWidth,
     this.imgHeight = defaultHeight,
     this.withElevation = true,
@@ -66,11 +66,11 @@ class MaterialCard extends StatelessWidget {
         super(key: key);
 
   const MaterialCard.withoutDetails({
-    Key key,
-    @required this.keyName,
-    @required this.image,
-    @required this.rarity,
-    @required this.type,
+    Key? key,
+    required this.keyName,
+    required this.image,
+    required this.rarity,
+    required this.type,
     this.isInSelectionMode = false,
   })  : name = null,
         imgWidth = defaultWidth,
@@ -83,8 +83,8 @@ class MaterialCard extends StatelessWidget {
         super(key: key);
 
   MaterialCard.quantity({
-    Key key,
-    @required MaterialCardModel item,
+    Key? key,
+    required MaterialCardModel item,
     this.isInSelectionMode = false,
   })  : keyName = item.key,
         name = item.name,
@@ -133,11 +133,11 @@ class MaterialCard extends StatelessWidget {
                           padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: theme.accentColor.withOpacity(0.8),
+                            color: theme.colorScheme.secondary.withOpacity(0.8),
                           ),
                           child: Text(
                             ' - ${CurrencyUtils.formatNumber(usedQuantity)} ',
-                            style: theme.textTheme.subtitle2.copyWith(color: Colors.white),
+                            style: theme.textTheme.subtitle2!.copyWith(color: Colors.white),
                           ),
                         ),
                       ),
@@ -149,7 +149,7 @@ class MaterialCard extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 5),
                   child: Text(
                     CurrencyUtils.formatNumber(quantity),
-                    style: theme.textTheme.subtitle2.copyWith(color: Colors.white),
+                    style: theme.textTheme.subtitle2!.copyWith(color: Colors.white),
                   ),
                 ),
               if (!withoutDetails && !isInQuantityMode)
@@ -157,9 +157,9 @@ class MaterialCard extends StatelessWidget {
                   child: Tooltip(
                     message: name,
                     child: Text(
-                      name,
+                      name!,
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                      style: theme.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -181,25 +181,21 @@ class MaterialCard extends StatelessWidget {
       return;
     }
 
-    final bloc = context.read<MaterialBloc>();
-    bloc.add(MaterialEvent.loadFromName(key: keyName));
-    final route = MaterialPageRoute(builder: (c) => mp.MaterialPage());
+    final route = MaterialPageRoute(builder: (c) => mp.MaterialPage(itemKey: keyName));
     await Navigator.push(context, route);
-    bloc.pop();
   }
 
   Future<void> _showQuantityPickerDialog(BuildContext context) async {
-    final newValue = await showDialog<int>(
+    await showDialog<int>(
       context: context,
       builder: (_) => ItemQuantityDialog(quantity: quantity),
-    );
+    ).then((newValue) {
+      if (newValue == null) {
+        return;
+      }
 
-    context.read<ItemQuantityFormBloc>().add(const ItemQuantityFormEvent.close());
-    if (newValue == null) {
-      return;
-    }
-
-    context.read<InventoryBloc>().add(InventoryEvent.updateMaterial(key: keyName, quantity: newValue));
+      context.read<InventoryBloc>().add(InventoryEvent.updateMaterial(key: keyName, quantity: newValue));
+    });
   }
 
   Future<void> _showUsedItemsDialog(BuildContext context) async {

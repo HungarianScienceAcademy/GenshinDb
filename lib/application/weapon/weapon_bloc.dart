@@ -1,18 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:genshindb/application/common/pop_bloc.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/data_service.dart';
-import 'package:genshindb/domain/services/genshin_service.dart';
-import 'package:genshindb/domain/services/telemetry_service.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/data_service.dart';
+import 'package:shiori/domain/services/genshin_service.dart';
+import 'package:shiori/domain/services/telemetry_service.dart';
 
 part 'weapon_bloc.freezed.dart';
 part 'weapon_event.dart';
 part 'weapon_state.dart';
 
-class WeaponBloc extends PopBloc<WeaponEvent, WeaponState> {
+class WeaponBloc extends Bloc<WeaponEvent, WeaponState> {
   final GenshinService _genshinService;
   final TelemetryService _telemetryService;
   final DataService _dataService;
@@ -20,56 +20,51 @@ class WeaponBloc extends PopBloc<WeaponEvent, WeaponState> {
   WeaponBloc(this._genshinService, this._telemetryService, this._dataService) : super(const WeaponState.loading());
 
   @override
-  WeaponEvent getEventForPop(String key) => WeaponEvent.loadFromName(key: key, addToQueue: false);
-
-  @override
-  Stream<WeaponState> mapEventToState(
-    WeaponEvent event,
-  ) async* {
-    if (event is! _AddedToInventory) {
-      yield const WeaponState.loading();
-    }
-
+  Stream<WeaponState> mapEventToState(WeaponEvent event) async* {
     final s = await event.when(
-      loadFromImg: (img, addToQueue) async {
-        final weapon = _genshinService.getWeaponByImg(img);
+      loadFromKey: (key) async {
+        final weapon = _genshinService.getWeapon(key);
         final translation = _genshinService.getWeaponTranslation(weapon.key);
-
-        if (addToQueue) {
-          await _telemetryService.trackWeaponLoaded(img, loadedFromName: false);
-          currentItemsInStack.add(weapon.key);
-        }
+        await _telemetryService.trackWeaponLoaded(key);
         return _buildInitialState(weapon, translation);
       },
-      loadFromName: (name, addToQueue) async {
-        final weapon = _genshinService.getWeapon(name);
-        final translation = _genshinService.getWeaponTranslation(name);
-
-        if (addToQueue) {
-          await _telemetryService.trackWeaponLoaded(name);
-          currentItemsInStack.add(weapon.key);
-        }
-        return _buildInitialState(weapon, translation);
-      },
-      addedToInventory: (key, wasAdded) async {
-        if (state is! _LoadedState) {
-          return state;
-        }
-
-        final currentState = state as _LoadedState;
-        if (currentState.key != key) {
-          return state;
-        }
-
-        return currentState.copyWith.call(isInInventory: wasAdded);
-      },
+      addToInventory: (key) async => state.map(
+        loading: (state) async => state,
+        loaded: (state) async {
+          await _telemetryService.trackItemAddedToInventory(key, 1);
+          await _dataService.addWeaponToInventory(key);
+          return state.copyWith.call(isInInventory: true);
+        },
+      ),
+      deleteFromInventory: (key) async => state.map(
+        loading: (state) async => state,
+        loaded: (state) async {
+          await _telemetryService.trackItemDeletedFromInventory(key);
+          await _dataService.deleteWeaponFromInventory(key);
+          return state.copyWith.call(isInInventory: false);
+        },
+      ),
     );
 
     yield s;
   }
 
   WeaponState _buildInitialState(WeaponFileModel weapon, TranslationWeaponFile translation) {
-    final charImgs = _genshinService.getCharacterImgsUsingWeapon(weapon.key);
+    final charImgs = _genshinService.getCharacterForItemsUsingWeapon(weapon.key);
+    final ascensionMaterials = weapon.ascensionMaterials.map((e) {
+      final materials = e.materials.map((e) {
+        final material = _genshinService.getMaterial(e.key);
+        return ItemAscensionMaterialModel(key: material.key, type: material.type, quantity: e.quantity, image: material.fullImagePath);
+      }).toList();
+      return WeaponAscensionModel(level: e.level, materials: materials);
+    }).toList();
+
+    final refinements = translation.refinements.mapIndexed((index, e) => WeaponFileRefinementModel(level: index + 1, description: e)).toList();
+
+    final craftingMaterials = weapon.craftingMaterials.map((e) {
+      final material = _genshinService.getMaterial(e.key);
+      return ItemAscensionMaterialModel(key: e.key, type: material.type, quantity: e.quantity, image: material.fullImagePath);
+    }).toList();
     return WeaponState.loaded(
       key: weapon.key,
       name: translation.name,
@@ -82,20 +77,11 @@ class WeaponBloc extends PopBloc<WeaponEvent, WeaponState> {
       description: translation.description,
       locationType: weapon.location,
       isInInventory: _dataService.isItemInInventory(weapon.key, ItemType.weapon),
-      ascensionMaterials: weapon.ascensionMaterials,
-      refinements: weapon.refinements.map(
-        (e) {
-          var description = translation.refinement;
-          for (var i = 0; i < e.values.length; i++) {
-            description = description.replaceFirst('{{$i}}', '${e.values[i]}');
-          }
-
-          return WeaponFileRefinementModel(level: e.level, description: description);
-        },
-      ).toList(),
-      charImages: charImgs,
+      ascensionMaterials: ascensionMaterials,
+      refinements: refinements,
+      characters: charImgs,
       stats: weapon.stats,
-      craftingMaterials: weapon.craftingMaterials ?? [],
+      craftingMaterials: craftingMaterials,
     );
   }
 }

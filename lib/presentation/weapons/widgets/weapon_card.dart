@@ -1,19 +1,17 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/enums/enums.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/comingsoon_new_avatar.dart';
-import 'package:genshindb/presentation/shared/extensions/i18n_extensions.dart';
-import 'package:genshindb/presentation/shared/extensions/rarity_extensions.dart';
-import 'package:genshindb/presentation/shared/gradient_card.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/rarity.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
-import 'package:genshindb/presentation/weapon/weapon_page.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/extensions/i18n_extensions.dart';
+import 'package:shiori/presentation/shared/extensions/rarity_extensions.dart';
+import 'package:shiori/presentation/shared/gradient_card.dart';
+import 'package:shiori/presentation/shared/images/comingsoon_new_avatar.dart';
+import 'package:shiori/presentation/shared/images/rarity.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/styles.dart';
+import 'package:shiori/presentation/weapon/weapon_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class WeaponCard extends StatelessWidget {
@@ -21,10 +19,10 @@ class WeaponCard extends StatelessWidget {
   final String image;
   final String name;
   final int rarity;
-  final int baseAtk;
-  final WeaponType type;
-  final StatType subStatType;
-  final double subStatValue;
+  final double? baseAtk;
+  final WeaponType? type;
+  final StatType? subStatType;
+  final double? subStatValue;
   final bool isComingSoon;
 
   final double imgWidth;
@@ -32,34 +30,37 @@ class WeaponCard extends StatelessWidget {
   final bool withoutDetails;
   final bool isInSelectionMode;
   final bool withElevation;
+  final bool withShape;
 
   const WeaponCard({
-    Key key,
-    @required this.keyName,
-    @required this.image,
-    @required this.name,
-    @required this.rarity,
-    @required this.baseAtk,
-    @required this.type,
-    @required this.subStatType,
-    @required this.subStatValue,
-    @required this.isComingSoon,
+    Key? key,
+    required this.keyName,
+    required this.image,
+    required this.name,
+    required this.rarity,
+    required this.baseAtk,
+    required this.type,
+    required this.subStatType,
+    required this.subStatValue,
+    required this.isComingSoon,
     this.imgWidth = 160,
     this.imgHeight = 140,
     this.isInSelectionMode = false,
     this.withElevation = true,
+    this.withShape = true,
   })  : withoutDetails = false,
         super(key: key);
 
   const WeaponCard.withoutDetails({
-    Key key,
-    @required this.keyName,
-    @required this.image,
-    @required this.name,
-    @required this.rarity,
-    @required this.isComingSoon,
+    Key? key,
+    required this.keyName,
+    required this.image,
+    required this.name,
+    required this.rarity,
+    required this.isComingSoon,
     this.imgWidth = 80,
     this.imgHeight = 70,
+    this.withShape = true,
   })  : type = null,
         baseAtk = null,
         subStatType = null,
@@ -70,12 +71,13 @@ class WeaponCard extends StatelessWidget {
         super(key: key);
 
   WeaponCard.item({
-    Key key,
-    WeaponCardModel weapon,
+    Key? key,
+    required WeaponCardModel weapon,
     this.imgWidth = 160,
     this.imgHeight = 140,
     this.isInSelectionMode = false,
     this.withElevation = true,
+    this.withShape = true,
   })  : keyName = weapon.key,
         baseAtk = weapon.baseAtk,
         image = weapon.image,
@@ -97,43 +99,49 @@ class WeaponCard extends StatelessWidget {
       onTap: () => _gotoWeaponPage(context),
       child: GradientCard(
         clipBehavior: Clip.hardEdge,
-        shape: Styles.mainCardShape,
+        shape: withShape ? Styles.mainCardShape : null,
         elevation: withElevation ? Styles.cardTenElevation : 0,
         gradient: rarity.getRarityGradient(),
         child: Padding(
           padding: Styles.edgeInsetAll5,
           child: Column(
             children: [
-              Stack(
-                alignment: AlignmentDirectional.topCenter,
-                fit: StackFit.passthrough,
-                children: [
-                  FadeInImage(
-                    width: imgWidth,
-                    height: imgHeight,
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: AssetImage(image),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ComingSoonNewAvatar(
-                        isNew: false,
-                        isComingSoon: isComingSoon,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              if (!withoutDetails)
-                Center(
-                  child: Tooltip(
-                    message: name,
-                    child: Text(
-                      name,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              if (withoutDetails)
+                FadeInImage(
+                  width: imgWidth,
+                  height: imgHeight,
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage(image),
+                )
+              else
+                Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  fit: StackFit.passthrough,
+                  children: [
+                    FadeInImage(
+                      width: imgWidth,
+                      height: imgHeight,
+                      placeholder: MemoryImage(kTransparentImage),
+                      image: AssetImage(image),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ComingSoonNewAvatar(
+                          isNew: false,
+                          isComingSoon: isComingSoon,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              if (!withoutDetails)
+                Tooltip(
+                  message: name,
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               Rarity(stars: rarity),
@@ -143,7 +151,7 @@ class WeaponCard extends StatelessWidget {
                     loading: (_) => const Loading(useScaffold: false),
                     loaded: (settingsState) {
                       if (withoutDetails || !settingsState.showWeaponDetails) {
-                        return Container();
+                        return const SizedBox();
                       }
 
                       return Container(
@@ -157,13 +165,13 @@ class WeaponCard extends StatelessWidget {
                               style: const TextStyle(color: Colors.white),
                             ),
                             Text(
-                              '${s.type}: ${s.translateWeaponType(type)}',
+                              '${s.type}: ${s.translateWeaponType(type!)}',
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(color: Colors.white),
                             ),
                             Text(
-                              '${s.subStat}: ${s.translateStatType(subStatType, subStatValue)}',
+                              '${s.subStat}: ${s.translateStatType(subStatType!, subStatValue!)}',
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(color: Colors.white),
@@ -188,11 +196,8 @@ class WeaponCard extends StatelessWidget {
       return;
     }
 
-    final bloc = context.read<WeaponBloc>();
-    bloc.add(WeaponEvent.loadFromName(key: keyName));
-    final route = MaterialPageRoute(builder: (c) => WeaponPage());
+    final route = MaterialPageRoute(builder: (c) => WeaponPage(itemKey: keyName));
     await Navigator.push(context, route);
     await route.completed;
-    bloc.pop();
   }
 }

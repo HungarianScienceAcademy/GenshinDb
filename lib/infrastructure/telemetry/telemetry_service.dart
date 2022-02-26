@@ -1,9 +1,10 @@
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/domain/services/device_info_service.dart';
-import 'package:genshindb/domain/services/telemetry_service.dart';
-import 'package:genshindb/infrastructure/telemetry/flutter_appcenter_bundle.dart';
-import 'package:genshindb/infrastructure/telemetry/secrets.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/domain/services/device_info_service.dart';
+import 'package:shiori/domain/services/telemetry_service.dart';
+import 'package:shiori/infrastructure/telemetry/flutter_appcenter_bundle.dart';
+import 'package:shiori/infrastructure/telemetry/secrets.dart';
 
 class TelemetryServiceImpl implements TelemetryService {
   final DeviceInfoService _deviceInfoService;
@@ -17,46 +18,25 @@ class TelemetryServiceImpl implements TelemetryService {
   }
 
   @override
-  Future<void> trackEventAsync(String name, [Map<String, String> properties]) {
+  Future<void> trackEventAsync(String name, [Map<String, String>? properties]) {
     properties ??= {};
     properties.addAll(_deviceInfoService.deviceInfo);
     return AppCenter.trackEventAsync(name, properties);
   }
 
   @override
-  Future<void> trackCharacterLoaded(
-    String value, {
-    bool loadedFromName = true,
-  }) async {
-    if (loadedFromName) {
-      await trackEventAsync('Character-FromName', {'Name': value});
-    } else {
-      await trackEventAsync('Character-FromImg', {'Image': value});
-    }
+  Future<void> trackCharacterLoaded(String value) async {
+    await trackEventAsync('Character-FromKey', {'Key': value});
   }
 
   @override
-  Future<void> trackWeaponLoaded(
-    String value, {
-    bool loadedFromName = true,
-  }) async {
-    if (loadedFromName) {
-      await trackEventAsync('Weapon-FromName', {'Name': value});
-    } else {
-      await trackEventAsync('Weapon-FromImg', {'Image': value});
-    }
+  Future<void> trackWeaponLoaded(String value) async {
+    await trackEventAsync('Weapon-FromKey', {'Key': value});
   }
 
   @override
-  Future<void> trackArtifactLoaded(
-    String value, {
-    bool loadedFromName = true,
-  }) async {
-    if (loadedFromName) {
-      await trackEventAsync('Artifact-FromName', {'Name': value});
-    } else {
-      await trackEventAsync('Artifact-FromImg', {'Image': value});
-    }
+  Future<void> trackArtifactLoaded(String value) async {
+    await trackEventAsync('Artifact-FromKey', {'Key': value});
   }
 
   @override
@@ -111,12 +91,8 @@ class TelemetryServiceImpl implements TelemetryService {
   Future<void> trackTierListBuilderScreenShootTaken() => trackEventAsync('TierListBuilder-ScreenShootTaken');
 
   @override
-  Future<void> trackMaterialLoaded(String key, {bool loadedFromName = true}) async {
-    if (loadedFromName) {
-      await trackEventAsync('Material-FromName', {'Name': key});
-    } else {
-      await trackEventAsync('Material-FromImg', {'Image': key});
-    }
+  Future<void> trackMaterialLoaded(String key) async {
+    await trackEventAsync('Material-FromKey', {'Key': key});
   }
 
   @override
@@ -129,7 +105,8 @@ class TelemetryServiceImpl implements TelemetryService {
   Future<void> trackCalculatorAscMaterialsSessionsUpdated() => trackEventAsync('Calculator-Asc-Mat-Sessions-Updated');
 
   @override
-  Future<void> trackCalculatorAscMaterialsSessionsDeleted() => trackEventAsync('Calculator-Asc-Mat-Sessions-Deleted');
+  Future<void> trackCalculatorAscMaterialsSessionsDeleted({bool all = false}) =>
+      trackEventAsync('Calculator-Asc-Mat-Sessions-Deleted${all ? '-All' : ''}');
 
   @override
   Future<void> trackItemAddedToInventory(String key, int quantity) => trackEventAsync('MyInventory-Added', {'Key_Qty': '${key}_$quantity'});
@@ -139,4 +116,48 @@ class TelemetryServiceImpl implements TelemetryService {
 
   @override
   Future<void> trackItemUpdatedInInventory(String key, int quantity) => trackEventAsync('MyInventory-Updated', {'Key_Qty': '${key}_$quantity'});
+
+  @override
+  Future<void> trackItemsDeletedFromInventory(ItemType type) =>
+      trackEventAsync('MyInventory-Clear-All', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackNotificationCreated(AppNotificationType type) =>
+      trackEventAsync('Notification-Created', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackNotificationDeleted(AppNotificationType type) =>
+      trackEventAsync('Notification-Deleted', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackNotificationRestarted(AppNotificationType type) =>
+      trackEventAsync('Notification-Restarted', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackNotificationStopped(AppNotificationType type) =>
+      trackEventAsync('Notification-Stopped', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackNotificationUpdated(AppNotificationType type) =>
+      trackEventAsync('Notification-Updated', {'Type': EnumToString.convertToString(type)});
+
+  @override
+  Future<void> trackCustomBuildSaved(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType) => trackEventAsync(
+        'Custom-Build-Saved',
+        {
+          'CharKey': charKey,
+          'RoleType': EnumToString.convertToString(roleType),
+          'SubType': EnumToString.convertToString(subType),
+        },
+      );
+
+  @override
+  Future<void> trackCustomBuildScreenShootTaken(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType) => trackEventAsync(
+        'Custom-Build-ScreenShootTaken',
+        {
+          'CharKey': charKey,
+          'RoleType': EnumToString.convertToString(roleType),
+          'SubType': EnumToString.convertToString(subType),
+        },
+      );
 }

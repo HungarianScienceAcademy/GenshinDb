@@ -1,19 +1,10 @@
 part of 'character_bloc.dart';
 
 @freezed
-abstract class CharacterEvent with _$CharacterEvent {
-  const factory CharacterEvent.loadFromName({
-    @required String key,
-    @Default(true) bool addToQueue,
-  }) = _LoadCharacterFroName;
+class CharacterEvent with _$CharacterEvent {
+  const factory CharacterEvent.loadFromKey({required String key}) = _LoadCharacterFroName;
 
-  const factory CharacterEvent.loadFromImg({
-    @required String image,
-    @Default(true) bool addToQueue,
-  }) = _LoadCharacterFromImg;
+  const factory CharacterEvent.addToInventory({required String key}) = _AddToInventory;
 
-  const factory CharacterEvent.addedToInventory({
-    @required String key,
-    @required bool wasAdded,
-  }) = _AddedToInventory;
+  const factory CharacterEvent.deleteFromInventory({required String key}) = _DeleteFromInventory;
 }

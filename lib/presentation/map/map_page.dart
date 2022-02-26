@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/page_message.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/injection.dart';
+import 'package:shiori/presentation/shared/app_webview.dart';
+import 'package:shiori/presentation/shared/loading.dart';
 
-class MapPage extends StatefulWidget {
-  @override
-  _MapPageState createState() => _MapPageState();
-}
-
-class _MapPageState extends State<MapPage> {
-  final flutterWebviewPlugin = FlutterWebviewPlugin();
-
-  final String script = '''
+const _script = '''
     let wasRemoved = false;
     function removeAds(){
       //console.log("Removing ads..");
@@ -38,6 +29,20 @@ class _MapPageState extends State<MapPage> {
           if (document.getElementsByClassName("fixed-bottom").length > 0)
             document.getElementsByClassName("fixed-bottom")[0].remove();
       }
+      
+      total = document.getElementsByClassName("sidebar-footer").length;
+      for (let index = 0; index < total; index++) {
+          if (document.getElementsByClassName("sidebar-footer").length > 0)
+            document.getElementsByClassName("sidebar-footer")[0].remove();
+      }
+      
+      if (document.getElementsByClassName("bbs-qr").length > 0){
+        document.getElementsByClassName("bbs-qr")[0].remove();
+      }
+      
+      if (document.getElementsByClassName("mhy-hoyolab-app-header").length > 0){
+        document.getElementsByClassName("mhy-hoyolab-app-header")[0].remove();
+      }
     }
     setTimeout(removeAds, 500);
     setTimeout(removeAds, 1000);
@@ -45,84 +50,22 @@ class _MapPageState extends State<MapPage> {
     setTimeout(removeAds, 3500);
     ''';
 
-  @override
-  void initState() {
-    super.initState();
-    flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) async {
-      if (mounted) {
-        if (state.type == WebViewState.finishLoad && !state.url.contains('google')) {
-          debugPrint('loaded...');
-          await _onPageLoaded();
-        } else if (state.type == WebViewState.abortLoad) {
-          // if there is a problem with loading the url
-          debugPrint('there is a problem...');
-        } else if (state.type == WebViewState.startLoad) {
-          // if the url started loading
-          debugPrint('start loading...');
-        }
-      }
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    context.read<UrlPageBloc>().add(const UrlPageEvent.init(loadMap: true, loadWishSimulator: false, loadDailyCheckIn: false));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    flutterWebviewPlugin.dispose();
-  }
-
+class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
-    return BlocBuilder<UrlPageBloc, UrlPageState>(
-      builder: (context, state) {
-        return state.map(
+    return BlocProvider<UrlPageBloc>(
+      create: (ctx) => Injection.urlPageBloc..add(const UrlPageEvent.init(loadMap: true, loadWishSimulator: false, loadDailyCheckIn: false)),
+      child: BlocBuilder<UrlPageBloc, UrlPageState>(
+        builder: (context, state) => state.map(
           loading: (_) => const Loading(),
-          loaded: (state) {
-            if (state.hasInternetConnection) {
-              return WebviewScaffold(
-                url: state.mapUrl,
-                userAgent: state.userAgent,
-                ignoreSSLErrors: true,
-                withJavascript: true,
-                withLocalStorage: true,
-                appCacheEnabled: true,
-                clearCookies: false,
-                clearCache: false,
-                initialChild: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            return PageMessage(text: s.noInternetConnection);
-          },
-        );
-      },
+          loaded: (state) => AppWebView(
+            url: state.mapUrl,
+            userAgent: state.userAgent,
+            hasInternetConnection: state.hasInternetConnection,
+            script: _script,
+          ),
+        ),
+      ),
     );
-  }
-
-  Rect _buildRect() {
-    const statusBarHeight = 24;
-    final mediaQuery = MediaQuery.of(context);
-    final topPadding = mediaQuery.padding.top;
-    final top = topPadding;
-    var height = mediaQuery.size.height - top;
-    height -= 56.0 + mediaQuery.padding.bottom;
-
-    if (height < 0.0) {
-      height = 0.0;
-    }
-
-    return Rect.fromLTWH(0.0, top + statusBarHeight, mediaQuery.size.width, height - statusBarHeight);
-  }
-
-  Future<void> _onPageLoaded() async {
-    await flutterWebviewPlugin.resize(_buildRect());
-    await flutterWebviewPlugin.evalJavascript(script);
   }
 }

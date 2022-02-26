@@ -5,7 +5,9 @@ abstract class DeviceInfoService {
 
   String get version;
 
-  String get userAgent;
+  bool get versionChanged;
+
+  String? get userAgent;
 
   Future<void> init();
 }

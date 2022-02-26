@@ -1,20 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/domain/models/models.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/loading.dart';
-import 'package:genshindb/presentation/shared/sliver_nothing_found.dart';
-import 'package:genshindb/presentation/shared/sliver_page_filter.dart';
-import 'package:genshindb/presentation/shared/sliver_scaffold_with_fab.dart';
-import 'package:genshindb/presentation/shared/styles.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/shared/loading.dart';
+import 'package:shiori/presentation/shared/sliver_nothing_found.dart';
+import 'package:shiori/presentation/shared/sliver_page_filter.dart';
+import 'package:shiori/presentation/shared/sliver_scaffold_with_fab.dart';
+import 'package:shiori/presentation/shared/utils/modal_bottom_sheet_utils.dart';
+import 'package:shiori/presentation/shared/utils/size_utils.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
 
-import 'widgets/artifact_bottom_sheet.dart';
 import 'widgets/artifact_card.dart';
 import 'widgets/artifact_info_card.dart';
 
 class ArtifactsPage extends StatefulWidget {
+  final bool isInSelectionMode;
+
+  static Future<String?> forSelection(BuildContext context, {List<String> excludeKeys = const [], ArtifactType? type}) async {
+    final bloc = context.read<ArtifactsBloc>();
+    bloc.add(ArtifactsEvent.init(excludeKeys: excludeKeys, type: type));
+
+    final route = MaterialPageRoute<String>(builder: (ctx) => const ArtifactsPage(isInSelectionMode: true));
+    final keyName = await Navigator.of(context).push(route);
+    await route.completed;
+
+    bloc.add(const ArtifactsEvent.init());
+
+    return keyName;
+  }
+
+  const ArtifactsPage({
+    Key? key,
+    this.isInSelectionMode = false,
+  }) : super(key: key);
+
   @override
   _ArtifactsPageState createState() => _ArtifactsPageState();
 }
@@ -29,26 +50,26 @@ class _ArtifactsPageState extends State<ArtifactsPage> with AutomaticKeepAliveCl
 
     final s = S.of(context);
     return BlocBuilder<ArtifactsBloc, ArtifactsState>(
-      builder: (context, state) {
-        return state.map(
-          loading: (_) => const Loading(),
-          loaded: (state) => SliverScaffoldWithFab(
-            slivers: [
-              SliverPageFilter(
-                search: state.search,
-                title: s.artifacts,
-                onPressed: () => _showFiltersModal(context),
-                searchChanged: (v) => context.read<ArtifactsBloc>().add(ArtifactsEvent.searchChanged(search: v)),
-              ),
+      builder: (context, state) => state.map(
+        loading: (_) => const Loading(),
+        loaded: (state) => SliverScaffoldWithFab(
+          appbar: !widget.isInSelectionMode ? null : AppBar(title: Text(s.selectAnArtifact)),
+          slivers: [
+            SliverPageFilter(
+              search: state.search,
+              title: s.artifacts,
+              onPressed: () => ModalBottomSheetUtils.showAppModalBottomSheet(context, EndDrawerItemType.artifacts),
+              searchChanged: (v) => context.read<ArtifactsBloc>().add(ArtifactsEvent.searchChanged(search: v)),
+            ),
+            if (!widget.isInSelectionMode)
               ArtifactInfoCard(
                 isCollapsed: state.collapseNotes,
                 expansionCallback: (v) => context.read<ArtifactsBloc>().add(ArtifactsEvent.collapseNotes(collapse: v)),
               ),
-              if (state.artifacts.isNotEmpty) _buildGrid(state.artifacts, context) else const SliverNothingFound(),
-            ],
-          ),
-        );
-      },
+            if (state.artifacts.isNotEmpty) _buildGrid(state.artifacts, context) else const SliverNothingFound(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -56,33 +77,17 @@ class _ArtifactsPageState extends State<ArtifactsPage> with AutomaticKeepAliveCl
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      sliver: SliverStaggeredGrid.countBuilder(
-        crossAxisCount: isPortrait ? 2 : 3,
-        itemBuilder: (ctx, index) {
-          final item = artifacts[index];
-          return ArtifactCard(
-            keyName: item.key,
-            name: item.name,
-            image: item.image,
-            rarity: item.rarity,
-            bonus: item.bonus,
-          );
-        },
-        itemCount: artifacts.length,
-        crossAxisSpacing: isPortrait ? 10 : 5,
-        mainAxisSpacing: 5,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
+      sliver: SliverWaterfallFlow(
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          crossAxisCount: SizeUtils.getCrossAxisCountForGrids(context, isOnMainPage: !widget.isInSelectionMode),
+          crossAxisSpacing: isPortrait ? 10 : 5,
+          mainAxisSpacing: 5,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => ArtifactCard.item(item: artifacts[index], isInSelectionMode: widget.isInSelectionMode),
+          childCount: artifacts.length,
+        ),
       ),
-    );
-  }
-
-  Future<void> _showFiltersModal(BuildContext context) async {
-    await showModalBottomSheet(
-      context: context,
-      shape: Styles.modalBottomSheetShape,
-      isDismissible: true,
-      isScrollControlled: true,
-      builder: (_) => ArtifactBottomSheet(),
     );
   }
 }

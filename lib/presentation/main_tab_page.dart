@@ -1,44 +1,39 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genshindb/application/bloc.dart';
-import 'package:genshindb/generated/l10n.dart';
-import 'package:genshindb/presentation/shared/extensions/focus_scope_node_extensions.dart';
-import 'package:genshindb/presentation/shared/utils/toast_utils.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-
-import 'artifacts/artifacts_page.dart';
-import 'characters/characters_page.dart';
-import 'home/home_page.dart';
-import 'map/map_page.dart';
-import 'shared/genshin_db_icons.dart';
-import 'weapons/weapons_page.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shiori/application/bloc.dart';
+import 'package:shiori/generated/l10n.dart';
+import 'package:shiori/presentation/desktop_tablet_scaffold.dart';
+import 'package:shiori/presentation/mobile_scaffold.dart';
+import 'package:shiori/presentation/shared/dialogs/changelog_dialog.dart';
+import 'package:shiori/presentation/shared/utils/toast_utils.dart';
 
 class MainTabPage extends StatefulWidget {
+  final bool showChangelog;
+
+  const MainTabPage({
+    Key? key,
+    required this.showChangelog,
+  }) : super(key: key);
+
   @override
   _MainTabPageState createState() => _MainTabPageState();
 }
 
 class _MainTabPageState extends State<MainTabPage> with SingleTickerProviderStateMixin {
   bool _didChangeDependencies = false;
-  TabController _tabController;
-  int _index;
+  late TabController _tabController;
   final _defaultIndex = 2;
-  final _pages = [
-    const CharactersPage(),
-    const WeaponsPage(),
-    HomePage(),
-    ArtifactsPage(),
-    MapPage(),
-  ];
-
-  DateTime backButtonPressTime;
+  DateTime? backButtonPressTime;
 
   @override
   void initState() {
-    _index = _defaultIndex;
     _tabController = TabController(
-      initialIndex: _index,
-      length: _pages.length,
+      initialIndex: _defaultIndex,
+      length: 5,
       vsync: this,
     );
     super.initState();
@@ -53,9 +48,13 @@ class _MainTabPageState extends State<MainTabPage> with SingleTickerProviderStat
     context.read<CharactersBloc>().add(const CharactersEvent.init());
     context.read<WeaponsBloc>().add(const WeaponsEvent.init());
     context.read<ArtifactsBloc>().add(const ArtifactsEvent.init());
-    context.read<ElementsBloc>().add(const ElementsEvent.init());
     context.read<SettingsBloc>().add(const SettingsEvent.init());
-    context.read<GameCodesBloc>().add(const GameCodesEvent.init());
+
+    if (widget.showChangelog) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        showDialog(context: context, builder: (ctx) => const ChangelogDialog());
+      });
+    }
   }
 
   @override
@@ -66,6 +65,20 @@ class _MainTabPageState extends State<MainTabPage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    final child = WillPopScope(
+      onWillPop: () => handleWillPop(),
+      child: ResponsiveBuilder(
+        builder: (ctx, size) => size.isDesktop || size.isTablet
+            ? DesktopTabletScaffold(defaultIndex: _defaultIndex, tabController: _tabController)
+            : MobileScaffold(defaultIndex: _defaultIndex, tabController: _tabController),
+      ),
+    );
+
+    //TODO: RATE THE APP ON WINDOWS
+    if (Platform.isWindows) {
+      return child;
+    }
+
     return RateMyAppBuilder(
       rateMyApp: RateMyApp(minDays: 7, minLaunches: 10, remindDays: 7, remindLaunches: 10),
       onInitialized: (ctx, rateMyApp) {
@@ -82,58 +95,13 @@ class _MainTabPageState extends State<MainTabPage> with SingleTickerProviderStat
           noButton: s.noThanks,
         );
       },
-      builder: (ctx) => Scaffold(
-        body: SafeArea(
-          child: BlocConsumer<MainTabBloc, MainTabState>(
-            listener: (ctx, state) async {
-              state.maybeMap(
-                initial: (s) => _changeCurrentTab(s.currentSelectedTab),
-                orElse: () => {},
-              );
-            },
-            builder: (context, state) => WillPopScope(
-              onWillPop: () => handleWillPop(context),
-              child: TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: _pages,
-              ),
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _index,
-          showUnselectedLabels: true,
-          items: _buildBottomNavBars(),
-          type: BottomNavigationBarType.fixed,
-          onTap: _gotoTab,
-        ),
-      ),
+      builder: (ctx) => child,
     );
-  }
-
-  List<BottomNavigationBarItem> _buildBottomNavBars() {
-    final s = S.of(context);
-    return [
-      BottomNavigationBarItem(label: s.characters, icon: const Icon(Icons.people)),
-      BottomNavigationBarItem(label: s.weapons, icon: const Icon(GenshinDb.crossed_swords)),
-      BottomNavigationBarItem(label: s.home, icon: const Icon(Icons.home)),
-      BottomNavigationBarItem(label: s.artifacts, icon: const Icon(GenshinDb.overmind)),
-      BottomNavigationBarItem(label: s.map, icon: const Icon(Icons.map)),
-    ];
   }
 
   void _gotoTab(int newIndex) => context.read<MainTabBloc>().add(MainTabEvent.goToTab(index: newIndex));
 
-  void _changeCurrentTab(int index) {
-    FocusScope.of(context).removeFocus();
-    setState(() {
-      _index = index;
-      _tabController.index = index;
-    });
-  }
-
-  Future<bool> handleWillPop(BuildContext context) async {
+  Future<bool> handleWillPop() async {
     if (_tabController.index != _defaultIndex) {
       _gotoTab(_defaultIndex);
       return false;
@@ -145,7 +113,7 @@ class _MainTabPageState extends State<MainTabPage> with SingleTickerProviderStat
 
     final s = S.of(context);
     final now = DateTime.now();
-    final mustWait = backButtonPressTime == null || now.difference(backButtonPressTime) > ToastUtils.toastDuration;
+    final mustWait = backButtonPressTime == null || now.difference(backButtonPressTime!) > ToastUtils.toastDuration;
 
     if (mustWait) {
       backButtonPressTime = now;

@@ -1,16 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:genshindb/domain/models/models.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/models/models.dart';
 
-class GameCodeModel {
-  final String code;
-  final bool isExpired;
-  final bool isUsed;
-  final List<ItemAscensionMaterialModel> rewards;
+part 'game_code_model.freezed.dart';
 
-  GameCodeModel({
-    @required this.code,
-    @required this.isExpired,
-    @required this.isUsed,
-    @required this.rewards,
-  });
+@freezed
+class GameCodeModel with _$GameCodeModel {
+  const factory GameCodeModel({
+    required String code,
+    AppServerResetTimeType? region,
+    DateTime? discoveredOn,
+    DateTime? expiredOn,
+    required bool isExpired,
+    required bool isUsed,
+    required List<ItemAscensionMaterialModel> rewards,
+  }) = _GameCodeModel;
 }

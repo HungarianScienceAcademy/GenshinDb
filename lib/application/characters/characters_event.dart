@@ -1,13 +1,13 @@
 part of 'characters_bloc.dart';
 
 @freezed
-abstract class CharactersEvent with _$CharactersEvent {
+class CharactersEvent with _$CharactersEvent {
   const factory CharactersEvent.init({
     @Default(<String>[]) List<String> excludeKeys,
   }) = _Init;
 
   const factory CharactersEvent.searchChanged({
-    @required String search,
+    required String search,
   }) = _SearchChanged;
 
   const factory CharactersEvent.weaponTypeChanged(WeaponType weaponType) = _WeaponTypesChanged;
@@ -16,15 +16,19 @@ abstract class CharactersEvent with _$CharactersEvent {
 
   const factory CharactersEvent.rarityChanged(int rarity) = _RarityChanged;
 
-  const factory CharactersEvent.itemStatusChanged(ItemStatusType statusType) = _ReleasedUnreleasedTypeChanged;
+  const factory CharactersEvent.itemStatusChanged(ItemStatusType? statusType) = _ReleasedUnreleasedTypeChanged;
 
   const factory CharactersEvent.characterFilterTypeChanged(CharacterFilterType characterFilterType) = _CharacterFilterChanged;
 
   const factory CharactersEvent.sortDirectionTypeChanged(SortDirectionType sortDirectionType) = _SortDirectionTypeChanged;
 
-  const factory CharactersEvent.roleTypeChanged(CharacterRoleType roleType) = _CharacterTypeChanged;
+  const factory CharactersEvent.roleTypeChanged(CharacterRoleType? roleType) = _CharacterTypeChanged;
+
+  const factory CharactersEvent.regionTypeChanged(RegionType? regionType) = _RegionTypeChanged;
 
   const factory CharactersEvent.applyFilterChanges() = _ApplyFilterChanges;
 
   const factory CharactersEvent.cancelChanges() = _CancelChanges;
+
+  const factory CharactersEvent.resetFilters() = _ResetFilters;
 }
