@@ -1110,6 +1110,93 @@
       ]
     },
     {
+      "key": "collei",
+      "name": "Collei",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "diluc",
       "name": "Diluc",
       "title": "O Lado Negro do Alvorecer",
@@ -1368,6 +1455,93 @@
             "Quando a Vida é igual ou inferior a 50%, o Bônus de Cura Recebida aumenta 30%;",
             "Quando a Vida é superior a 50%, a Proficiência Elemental aumenta 200."
           ]
+        }
+      ]
+    },
+    {
+      "key": "dori",
+      "name": "Dori",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
         }
       ]
     },
@@ -2664,85 +2838,140 @@
       "key": "kamisato-ayato",
       "name": "Kamisato Ayato",
       "title": "Pilar da Fortaleza",
-      "description": "O jovem promessa e chefe atual da Comissão Yashiro, é culto e educado, e sempre tem uma forma de fazer as coisas.",
+      "description": "O jovem promissor e chefe atual da Comissão Yashiro, é culto e educado, e sempre tem uma forma de fazer as coisas.",
       "skills": [
         {
           "key": "s1",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "Arte Kamisato - Giro",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Ataque Normal",
+              "description": "Realiza até 5 golpes de espada.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Carregado",
+              "description": "Consome uma certa quantidade de Stamina para avançar para frente realizando Iaido.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Imersivo",
+              "description": "Mergulha em pleno ar para golpear o chão, causando dano aos inimigos ao longo do caminho e infligindo Dano em uma AdE no impacto.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano do 1° Golpe|{param1}%",
+            "Dano do 2° Golpe|{param2}%",
+            "Dano do 3° Golpe|{param3}%",
+            "Dano do 4° Golpe|{param4}%×{param5}",
+            "Dano do 5° Golpe|{param6}%",
+            "Dano de Ataque Carregado|{param7}%",
+            "Consumo de Stamina de Ataque Carregado|{param8}",
+            "Dano Durante a Queda|{param9}%",
+            "Dano de Queda de Baixa/Alta Altitude|{param10}% / {param11}%"
+          ]
         },
         {
           "key": "s2",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "Arte Kamisato: Beleza Refletida",
+          "description": "Kamisato Ayato troca de posição e entra no estado \"Reflexão Torrencial\".\r\nApós esta troca, ele deixará uma Ilusão de Água na sua localização original. Após sua formação, a Ilusão de Água explodirá se os oponentes estiverem próximos ou quando sua duração terminar, infligindo Dano Hydro em AdE.\r\n",
+          "abilities": [
+            {
+              "name": "Reflexão Torrencial",
+              "description": "Nesse estado, Kamisato Ayato usa sua Espada Aquática para realizar ataques rápidos, fazendo com que o Dano de seus Ataques Normais seja convertido em Dano Hydro em AdE que não pode ser substituído pelo encantamento de outros elementos.\r\nAlém disso, também possui as seguintes propriedades:\r\n",
+              "descriptions": [
+                "Quando os ataques da Espada Aquática atingem um inimigo, darão a Ayato o efeito de Ondas Brilhantes, aumentando o Dano infligido pela Espada Aquática baseado na Vida Máxima atual de Ayato. O número máximo inicial de acúmulos de Ondas Brilhantes é 4, e é possível obter um acúmulo através da Espada Aquática a cada 0.1s. Esse efeito desaparecerá quando a Reflexão Torrencial acabar.",
+                "Aumenta a Resistência Contra Interrupção de Kamisato Ayato.",
+                "Se torna incapaz de usar Ataques Carregados ou Imersivos.",
+                "A Reflexão Torrencial será eliminada quando Ayato sair do campo de batalha. Usar Arte Kamisato: Beleza Refletida novamente enquanto ainda estiver no estado Reflexão Torrencial encerrará tal estado."
+              ]
+            }
+          ],
+          "stats": [
+            "Dano do 1° Golpe da Espada Aquática|{param1}%",
+            "Dano do 2° Golpe da Espada Aquática|{param2}%",
+            "Dano do 3° Golpe da Espada Aquática|{param3}%",
+            "Duração da Reflexão Torrencial|{param4}s",
+            "Aumento de Dano de Ondas Brilhantes|{param5}%Max HP / Stack",
+            "Dano da Ilusão de Água|{param6}%",
+            "Duração da Ilusão de Água|{param7}s",
+            "Tempo de Recarga|{param8}s"
+          ]
         },
         {
           "key": "s3",
-          "title": "NA",
-          "description": null,
+          "title": "Arte Kamisato: Jardim Aquático",
+          "description": "Revela um jardim puro que extingue toda a cacofonia.\r\nEnquanto esse espaço existir, Lâminas de Flores de Água constantemente cairão e atacarão os inimigos em sua AdE, infligindo Dano Hydro e aumentando o dano do Ataque Normal dos personagens dentro da AdE.\r\n\"",
           "abilities": [],
-          "stats": []
+          "stats": [
+            "Dano da Lâmina de Flores de Água|{param1}%",
+            "Aumento de Dano do Ataque Normal|{param2}%",
+            "Duração|{param3}s",
+            "Recarga|{param4}s",
+            "Energia Elemental|{param5}"
+          ]
         }
       ],
       "passives": [
         {
           "key": "p1",
-          "title": "NA",
-          "description": "",
+          "title": "Arte Kamisato: Cozinha Diária",
+          "description": "Quando uma Comida Perfeita é feita, tem uma chance de 18% de receber uma Comida Estranha de mesmo tipo.\r\n",
           "descriptions": []
         },
         {
           "key": "p2",
-          "title": "NA",
-          "description": "",
-          "descriptions": []
+          "title": "Arte Kamisato: Corrente entre Montanhas",
+          "description": "Arte Kamisato: Beleza Refletida possui as seguintes propriedades:\r\n",
+          "descriptions": [
+            "Depois de ser lançada, Kamisato Ayato obtém 2 acúmulos de Ondas Brilhantes;",
+            "Depois de sua Ilusão de Água explodir, Kamisato Ayato obterá um efeito de Ondas Brilhantes igual ao máximo de número de acúmulos possíveis."
+          ]
         },
         {
           "key": "p3",
-          "title": "NA",
-          "description": "",
+          "title": "Arte Kamisato: Completação da Lua Nascente",
+          "description": "Quando Kamisato Ayato está na equipe, mas não ativo no campo de batalha, se sua Energia Elemental for menor que 40 pontos, ele regenerará 2 pontos de Energia Elemental para si mesmo por segundo.\r\n",
           "descriptions": []
         }
       ],
       "constellations": [
         {
           "key": "c1",
-          "title": "NA",
-          "description": "",
+          "title": "Reflexo Gracioso",
+          "description": "Espada Aquática infligirá 40% a mais de Dano em inimigos com Vida igual ou inferior a 50%.\r\n",
           "descriptions": []
         },
         {
           "key": "c2",
-          "title": "NA",
-          "description": "",
+          "title": "Fonte do Mundo",
+          "description": "O número máximo de acúmulos de Onda Brilhante é aumentado para 5. Quando Kamisato Ayato possuir pelo menos 3 acúmulos de Ondas Brilhantes, sua Vida Máxima será aumentada em 50%.\r\n",
           "descriptions": []
         },
         {
           "key": "c3",
-          "title": "NA",
-          "description": "",
+          "title": "Admiração das Flores",
+          "description": "Aumenta o nível de Arte Kamisato: Beleza Refletida em 3.\r\nO nível máximo de elevação é 15.\r\n",
           "descriptions": []
         },
         {
           "key": "c4",
-          "title": "NA",
-          "description": "",
+          "title": "Fluxo Ininterrupto",
+          "description": "Ao usar Arte Kamisato: Jardim Aquático, os personagens próximos da equipe terão um aumento da Vel. de ATQ do Ataque Normal de 15% por 15s.\r\n",
           "descriptions": []
         },
         {
           "key": "c5",
-          "title": "NA",
-          "description": "",
+          "title": "Orvalho de Mil Gotas",
+          "description": "Aumenta o nível Arte Kamisato: Jardim Aquático em 3.\r\nO nível máximo de elevação é 15.\r\n",
           "descriptions": []
         },
         {
           "key": "c6",
-          "title": "NA",
-          "description": "",
+          "title": "Origem Ilimitada",
+          "description": "Depois de usar Arte Kamisato: Beleza Refletida, o próximo ataque de Espada Aquática de Kamisato Ayato que atingir um inimigo desencadeará dois ataques de Espadas Aquáticas adicionais, cada um infligindo Dano equivalente a 450% do Dano do Ataque de Kamisato Ayato.\r\nEstes dois ataques da Espada Aquática não receberão bônus de Onda Brilhante.\r\n",
           "descriptions": []
         }
       ]
@@ -3125,6 +3354,134 @@
           "key": "c6",
           "title": "Meu Mundo",
           "description": "O Dano Electro dos personagens que tiveram seus ATQs aumentados pelo Tengu Juurai tem seu Dano CRIT aumentado em 60%.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "kuki-shinobu",
+      "name": "Kuki Shinobu",
+      "title": "Erradicadora das Preocupações",
+      "description": "Uma talentosa e confiável ajudante da Gangue Arataki — Nota: Talentosa e confiável descreve a ajudante, mas não a Gangue Arataki.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Lâmina Escondida de Shinobu",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Ataque Normal",
+              "description": "Realiza até 4 golpes rápidos.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Carregado",
+              "description": "Consome uma certa quantidade de Stamina para desferir 2 golpes rápidos com a espada.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Imersivo",
+              "description": "Mergulha em pleno ar para golpear o chão, causando Dano aos inimigos ao longo do caminho e infligindo Dano em uma AdE durante o impacto.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano do 1° Golpe|{param1}%",
+            "Dano do 2° Golpe|{param2}%",
+            "Dano do 3° Golpe|{param3}%",
+            "Dano do 4° Golpe|{param4}%",
+            "Dano de Ataque Carregado|{param5}% + {param6}%",
+            "Consumo de Stamina de Ataque Carregado|{param7}",
+            "Dano Durante a Queda|{param8}%",
+            "Dano de Queda de Baixa/Alta Altitude|{param9}% / {param10}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Anel Santificador",
+          "description": "Cria um Anel de Grama Santificada que consome parte da Vida para infligir Dano Electro contra os inimigos ao redor.\r\nAnel de Grama Santificada.\r\nSegue o personagem ativo no campo de batalha. A cada 1.5s inflige Dano Electro contra os inimigos ao redor e regenera Vida para personagens dentro da AdE do anel no campo de batalha. A quantidade de Vida restaurada é baseada na Vida Máxima de Kuki Shinobu.\r\nA Vida consumida para usar essa habilidade não reduzirá a Vida atual de Kuki Shinobu para menos de 20%.\r\n",
+          "abilities": [],
+          "stats": [
+            "Dano de Habilidade|{param1}%",
+            "Cura de Anel de Grama Santificada|{param2}% Max HP + {param3}",
+            "Dano de Anel de Grama Santificada|{param4}%",
+            "Consumo da Habilidade|{param5}% Current HP",
+            "Duração|{param6}s",
+            "Recarga|{param7}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Ritual Semeador Narukami",
+          "description": "Crava uma lâmina expurgadora do mal no chão, criando uma barreira purificadora do mal em frente, infligindo Dano Electro contínuo contra os inimigos dentro dela baseado na Vida Máxima de Kuki Shinobu.\r\nAo lançar essa habilidade, se a Vida de Kuki Shinobu for menor ou igual a 50%, a duração da barreira será prolongada.\r\n",
+          "abilities": [],
+          "stats": [
+            "Dano Único|{param1}% Max HP",
+            "Dano Total|{param2}% / {param3}% Max HP",
+            "Duração|{param4}s / {param5}s",
+            "Recarga|{param6}s",
+            "Energia Elemental|{param7}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Rezas Prolongadas",
+          "description": "Ganha 25% de recompensas a mais quando enviada numa Expedição em Inazuma por 20 horas.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Ambição Libertadora",
+          "description": "Quando a Vida de Kuki Shinobu não for superior a 50%, o Bônus de Cura é aumentado em 15%.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Local da Calma",
+          "description": "Anel Santificador obtém os seguintes bônus baseados na Proficiência Elemental de Kuki Shinobu:\r\n",
+          "descriptions": [
+            "Aumento de Cura baseado em 75% da Proficiência Elemental;",
+            "Aumento de Dano baseado em 25% da Proficiência Elemental."
+          ]
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Compaixão Renegada",
+          "description": "Aumenta a AdE de Ritual Semeador Narukami em 50%.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Fortuna Renegada",
+          "description": "Aumenta a duração do Anel de Grama Santificada em 3s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Dor Renegada",
+          "description": "Aumenta o nível de Anel Santificador em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Reclusão Renegada",
+          "description": "Quando o personagem está no estado de Anel de Grama Santificada de Kuki Shinobu e seu Ataque Normal, Ataque Carregado ou Ataque Imersivo atinge o inimigo, uma marca de Grama dos Trovões cairá na posição do adversário, e infligirá Dano Electro em AdE baseado em 9.7% da Vida Máxima de Kuki Shinobu.\r\nEsse efeito pode ocorrer até uma vez a cada 5s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Sem Cortesia",
+          "description": "Aumenta o nível de Ritual Semeador Narukami em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Evitando a Fraqueza",
+          "description": "Quando Kuki Shinobu sofre Dano que pode derrotá-la, esse Dano não a derrotará. Esse efeito será desencadeado automaticamente quando sua Vida atingir 1, e pode ocorrer uma vez a cada 60s.\r\nQuando a Vida de Kuki Shinobu for inferior a 25%, aumentará sua Proficiência Elemental em 150 pontos por 15s. Esse efeito pode ocorrer uma vez a cada 60s.\r\n",
           "descriptions": []
         }
       ]
@@ -4746,6 +5103,146 @@
       ]
     },
     {
+      "key": "shikanoin-heizou",
+      "name": "Shikanoin Heizou",
+      "title": "Mente Condizente",
+      "description": "Um jovem e talentoso detetive da Comissão Tenryou. Tem uma intuição astuta e aguçada.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Arte Marcial Fudou",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Ataque Normal",
+              "description": "Realiza até 5 ataques de punhos de vento, infligindo Dano Anemo.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Carregado",
+              "description": "Consome uma certa quantidade de Stamina que inflige Dano Anemo em uma AdE com um chute de varredura.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Imersivo",
+              "description": "Convoca o poder do vento para si, Heizou mergulha ao chão em pleno ar, infligindo Dano a todos os inimigos em seu caminho. Inflige Dano Anemo em uma AdE ao atingir o chão.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano do 1° Golpe|{param1}%",
+            "Dano do 2° Golpe|{param2}%",
+            "Dano do 3° Golpe|{param3}%",
+            "Dano do 4° Golpe|{param4}% + {param5}% + {param6}%",
+            "Dano do 5° Golpe|{param7}%",
+            "Dano de Ataque Carregado|{param8}%",
+            "Consumo de Stamina de Ataque Carregado|{param9}",
+            "Dano Durante a Queda|{param10}%",
+            "Dano de Queda de Baixa/Alta Altitude|{param11}% / {param12}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Soco Cardíaco",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Pressionar",
+              "description": "Usa o vento para realizar o Soco Cardíaco que inflige Dano Anemo.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Manter Pressionado",
+              "description": "Acumula poder e desfere um soco ainda mais forte. Enquanto carrega, obterá o efeito \"Declinação\" que fortalece o Soco Cardíaco: Ao lançar a Habilidade ou quando a habilidade terminar de carregar, desferirá um Soco Cardíaco que inflige Dano Anemo.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Declinação",
+              "description": "Aumenta o Dano infligido do próximo Soco Cardíaco e acumula até 4 vezes.\r\nQuando possuir 4 acúmulos de \"Declinação\", gerará o efeito \"Convicção\", que aumentará o Dano infligido pelo próximo Soco Cardíaco e aumentará sua AdE.\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano de Habilidade|{param1}%",
+            "Aumento de Dano de Declinação|{param2}%/stack",
+            "Aumento de Dano de Convicção|{param3}%",
+            "Duração de Declinação|{param4}s",
+            "Tempo de Recarga|{param5}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Chute Turbilhão",
+          "description": "Salta no ar e usa a Bomba de Vácuo Fudou para chutar seus inimigos explosivamente. Ao atingir os inimigos, a Bomba de Vácuo Fudou gerará um Túnel de Vento Repreendedor que atrairá inimigos e objetos próximos, infligindo Dano Anemo em AdE.\r\nQuando a Bomba de Vácuo Fudou atinge inimigos afetados por Hydro/Pyro/Cryo/Electro, esses inimigos serão afetados pelo efeito \"Olho do Furacão\". Esse efeito explodirá após um breve momento e infligirá Dano em AdE do tipo elemental correspondente.\r\nBomba de Vácuo Fudou pode atingir até 4 inimigos com Olho do Furacão; os inimigos não poderão estar sob a influência de Olhos do Furacão de elementos diferentes simultaneamente.\r\n",
+          "abilities": [],
+          "stats": [
+            "Dano da Bomba de Vácuo Fudou|{param1}%",
+            "Dano de Olho do Furacão|{param2}%",
+            "Recarga|{param3}s",
+            "Energia Elemental|{param4}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Culpa Pré-Existente",
+          "description": "Diminui o consumo de Stamina ao correr de todos os seus membros da equipe em 20%.\r\nNão acumulável com Talentos Passivos que concedem exatamente os mesmos efeitos.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Prática Paradoxal",
+          "description": "Quando Shikanoin Heizou está ativo no campo de batalha e desencadeia a reação de Redemoinho, ele obtém um acúmulo do efeito \"Declinação\" de Soco Cardíaco. Esse efeito pode ser desencadeado uma vez por 0.1 segundo.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Razão Penetradora",
+          "description": "Quando Soco Cardíaco atinge o inimigo, aumenta a Proficiência Elemental em 80 pontos para todos os membros da equipe (não inclui Shikanoin Heizou) por 10s.\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Justiça Juvenil",
+          "description": "Nos 5s após Shikanoin Heizou ficar ativo no campo de batalha, a Vel. de ATQ do Ataque Normal aumenta 15% e obtém um acúmulo do efeito \"Declinação\" de Soco Cardíaco. Esse efeito pode ser desencadeado uma vez a cada 10s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Coleção Investigativa",
+          "description": "O efeito de atração Túnel de Vento Repreendedor gerado por Chute Turbilhão é aumentado, e sua duração é prolongada para 1s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Livro de Quebra-Cabeças Inextricáveis",
+          "description": "Aumenta o nível de Soco Cardíaco em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Coletânea de Calúnias",
+          "description": "A primeira explosão de \"Olho do Furacão\" de Chute Turbilhão regenerará 9 pontos de Energia Elemental para Shikanoin Heizou. Toda explosão seguinte regenerará 1.5 de Energia Elemental adicional para Shikanoin Heizou.\r\nUm Chute Turbilhão pode regenerar até 13.5 de Energia Elemental para Shikanoin Heizou desta forma.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Arquivo Secreto",
+          "description": "Aumenta o nível de Chute Turbilhão em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Casos Curiosos",
+          "description": "Ao lançar Soco Cardíaco, cada acúmulo de \"Declinação\" aumentará 4% da Taxa CRIT do Soco Cardíaco atual. Quando possuir \"Convicção\", o Dano CRIT desse Soco Cardíaco aumentará em 32%.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "sucrose",
       "name": "Sucrose",
       "title": "Doçura Inofensiva",
@@ -5197,6 +5694,93 @@
           "key": "c6",
           "title": "Coração Fervoroso",
           "description": "Quando uma Barreira Flamejante é obtida ou acumulada o Dano causado por Ataques Normais, Carregados e Imersivos de todos os membros da equipe é aumentado em 15% por 6s.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "tighnari",
+      "name": "Tighnari",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
           "descriptions": []
         }
       ]
@@ -6550,6 +7134,157 @@
       ]
     },
     {
+      "key": "yelan",
+      "name": "Yelan",
+      "title": "Vale das Orquídeas",
+      "description": "Uma pessoa misteriosa que afirma trabalhar para o Ministério dos Assuntos Civis, mas \"não existe\" nos registros deles.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Flecha Oculta",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Ataque Normal",
+              "description": "Realiza até quatro disparos consecutivos com o arco.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Carregado",
+              "description": "Realiza um disparo com mira de maior dano e precisão.\r\nAo mirar, o fluxo de água acumulará continuamente na ponta da flecha. Quando a flecha estiver totalmente carregada com esse fluxo torrencial, infligirá Dano Hydro.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ruptura",
+              "description": "Depois de 5s fora do campo de batalha, Yelan entra no estado \"Ruptura\", no qual o carregamento de seu próximo Disparo com Mira terá seu tempo necessário reduzido em 80%, e quando estiver totalmente carregado, ela disparará a sua \"Flecha da Ruptura\", que infligirá Dano Hydro em AdE baseado em sua Vida Máxima.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Ataque Imersivo",
+              "description": "Dispara uma chuva de flechas em pleno ar antes de atingir o chão, infligindo Dano em uma AdE durante o impacto.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano do 1° Golpe|{param1}%",
+            "Dano do 2° Golpe|{param2}%",
+            "Dano do 3° Golpe|{param3}%",
+            "Dano do 4° Golpe|{param4}% + {param5}%",
+            "Disparo com Mira|{param6}%",
+            "Disparo com Mira com Energização Completa|{param7}%",
+            "Dano da Flecha da Ruptura|{param8}% Max HP",
+            "Dano Durante a Queda|{param9}%",
+            "Dano de Queda de Baixa/Alta Altitude|{param10}% / {param11}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Rede da Vida Salvadora",
+          "description": "Tira seu \"Fio da Vida\" e corre, marcando os inimigos no caminho.\r\nQuando termina de correr, o \"Fio da Vida\" explodirá e infligirá Dano Hydro contra os inimigos marcados baseado na Vida Máxima de Yelan.\r\n",
+          "abilities": [
+            {
+              "name": "Pressionar",
+              "description": "Corre uma certa distância para frente rapidamente.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Manter Pressionado",
+              "description": "Corre continuamente e aumenta a Resistência Contra Interrupção de Yelan enquanto estiver nesse estado.\r\nNesse período, Yelan poderá controlar a direção que corre. Lançar sua habilidade mais uma vez fará com que sua corrida termine.\r\nAlém disso, quando o \"Fio da Vida\" explode, Yelan possui uma chance de obter o efeito \"Ruptura\" de acordo com o número de inimigos marcados: cada inimigo marcado aumenta essa chance em 34%.\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Dano de Habilidade|{param1}% Max HP",
+            "Duração Máxima por Manter Pressionado|{param2}s",
+            "Recarga|{param3}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Dado das Profundezas Claras",
+          "description": "Inflige Dano Hydro em AdE e lança um \"Dado Misterioso\" que ajuda na batalha.\r\n",
+          "abilities": [
+            {
+              "name": "Dado Misterioso",
+              "description": "Segue o personagem e, nas circunstâncias específicas abaixo, realiza Ataques Coordenados que infligem Dano Hydro baseados na Vida Máxima de Yelan:\r\n",
+              "descriptions": [
+                "Pode ser desencadeado uma vez por segundo quando o personagem ativo de sua equipe realizar um Ataque Normal;",
+                "Quando o \"Fio da Vida\" de Yelan explodir e atingir os inimigos, realizará um Ataque Coordenado."
+              ]
+            }
+          ],
+          "stats": [
+            "Dano de Habilidade|{param1}% Max HP",
+            "Dano do Dado Misterioso|{param2}% Max HP ×{param3}",
+            "Duração|{param4}s",
+            "Recarga|{param5}s",
+            "Energia Elemental|{param6}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Longa Consideração",
+          "description": "Ganha 25% recompensas a mais quando enviada numa Expedição em Liyue por 20 horas.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Estratégia Controlada",
+          "description": "Quando há 1/2/3/4 personagens de tipos elementais diferentes, a Vida Máxima de Yelan aumenta 6%/12%/18%/30% respectivamente.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Adaptação Esperta",
+          "description": "Enquanto o Dado Misterioso existir, aumenta o Dano do personagem ativo no campo de batalha em 1%, e a cada 1s aumenta em 3.5%. Permite aumentar o Dano infligido pelo personagem em até 50%.\r\nSe Dado das Profundezas Claras for lançado novamente enquanto o efeito estiver ativo, esse efeito original será eliminado.\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Entram os Trapaceadores",
+          "description": "Rede da Vida Salvadora pode ser utilizada mais uma vez.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Quanto Mais Pessoas, Melhor",
+          "description": "Quando Dado Misterioso faz um Ataque Coordenado, será disparada uma flecha d'água adicional, infligindo Dano Hydro equivalente a 14% da Vida Máxima de Yelan.\r\nEsse efeito pode ocorrer até uma vez a cada 1.8s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Dado Viciado",
+          "description": "Aumenta o nível de Dado das Profundezas Claras em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Blefe e Reviravolta",
+          "description": "De acordo com a quantidade de inimigos marcados por Fio da Vida, a explosão de cada marca aumentará a Vida Máxima de todos os membros da equipe em 10% por 25s. É possível no máximo obter 40% de aumento da Vida Máxima desta forma.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Prestidigitação da Banca",
+          "description": "Aumenta o nível de Rede da Vida Salvadora em 3.\r\nO nível máximo de elevação é 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Vencedor Leva Tudo",
+          "description": "Depois de lançar Dado das Profundezas Claras, Yelan entra no estado \"Mestra Estrategista\":\r\n",
+          "descriptions": [
+            "Os Ataques Normais de Yelan serão convertidos em \"Flechas da Ruptura\" especiais. Essas flechas possuem as características similares à \"Flecha da Ruptura\", e seu Dano infligido será considerado como Dano de Ataque Carregado, infligindo 156% do Dano da Flecha da Ruptura normal.",
+            "O estado \"Mestra Estrategista\" dura 20s e será eliminado quando Yelan disparar 5 flechas."
+          ]
+        }
+      ]
+    },
+    {
       "key": "yoimiya",
       "name": "Yoimiya",
       "title": "Dança das Chamas",
@@ -7048,6 +7783,18 @@
       "refinements": []
     },
     {
+      "key": "aqua-simulacra",
+      "name": "Aqua Simulacra",
+      "description": "A cor desse arco longo muda imprevisivelmente. Sob a luz, possui um brilho azulado como água.",
+      "refinements": [
+        "Aumenta a Vida em {color}16{/color}%. Se existirem inimigos próximos, o personagem que tem esta arma equipada terá um aumento de Dano de {color}20{/color}%, independentemente do personagem estar ativo no campo de batalha ou não.",
+        "Aumenta a Vida em {color}20{/color}%. Se existirem inimigos próximos, o personagem que tem esta arma equipada terá um aumento de Dano de {color}25{/color}%, independentemente do personagem estar ativo no campo de batalha ou não.",
+        "Aumenta a Vida em {color}24{/color}%. Se existirem inimigos próximos, o personagem que tem esta arma equipada terá um aumento de Dano de {color}30{/color}%, independentemente do personagem estar ativo no campo de batalha ou não.",
+        "Aumenta a Vida em {color}28{/color}%. Se existirem inimigos próximos, o personagem que tem esta arma equipada terá um aumento de Dano de {color}35{/color}%, independentemente do personagem estar ativo no campo de batalha ou não.",
+        "Aumenta a Vida em {color}32{/color}%. Se existirem inimigos próximos, o personagem que tem esta arma equipada terá um aumento de Dano de {color}40{/color}%, independentemente do personagem estar ativo no campo de batalha ou não."
+      ]
+    },
+    {
       "key": "aquila-favonia",
       "name": "Falcão",
       "description": "A alma dos Cavaleiros de Favonius. Milênios depois, ainda chama pelos ventos para expulsar todo o mal - assim como a última heroína que a manejava.",
@@ -7348,6 +8095,18 @@
       ]
     },
     {
+      "key": "fading-twilight",
+      "name": "Crepúsculo Desvanecido",
+      "description": "Um arco precioso feito de platina, com uma gema incrustada que cintila com o brilho do crepúsculo.",
+      "refinements": [
+        "Possui três estados: Entardecer, Amanhecer e Alvorada. Estes estados aumentam o Dano infligido em {color}6%/10%/14%{/color} respectivamente. Ao atingir um inimigo com um ataque, se trocará para o próximo estado. Essa troca pode acontecer uma vez a cada 7s. Esse efeito também ocorrerá se o personagem que tiver esta arma equipada não estiver ativo no campo de batalha.",
+        "Possui três estados: Entardecer, Amanhecer e Alvorada. Estes estados aumentam o Dano infligido em {color}7.5%/12.5%/17.5%{/color} respectivamente. Ao atingir um inimigo com um ataque, se trocará para o próximo estado. Essa troca pode acontecer uma vez a cada 7s. Esse efeito também ocorrerá se o personagem que tiver esta arma equipada não estiver ativo no campo de batalha.",
+        "Possui três estados: Entardecer, Amanhecer e Alvorada. Estes estados aumentam o Dano infligido em {color}9%/15%/21%{/color} respectivamente. Ao atingir um inimigo com um ataque, se trocará para o próximo estado. Essa troca pode acontecer uma vez a cada 7s. Esse efeito também ocorrerá se o personagem que tiver esta arma equipada não estiver ativo no campo de batalha.",
+        "Possui três estados: Entardecer, Amanhecer e Alvorada. Estes estados aumentam o Dano infligido em {color}10.5%/17.5%/24.5%{/color} respectivamente. Ao atingir um inimigo com um ataque, se trocará para o próximo estado. Essa troca pode acontecer uma vez a cada 7s. Esse efeito também ocorrerá se o personagem que tiver esta arma equipada não estiver ativo no campo de batalha.",
+        "Possui três estados: Entardecer, Amanhecer e Alvorada. Estes estados aumentam o Dano infligido em {color}12%/20%/28%{/color} respectivamente. Ao atingir um inimigo com um ataque, se trocará para o próximo estado. Essa troca pode acontecer uma vez a cada 7s. Esse efeito também ocorrerá se o personagem que tiver esta arma equipada não estiver ativo no campo de batalha."
+      ]
+    },
+    {
       "key": "favonius-codex",
       "name": "Codex de Favonius",
       "description": "Um livro secreto que pertencia aos estudiosos dos Cavaleiros de Favonius. Descreve o poder da matéria e da lógica.",
@@ -7504,6 +8263,18 @@
       ]
     },
     {
+      "key": "haran-geppaku-futsu",
+      "name": "Haran Geppaku Futsu",
+      "description": "Uma obra da linhagem Futsu. Seu nome tem como origem devido à maneira que lembra uma onda violenta do mar.",
+      "refinements": [
+        "Obtém {color}12{/color}% de bônus de Dano de todos os elementos. Quando os outros personagens da equipe usam Habilidades Elementais, gerarão um acúmulo do efeito \"Ondulação\" para o personagem que tem esta arma equipada. Esse efeito é acumulável no máximo 2 vezes e pode ser desencadeado uma vez a cada 0.3s. Quando o personagem que tiver esta arma equipada lançar sua Habilidade Elemental, se tiver acúmulos de \"Ondulação\", consumirá os acúmulos existentes e obterá \"Maremoto\", cada acúmulo consumido aumenta o Dano do Ataque Normal em {color}20{/color}% por 8s.",
+        "Obtém {color}15{/color}% de bônus de Dano de todos os elementos. Quando os outros personagens da equipe usam Habilidades Elementais, gerarão um acúmulo do efeito \"Ondulação\" para o personagem que tem esta arma equipada. Esse efeito é acumulável no máximo 2 vezes e pode ser desencadeado uma vez a cada 0.3s. Quando o personagem que tiver esta arma equipada lançar sua Habilidade Elemental, se tiver acúmulos de \"Ondulação\", consumirá os acúmulos existentes e obterá \"Maremoto\", cada acúmulo consumido aumenta o Dano do Ataque Normal em {color}25{/color}% por 8s.",
+        "Obtém {color}18{/color}% de bônus de Dano de todos os elementos. Quando os outros personagens da equipe usam Habilidades Elementais, gerarão um acúmulo do efeito \"Ondulação\" para o personagem que tem esta arma equipada. Esse efeito é acumulável no máximo 2 vezes e pode ser desencadeado uma vez a cada 0.3s. Quando o personagem que tiver esta arma equipada lançar sua Habilidade Elemental, se tiver acúmulos de \"Ondulação\", consumirá os acúmulos existentes e obterá \"Maremoto\", cada acúmulo consumido aumenta o Dano do Ataque Normal em {color}30{/color}% por 8s.",
+        "Obtém {color}21{/color}% de bônus de Dano de todos os elementos. Quando os outros personagens da equipe usam Habilidades Elementais, gerarão um acúmulo do efeito \"Ondulação\" para o personagem que tem esta arma equipada. Esse efeito é acumulável no máximo 2 vezes e pode ser desencadeado uma vez a cada 0.3s. Quando o personagem que tiver esta arma equipada lançar sua Habilidade Elemental, se tiver acúmulos de \"Ondulação\", consumirá os acúmulos existentes e obterá \"Maremoto\", cada acúmulo consumido aumenta o Dano do Ataque Normal em {color}35{/color}% por 8s.",
+        "Obtém {color}24{/color}% de bônus de Dano de todos os elementos. Quando os outros personagens da equipe usam Habilidades Elementais, gerarão um acúmulo do efeito \"Ondulação\" para o personagem que tem esta arma equipada. Esse efeito é acumulável no máximo 2 vezes e pode ser desencadeado uma vez a cada 0.3s. Quando o personagem que tiver esta arma equipada lançar sua Habilidade Elemental, se tiver acúmulos de \"Ondulação\", consumirá os acúmulos existentes e obterá \"Maremoto\", cada acúmulo consumido aumenta o Dano do Ataque Normal em {color}40{/color}% por 8s."
+      ]
+    },
+    {
       "key": "harbinger-of-dawn",
       "name": "Prenúncio do Alvorecer",
       "description": "Uma espada que, uma vez, brilhou como o sol. O portador desta espada será abençoado com um bônus de \"boa sensação\". O material refletivo em sua lâmina já se desgastou há muito tempo.",
@@ -7537,6 +8308,14 @@
         "6s após ao causar Dano Elemental, aumenta todos os Danos em {color}9{/color}%. Este efeito pode acumular até 2 vezes e pode ser ativado uma vez a cada 1s.",
         "6s após ao causar Dano Elemental, aumenta todos os Danos em {color}10.5{/color}%. Este efeito pode acumular até 2 vezes e pode ser ativado uma vez a cada 1s.",
         "6s após ao causar Dano Elemental, aumenta todos os Danos em {color}12{/color}%. Este efeito pode acumular até 2 vezes e pode ser ativado uma vez a cada 1s."
+      ]
+    },
+    {
+      "key": "kagotsurube-isshin",
+      "name": "Kagotsurube Isshin",
+      "description": "Esta lâmina famosa foi forjada em uma nação distante do norte. Contudo, o nome \"Isshin\" foi manchado com muitos atos sombrios em sua jornada para casa.",
+      "refinements": [
+        "Quando um Ataque Normal, Ataque Carregado ou Ataque Imersivo atinge um inimigo, criará Vento Cortador, que infligirá Dano em AdE equivalente a 180% do ATQ e aumenta o ATQ em 15% por 8s. Esse efeito pode ser desencadeado uma vez a cada 8s."
       ]
     },
     {
@@ -8457,7 +9236,8 @@
         "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}16{/color}% por 6s.",
         "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}20{/color}% por 6s.",
         "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}24{/color}% por 6s.",
-        "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}28{/color}% por 6s."
+        "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}28{/color}% por 6s.",
+        "Ao lançar uma Habilidade Elemental, se obtém o desejo antigo da Flor do Vento, e o Ataque aumenta {color}32{/color}% por 6s."
       ]
     },
     {
@@ -8548,6 +9328,14 @@
       "bonus": [
         "DEF +30%",
         "Aumenta a própria RES do respectivo elemento em 30% para cada elemento diferente dos seus personagens da equipe."
+      ]
+    },
+    {
+      "key": "echoes-of-an-offering",
+      "name": "Eco do Sacrifício",
+      "bonus": [
+        "ATQ +18%.",
+        "Quando o Ataque Normal atinge um inimigo, tem 36% de chance de ativar o Rito do Vale o Ataque Normal aumenta o Dano e o valor de aumento é 70% do ATQ. Esse efeito desaparece nos 0.05s após o Ataque Normal causar dano. Quando o Ataque Normal não ativar o Rito do Vale, aumenta a probabilidade em 20% no próximo lançamento. Essa ativação pode ocorrer 1 vez a cada 0.2s."
       ]
     },
     {
@@ -8760,6 +9548,14 @@
       "bonus": [
         "Aumenta o efeito de cura em 20%.",
         "Após usar o Supremo, restaura 20% de Vida."
+      ]
+    },
+    {
+      "key": "vermillion-hereafter",
+      "name": "Além-vida Cinábrio",
+      "bonus": [
+        "ATQ +18%.",
+        "Depois do Supremo ser usado, será desencadeado o efeito de \"Luz Nascente\" por 16s o ATQ será aumentado em 8% e quando a Vida do personagem diminuir, o ATQ aumentará mais 10%. Esse aumento pode ocorrer desta forma no máximo 4 vezes, e pode ser desencadeado 1 vez a cada 0.8s. O efeito de \"Luz Nascente\" desaparece quando o personagem sai do campo de batalha. Quando o personagem lança novamente o Supremo durante o efeito, o efeito original de \"Luz Nascente\" será removido."
       ]
     },
     {
@@ -9851,6 +10647,11 @@
       "description": "Condensado de gelo vindo do corpo do Grande Lobo do Vento do Norte.\r\nNeste pedaço de terra, soprou-se o vento do norte congelante. O gelo e a neve rasgam a pele, deixando o sangue se condensar. Embora a força do Grande Lobo do Vento do Norte não seja tão boa quanto costumava ser, ele ainda possui o poder de congelar a terra."
     },
     {
+      "key": "runic-fang",
+      "name": "Presa Rúnica",
+      "description": "Uma \"presa\" que o mecanismo misterioso antigo em forma de serpente usou para escavar até as profundezas das montanhas. Há algumas runas sinistras esculpidas nela.\r\nDizem que serpentes gigantes espreitam nas fissuras sombrias das profundezas. Queimando com o eterno ressentimento e malícia em direção ao mundo de cima, elas cavam imensos túneis, mas ninguém sabe quais são seus reais propósitos maliciosos..."
+    },
+    {
       "key": "sakura-bloom",
       "name": "Flor Sakura",
       "description": "Flores de Sakura Sagrada no Grande Santuário Narukami, exalando a afeição por Inazuma."
@@ -10428,6 +11229,10 @@
       "name": "Azhdaha"
     },
     {
+      "key": "black-serpent-knight-windcutter",
+      "name": "Cavaleiro da Serpente Negra - Quebra-Vento"
+    },
+    {
       "key": "blazing-axe-mitachurl",
       "name": "Mitachurl do Machado Ardente"
     },
@@ -10449,7 +11254,7 @@
     },
     {
       "key": "cryo-abyss-mage",
-      "name": "Mago do Abismo Cryo"
+      "name": "Feiticeiro do Abismo Cryo"
     },
     {
       "key": "cryo-cicin",
@@ -10572,6 +11377,10 @@
       "name": "Soldado dos Fatui - Guerrilheiro de Canhão Pyro"
     },
     {
+      "key": "floating-hydro-fungus",
+      "name": "Cogumelo Flutuante Hydro"
+    },
+    {
       "key": "frostarm-lawachurl",
       "name": "Lawachurl dos Braços Congelantes"
     },
@@ -10661,7 +11470,7 @@
     },
     {
       "key": "hydro-mimic-mallard",
-      "name": "Pato-real Fantasma - Hydro"
+      "name": "Pato-real Ilusório - Hydro"
     },
     {
       "key": "hydro-mimic-raptor",
@@ -10890,6 +11699,10 @@
     {
       "key": "ruin-scout",
       "name": "Batedor das Ruínas"
+    },
+    {
+      "key": "ruin-serpent",
+      "name": "Serpente das Ruínas"
     },
     {
       "key": "sangonomiya-cohort",

@@ -1,14 +1,17 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shiori/domain/app_constants.dart';
 import 'package:shiori/domain/assets.dart';
 import 'package:shiori/domain/enums/enums.dart';
+import 'package:shiori/domain/extensions/double_extensions.dart';
 import 'package:shiori/domain/extensions/string_extensions.dart';
 import 'package:shiori/domain/models/models.dart';
 import 'package:shiori/domain/services/genshin_service.dart';
 import 'package:shiori/domain/services/locale_service.dart';
+import 'package:shiori/domain/utils/date_utils.dart';
 
 class GenshinServiceImpl implements GenshinService {
   final LocaleService _localeService;
@@ -22,6 +25,7 @@ class GenshinServiceImpl implements GenshinService {
   late MonstersFile _monstersFile;
   late GadgetsFile _gadgetsFile;
   late FurnitureFile _furnitureFile;
+  late BannerHistoryFile _bannerHistoryFile;
 
   GenshinServiceImpl(this._localeService);
 
@@ -36,6 +40,7 @@ class GenshinServiceImpl implements GenshinService {
       initMonsters(),
       initGadgets(),
       initFurniture(),
+      initBannerHistory(),
       initTranslations(languageType),
     ]);
   }
@@ -105,6 +110,13 @@ class GenshinServiceImpl implements GenshinService {
   }
 
   @override
+  Future<void> initBannerHistory() async {
+    final jsonStr = await rootBundle.loadString(Assets.bannerHistoryDbPath);
+    final json = jsonDecode(jsonStr) as Map<String, dynamic>;
+    _bannerHistoryFile = BannerHistoryFile.fromJson(json);
+  }
+
+  @override
   Future<void> initTranslations(AppLanguageType languageType) async {
     final transJsonStr = await rootBundle.loadString(Assets.getTranslationPath(languageType));
     final transJson = jsonDecode(transJsonStr) as Map<String, dynamic>;
@@ -119,22 +131,6 @@ class GenshinServiceImpl implements GenshinService {
   @override
   CharacterFileModel getCharacter(String key) {
     return _charactersFile.characters.firstWhere((element) => element.key == key);
-  }
-
-  @override
-  List<CharacterFileModel> getCharactersForBirthday(DateTime date) {
-    return _charactersFile.characters.where((char) {
-      if (char.isComingSoon) {
-        return false;
-      }
-
-      if (char.birthday.isNullEmptyOrWhitespace) {
-        return false;
-      }
-
-      final charBirthday = _localeService.getCharBirthDate(char.birthday);
-      return charBirthday.day == date.day && charBirthday.month == date.month;
-    }).toList();
   }
 
   @override
@@ -800,6 +796,444 @@ class GenshinServiceImpl implements GenshinService {
     return sorted.map((e) => e.key).toList();
   }
 
+  @override
+  List<double> getBannerHistoryVersions(SortDirectionType type) {
+    final versions = _bannerHistoryFile.banners.map((el) => el.version).toSet().toList();
+    switch (type) {
+      case SortDirectionType.asc:
+        return versions..sort((x, y) => x.compareTo(y));
+      case SortDirectionType.desc:
+        return versions..sort((x, y) => y.compareTo(x));
+    }
+  }
+
+  @override
+  List<BannerHistoryItemModel> getBannerHistory(BannerHistoryItemType type) {
+    final banners = <BannerHistoryItemModel>[];
+    final itemVersionsMap = <String, List<double>>{};
+    final allVersions = getBannerHistoryVersions(SortDirectionType.asc);
+    final filteredBanners = _bannerHistoryFile.banners.where((el) => el.type == type).toList();
+
+    for (final banner in filteredBanners) {
+      for (final key in banner.itemKeys) {
+        final alreadyAdded = banners.any((el) => el.key == key);
+        switch (banner.type) {
+          case BannerHistoryItemType.character:
+            if (!alreadyAdded) {
+              final char = getCharacterForCard(key);
+              final item = BannerHistoryItemModel(
+                versions: [],
+                image: char.image,
+                name: char.name,
+                key: key,
+                type: banner.type,
+                rarity: char.stars,
+              );
+              banners.add(item);
+            }
+            break;
+          case BannerHistoryItemType.weapon:
+            if (!alreadyAdded) {
+              final weapon = getWeaponForCard(key);
+              final bannerItem = BannerHistoryItemModel(
+                versions: [],
+                image: weapon.image,
+                name: weapon.name,
+                key: key,
+                type: banner.type,
+                rarity: weapon.rarity,
+              );
+              banners.add(bannerItem);
+            }
+            break;
+          default:
+            throw Exception('The provided banner type = ${banner.type} is not mapped');
+        }
+
+        if (!alreadyAdded) {
+          itemVersionsMap[key] = [banner.version];
+        } else {
+          itemVersionsMap.update(key, (value) => [...value, banner.version]);
+        }
+      }
+    }
+
+    for (var i = 0; i < banners.length; i++) {
+      final current = banners[i];
+      final values = itemVersionsMap.entries.firstWhere((el) => el.key == current.key).value;
+      final updated = current.copyWith.call(versions: _getBannerVersionsForItem(allVersions, values));
+      banners.removeAt(i);
+      banners.insert(i, updated);
+    }
+
+    return banners;
+  }
+
+  @override
+  List<BannerHistoryPeriodModel> getBanners(double version) {
+    if (version < getBannerHistoryVersions(SortDirectionType.asc).first) {
+      throw Exception('Version = $version is not valid');
+    }
+    final banners = _bannerHistoryFile.banners
+        .where((el) => el.version == version)
+        .map(
+          (e) => BannerHistoryPeriodModel(
+            from: e.from,
+            until: e.until,
+            type: e.type,
+            version: e.version,
+            items: e.itemKeys.map((key) {
+              String? imagePath;
+              int? rarity;
+              ItemType? type;
+              switch (e.type) {
+                case BannerHistoryItemType.character:
+                  final character = getCharacter(key);
+                  rarity = character.rarity;
+                  imagePath = character.fullImagePath;
+                  type = ItemType.character;
+                  break;
+                case BannerHistoryItemType.weapon:
+                  final weapon = getWeapon(key);
+                  rarity = weapon.rarity;
+                  imagePath = weapon.fullImagePath;
+                  type = ItemType.weapon;
+                  break;
+                default:
+                  throw Exception('Banner history item type = ${e.type} is not valid');
+              }
+              return ItemCommonWithRarityAndType(key, imagePath, rarity, type);
+            }).toList(),
+          ),
+        )
+        .toList()
+      ..sort((x, y) => x.from.compareTo(y.from));
+
+    return banners;
+  }
+
+  @override
+  List<ItemReleaseHistoryModel> getItemReleaseHistory(String itemKey) {
+    final history = _bannerHistoryFile.banners
+        .where((el) => el.itemKeys.contains(itemKey))
+        .map((e) => ItemReleaseHistoryModel(version: e.version, dates: [ItemReleaseHistoryDatesModel(from: e.from, until: e.until)]))
+        .toList();
+
+    if (history.isEmpty) {
+      throw Exception('There is no banner history associated to itemKey = $itemKey');
+    }
+    return history.groupListsBy((el) => el.version).entries.map((e) {
+      //with the multi banners, we need to group the dates to avoid showing up repeated ones
+      final dates = e.value
+          .expand((el) => el.dates)
+          .groupListsBy((d) => '${d.from}__${d.until}')
+          .values
+          .map((e) => ItemReleaseHistoryDatesModel(from: e.first.from, until: e.first.until))
+          .toList();
+      return ItemReleaseHistoryModel(version: e.key, dates: dates);
+    }).toList()
+      ..sort((x, y) => x.version.compareTo(y.version));
+  }
+
+  @override
+  List<ChartTopItemModel> getTopCharts(ChartType type) {
+    final fiveStars = [
+      ChartType.topFiveStarCharacterMostReruns,
+      ChartType.topFiveStarCharacterLeastReruns,
+      ChartType.topFiveStarWeaponMostReruns,
+      ChartType.topFiveStarWeaponLeastReruns,
+    ];
+    final stars = fiveStars.contains(type) ? 5 : 4;
+
+    final mostRerunsTypes = [
+      ChartType.topFiveStarCharacterMostReruns,
+      ChartType.topFourStarCharacterMostReruns,
+      ChartType.topFiveStarWeaponMostReruns,
+      ChartType.topFourStarWeaponMostReruns,
+    ];
+    final mostReruns = mostRerunsTypes.contains(type);
+
+    switch (type) {
+      case ChartType.topFiveStarCharacterMostReruns:
+      case ChartType.topFourStarCharacterMostReruns:
+      case ChartType.topFiveStarCharacterLeastReruns:
+      case ChartType.topFourStarCharacterLeastReruns:
+        final characters = getCharactersForCard().where((el) => el.stars == stars).map((e) => ItemCommonWithName(e.key, e.image, e.name)).toList();
+        return _getTopCharts(mostReruns, type, BannerHistoryItemType.character, characters);
+      case ChartType.topFiveStarWeaponMostReruns:
+      case ChartType.topFourStarWeaponMostReruns:
+      case ChartType.topFiveStarWeaponLeastReruns:
+      case ChartType.topFourStarWeaponLeastReruns:
+        final weapons = getWeaponsForCard().where((el) => el.rarity == stars).map((e) => ItemCommonWithName(e.key, e.image, e.name)).toList();
+        return _getTopCharts(mostReruns, type, BannerHistoryItemType.weapon, weapons);
+      default:
+        throw Exception('Type = $type is not valid in the getTopCharts method');
+    }
+  }
+
+  @override
+  List<ChartBirthdayMonthModel> getCharacterBirthdaysForCharts() {
+    final grouped = _charactersFile.characters
+        .where((char) => !char.isComingSoon && !char.birthday.isNullEmptyOrWhitespace)
+        .groupListsBy((char) => _localeService.getCharBirthDate(char.birthday).month)
+        .entries;
+
+    final birthdays = grouped
+        .map(
+          (e) => ChartBirthdayMonthModel(
+            month: e.key,
+            items: e.value.map((e) {
+              final translation = getCharacterTranslation(e.key);
+              return ItemCommonWithName(e.key, e.fullImagePath, translation.name);
+            }).toList(),
+          ),
+        )
+        .toList()
+      ..sort((x, y) => x.month.compareTo(y.month));
+
+    assert(birthdays.length == 12, 'Birthday items for chart should not be empty and must be equal to 12');
+
+    return birthdays;
+  }
+
+  @override
+  List<ChartElementItemModel> getElementsForCharts(double fromVersion, double untilVersion) {
+    final allVersions = getBannerHistoryVersions(SortDirectionType.asc);
+    if (fromVersion < allVersions.first) {
+      throw Exception('The fromVersion = $fromVersion is not valid');
+    }
+
+    if (untilVersion > allVersions.last) {
+      throw Exception('The untilVersion = $untilVersion is not valid');
+    }
+
+    if (fromVersion > untilVersion) {
+      throw Exception('The fromVersion = $fromVersion cannot be greater than untilVersion = $untilVersion');
+    }
+
+    final banners = _bannerHistoryFile.banners
+        .where((el) => el.type == BannerHistoryItemType.character && el.version >= fromVersion && el.version <= untilVersion)
+        .toList()
+      ..sort((x, y) => x.version.compareTo(y.version));
+    final charts = <ChartElementItemModel>[];
+    final characters = getCharactersForCard();
+    final usedChars = <double, List<String>>{};
+    const double incrementY = 1;
+
+    for (final banner in banners) {
+      for (final key in banner.itemKeys) {
+        final bannerHasAlreadyBeenAdded = usedChars.containsKey(banner.version);
+        final characterAlreadyAppearedInThisBanner = usedChars.entries.any((el) => el.key == banner.version && el.value.contains(key));
+        if (!bannerHasAlreadyBeenAdded) {
+          usedChars.putIfAbsent(banner.version, () => [key]);
+        } else if (characterAlreadyAppearedInThisBanner) {
+          continue;
+        } else {
+          usedChars.update(banner.version, (value) => [...value, key]);
+        }
+
+        final char = characters.firstWhere((el) => el.key == key);
+        final existing = charts.firstWhereOrNull((el) => el.type == char.elementType);
+        final points = existing?.points ?? [];
+        final existingPoint = points.firstWhereOrNull((el) => el.x == banner.version);
+        final newPoint = existingPoint != null
+            ? Point<double>(existingPoint.x, (existingPoint.y + incrementY).truncateToDecimalPlaces())
+            : Point<double>(banner.version, incrementY);
+
+        if (existing == null) {
+          final newItem = ChartElementItemModel(type: char.elementType, points: [newPoint]);
+          charts.add(newItem);
+          continue;
+        }
+
+        if (existingPoint != null) {
+          final index = points.indexOf(existingPoint);
+          points.removeAt(index);
+          points.insert(index, newPoint);
+        } else {
+          points.add(newPoint);
+        }
+        final updated = existing.copyWith.call(points: points);
+        final index = charts.indexOf(existing);
+        charts.removeAt(index);
+        charts.insert(index, updated);
+      }
+    }
+
+    double from = fromVersion;
+    while (from <= untilVersion) {
+      for (final chart in charts) {
+        if (!chart.points.any((el) => el.x == from)) {
+          chart.points.add(Point<double>(from, 0));
+        }
+      }
+      from = (from + gameVersionIncrementsBy).truncateToDecimalPlaces();
+    }
+
+    for (final chart in charts) {
+      chart.points.sort((x, y) => x.x.compareTo(y.x));
+    }
+
+    assert(charts.isNotEmpty, 'Element chart items must not be empty');
+
+    return charts..sort((x, y) => x.type.index.compareTo(y.type.index));
+  }
+
+  @override
+  List<ChartAscensionStatModel> getItemAscensionStatsForCharts(ItemType itemType) {
+    if (itemType != ItemType.character && itemType != ItemType.weapon) {
+      throw Exception('ItemType = $itemType is not Not supported');
+    }
+
+    final stats = itemType == ItemType.character ? getCharacterPossibleAscensionStats() : getWeaponPossibleAscensionStats();
+    return stats.map(
+      (stat) {
+        final count = itemType == ItemType.character
+            ? _charactersFile.characters.where((el) => !el.isComingSoon && el.subStatType == stat).length
+            : _weaponsFile.weapons.where((el) => !el.isComingSoon && el.secondaryStat == stat).length;
+        return ChartAscensionStatModel(type: stat, itemType: itemType, quantity: count);
+      },
+    ).toList()
+      ..sort((x, y) => y.quantity.compareTo(x.quantity));
+  }
+
+  @override
+  List<ChartCharacterRegionModel> getCharacterRegionsForCharts() {
+    return RegionType.values.where((el) => el != RegionType.anotherWorld).map((type) {
+      final quantity = _charactersFile.characters.where((el) => !el.isComingSoon && el.region == type).length;
+      return ChartCharacterRegionModel(regionType: type, quantity: quantity);
+    }).toList()
+      ..sort((x, y) => y.quantity.compareTo(x.quantity));
+  }
+
+  @override
+  List<ChartGenderModel> getCharacterGendersForCharts() =>
+      RegionType.values.where((el) => el != RegionType.anotherWorld).map((e) => getCharacterGendersByRegionForCharts(e)).toList()
+        ..sort((x, y) => y.maxCount.compareTo(x.maxCount));
+
+  @override
+  ChartGenderModel getCharacterGendersByRegionForCharts(RegionType regionType) {
+    if (regionType == RegionType.anotherWorld) {
+      throw Exception('Another world is not supported');
+    }
+
+    final characters = _charactersFile.characters.where((el) => !el.isComingSoon && el.region == regionType).toList();
+    final maleCount = characters.where((el) => !el.isFemale).length;
+    final femaleCount = characters.where((el) => el.isFemale).length;
+    return ChartGenderModel(regionType: regionType, maleCount: maleCount, femaleCount: femaleCount, maxCount: max(maleCount, femaleCount));
+  }
+
+  @override
+  List<ItemCommonWithName> getCharactersForItemsByRegion(RegionType regionType) {
+    if (regionType == RegionType.anotherWorld) {
+      throw Exception('Another world is not supported');
+    }
+
+    return _charactersFile.characters.where((el) => !el.isComingSoon && el.region == regionType).map((e) {
+      final char = getCharacterForCard(e.key);
+      return ItemCommonWithName(e.key, char.image, char.name);
+    }).toList()
+      ..sort((x, y) => x.name.compareTo(y.name));
+  }
+
+  @override
+  List<ItemCommonWithName> getCharactersForItemsByRegionAndGender(RegionType regionType, bool onlyFemales) {
+    if (regionType == RegionType.anotherWorld) {
+      throw Exception('Another world is not supported');
+    }
+
+    return _charactersFile.characters.where((el) => !el.isComingSoon && el.region == regionType && el.isFemale == onlyFemales).map((e) {
+      final char = getCharacterForCard(e.key);
+      return ItemCommonWithName(e.key, char.image, char.name);
+    }).toList()
+      ..sort((x, y) => x.name.compareTo(y.name));
+  }
+
+  @override
+  List<CharacterBirthdayModel> getCharacterBirthdays({int? month, int? day}) {
+    if (month == null && day == null) {
+      throw Exception('You must provide a month, day or both');
+    }
+
+    if (month != null && (month < DateTime.january || month > DateTime.december)) {
+      throw Exception('The provided month = $month is not valid');
+    }
+
+    if (day != null && day <= 0) {
+      throw Exception('The provided day = $day is not valid');
+    }
+
+    if (day != null && month != null) {
+      final lastDay = DateUtils.getLastDayOfMonth(month);
+      if (day > lastDay) {
+        throw Exception('The provided day = $day is not valid for month = $month');
+      }
+    }
+
+    return _charactersFile.characters.where((char) {
+      if (char.isComingSoon) {
+        return false;
+      }
+
+      if (char.birthday.isNullEmptyOrWhitespace) {
+        return false;
+      }
+
+      final charBirthday = _localeService.getCharBirthDate(char.birthday);
+      if (month != null && day != null) {
+        return charBirthday.month == month && charBirthday.day == day;
+      }
+      if (month != null) {
+        return charBirthday.month == month;
+      }
+      if (day != null) {
+        return charBirthday.day == day;
+      }
+
+      return true;
+    }).map((e) {
+      final char = getCharacterForCard(e.key);
+      final birthday = _localeService.getCharBirthDate(e.birthday, useCurrentYear: true);
+      final now = DateTime.now();
+      final nowFromZero = DateTime(now.year, now.month, now.day);
+      return CharacterBirthdayModel(
+        key: e.key,
+        name: char.name,
+        image: char.image,
+        birthday: birthday,
+        birthdayString: e.birthday!,
+        daysUntilBirthday: nowFromZero.difference(birthday).inDays.abs(),
+      );
+    }).toList()
+      ..sort((x, y) => x.daysUntilBirthday.compareTo(y.daysUntilBirthday));
+  }
+
+  @override
+  List<ItemCommonWithName> getItemsAscensionStats(StatType statType, ItemType itemType) {
+    final items = <ItemCommonWithName>[];
+    switch (itemType) {
+      case ItemType.character:
+        items.addAll(
+          _charactersFile.characters.where((el) => el.subStatType == statType && !el.isComingSoon).map((e) {
+            final translation = getCharacterTranslation(e.key);
+            return ItemCommonWithName(e.key, e.fullImagePath, translation.name);
+          }).toList(),
+        );
+        break;
+      case ItemType.weapon:
+        items.addAll(
+          _weaponsFile.weapons.where((el) => el.secondaryStat == statType && !el.isComingSoon).map((e) {
+            final translation = getWeaponTranslation(e.key);
+            return ItemCommonWithName(e.key, e.fullImagePath, translation.name);
+          }).toList(),
+        );
+        break;
+      default:
+        throw Exception('Invalid itemType = $itemType');
+    }
+    return items..sort((x, y) => x.name.compareTo(y.name));
+  }
+
   CharacterCardModel _toCharacterForCard(CharacterFileModel character) {
     final translation = getCharacterTranslation(character.key);
 
@@ -833,6 +1267,7 @@ class GenshinServiceImpl implements GenshinService {
       isNew: character.isNew,
       roleType: character.role,
       regionType: character.region,
+      subStatType: character.subStatType,
     );
   }
 
@@ -895,5 +1330,67 @@ class GenshinServiceImpl implements GenshinService {
       type: monster.type,
       isComingSoon: monster.isComingSoon,
     );
+  }
+
+  List<BannerHistoryItemVersionModel> _getBannerVersionsForItem(List<double> allVersions, List<double> releasedOn) {
+    final history = <BannerHistoryItemVersionModel>[];
+    int number = 0;
+    for (var i = 0; i < allVersions.length; i++) {
+      final current = allVersions[i];
+      final released = releasedOn.contains(current);
+      final notReleasedYet = releasedOn.every((e) => current < e);
+      if (notReleasedYet) {
+        history.add(BannerHistoryItemVersionModel(version: current, number: 0, released: false));
+      } else if (!released) {
+        number++;
+        history.add(BannerHistoryItemVersionModel(version: current, number: number, released: false));
+      } else {
+        history.add(BannerHistoryItemVersionModel(version: current, released: true));
+        number = 0;
+      }
+    }
+    return history;
+  }
+
+  List<ChartTopItemModel> _getTopCharts(bool mostReruns, ChartType type, BannerHistoryItemType bannerType, List<ItemCommonWithName> items) {
+    final selected = _bannerHistoryFile.banners
+        .where((el) => el.type == bannerType)
+        .expand((el) => el.itemKeys)
+        .groupListsBy((el) => el)
+        .entries
+        .map((g) {
+          final element = items.firstWhereOrNull((el) => el.key == g.key);
+          if (element == null) {
+            return null;
+          }
+          return ItemCommonWithQuantity(g.key, element.image, g.value.length);
+        })
+        .where((el) => el != null)
+        .map((e) => e!)
+        .toList();
+
+    if (mostReruns) {
+      selected.sort((x, y) => y.quantity.compareTo(x.quantity));
+    } else {
+      selected.sort((x, y) => x.quantity.compareTo(y.quantity));
+    }
+
+    assert(selected.isNotEmpty, 'The selected item list should not be empty');
+    assert(selected.length >= 5, 'There should be at least 5 top items');
+
+    final tops = selected.take(5).toList();
+    final total = tops.map((e) => e.quantity).sum;
+
+    return tops
+        .map(
+          (e) => ChartTopItemModel(
+            key: e.key,
+            name: items.firstWhere((el) => el.key == e.key).name,
+            type: type,
+            value: e.quantity,
+            percentage: (e.quantity * 100 / total).truncateToDecimalPlaces(fractionalDigits: 2),
+          ),
+        )
+        .toList();
   }
 }

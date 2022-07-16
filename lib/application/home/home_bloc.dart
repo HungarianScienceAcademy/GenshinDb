@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shiori/domain/assets.dart';
 import 'package:shiori/domain/models/models.dart';
 import 'package:shiori/domain/services/genshin_service.dart';
 import 'package:shiori/domain/services/locale_service.dart';
@@ -34,14 +33,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   HomeState _buildInitialState(int day) {
+    final now = DateTime.now();
     final charMaterials = _genshinService.getCharacterAscensionMaterials(day);
     final weaponMaterials = _genshinService.getWeaponAscensionMaterials(day);
-    final charsForBirthday = _genshinService
-        .getCharactersForBirthday(DateTime.now())
-        .map(
-          (e) => ItemCommon(e.key, Assets.getCharacterPath(e.image)),
-        )
-        .toList();
+    final charsForBirthday = _genshinService.getCharacterBirthdays(month: now.month, day: now.day).map((e) => ItemCommon(e.key, e.image)).toList();
     final dayName = _localeService.getDayNameFromDay(day);
 
     return HomeState.loaded(

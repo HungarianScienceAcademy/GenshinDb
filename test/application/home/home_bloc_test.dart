@@ -72,6 +72,10 @@ void main() {
           expect(material.days.every((day) => _expectedDays.contains(day)), isTrue);
           checkItemsCommon(material.weapons);
         }
+
+        for (final birthday in state.characterImgBirthday) {
+          checkItemKeyAndImage(birthday.key, birthday.image);
+        }
       },
     );
   }
@@ -128,7 +132,8 @@ void main() {
         loaded: (state) {
           final charMaterials = _genshinService.getCharacterAscensionMaterials(day);
           final weaponMaterials = _genshinService.getWeaponAscensionMaterials(day);
-          final charsForBirthday = _genshinService.getCharactersForBirthday(DateTime.now());
+          final now = DateTime.now();
+          final charsForBirthday = _genshinService.getCharacterBirthdays(month: now.month, day: now.day);
           _checkState(state, AppServerResetTimeType.northAmerica, checkServerDate: false);
           expect(state.charAscMaterials.length, charMaterials.length);
           expect(state.weaponAscMaterials.length, weaponMaterials.length);

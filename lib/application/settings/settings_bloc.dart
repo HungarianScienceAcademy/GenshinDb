@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shiori/application/bloc.dart';
 import 'package:shiori/domain/enums/enums.dart';
 import 'package:shiori/domain/services/device_info_service.dart';
+import 'package:shiori/domain/services/purchase_service.dart';
 import 'package:shiori/domain/services/settings_service.dart';
-
-import '../bloc.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_event.dart';
@@ -16,12 +16,14 @@ part 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SettingsService _settingsService;
   final DeviceInfoService _deviceInfoService;
+  final PurchaseService _purchaseService;
   final MainBloc _mainBloc;
   final HomeBloc _homeBloc;
 
   SettingsBloc(
     this._settingsService,
     this._deviceInfoService,
+    this._purchaseService,
     this._mainBloc,
     this._homeBloc,
   ) : super(const SettingsState.loading());
@@ -35,8 +37,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final s = await event.map(
       init: (_) async {
         final settings = _settingsService.appSettings;
+        final features = await _purchaseService.getUnlockedFeatures();
         return SettingsState.loaded(
           currentTheme: settings.appTheme,
+          useDarkAmoledTheme: settings.useDarkAmoled,
           currentAccentColor: settings.accentColor,
           currentLanguage: settings.appLanguage,
           appVersion: _deviceInfoService.version,
@@ -46,6 +50,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           doubleBackToClose: settings.doubleBackToClose,
           useOfficialMap: settings.useOfficialMap,
           useTwentyFourHoursFormat: settings.useTwentyFourHoursFormat,
+          unlockedFeatures: features,
         );
       },
       themeChanged: (event) async {
@@ -55,6 +60,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         _settingsService.appTheme = event.newValue;
         _mainBloc.add(MainEvent.themeChanged(newValue: event.newValue));
         return currentState.copyWith.call(currentTheme: event.newValue);
+      },
+      useDarkAmoledTheme: (event) async {
+        if (event.newValue == _settingsService.useDarkAmoledTheme) {
+          return currentState;
+        }
+        _settingsService.useDarkAmoledTheme = event.newValue;
+        _mainBloc.add(MainEvent.useDarkAmoledThemeChanged(newValue: event.newValue));
+        return currentState.copyWith.call(useDarkAmoledTheme: event.newValue);
       },
       accentColorChanged: (event) async {
         if (event.newValue == _settingsService.accentColor) {

@@ -1146,6 +1146,93 @@
       ]
     },
     {
+      "key": "collei",
+      "name": "Collei",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "diluc",
       "name": "Diluc",
       "title": "Dunkle Seite der Dämmerung",
@@ -1417,6 +1504,93 @@
             "Erhöht den passiven Heilungsbonus bei bis zu 50 % LP um 30 %.",
             "Erhöht die Elementarkunde bei mehr als 50 % LP um 200 Punkte."
           ]
+        }
+      ]
+    },
+    {
+      "key": "dori",
+      "name": "Dori",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
         }
       ]
     },
@@ -2735,81 +2909,136 @@
       "skills": [
         {
           "key": "s1",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "Kamisato-Stil – Marobashi",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Standardangriff",
+              "description": "Führt bis zu 5 Schwerthiebe hintereinander aus.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Heftiger Schlag",
+              "description": "Verbraucht eine gewisse Menge Ausdauer, um vorwärts zu stürmen und einen Iai auszuführen.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Angriff aus dem Fall",
+              "description": "Schlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "SCH Phase 1|{param1}%",
+            "SCH Phase 2|{param2}%",
+            "SCH Phase 3|{param3}%",
+            "SCH Phase 4|{param4}%×{param5}",
+            "SCH Phase 5|{param6}%",
+            "Heftige Schläge|{param7}%",
+            "Ausdauerverbrauch heftiger Schläge|{param8}",
+            "SCH beim Fallen|{param9}%",
+            "SCH beim Fallen aus niedriger/großer Höhe|{param10}% / {param11}%"
+          ]
         },
         {
           "key": "s2",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "Kamisato-Stil – Kyouka",
+          "description": "Kamisato Ayato wechselt seine Position und tritt in den Zustand „Takimeguri Kanka“ ein.\r\nHinterlässt danach eine „Wasserillusion“ an seinem ursprünglichen Standort. Sobald sie geformt ist, explodiert die Wasserillusion, wenn Gegner in der Nähe sind, oder nach einer bestimmten Zeit und verursacht Hydro-Flächenschaden.\r\n",
+          "abilities": [
+            {
+              "name": "Takimeguri Kanka",
+              "description": "In diesem Zustand setzt Kamisato Ayato sein Shunsuiken ein, um blitzschnelle Angriffe auszuführen, wodurch der mit seinen Standardangriffen verursachte Schaden in Hydro-Flächenschaden, der nicht von anderen Elementen überdeckt werden kann, umgewandelt wird.\r\nHat außerdem folgende Effekte:\r\n",
+              "descriptions": [
+                "Gewährt Ayato, nachdem ein Shunsuiken-Angriff Gegner getroffen hat, den Effekt Namisen, der den von Shunsuiken verursachten Schaden basierend auf Ayatos aktuellen max. LP erhöht. Namisen-Effekt anfänglich 4-fach stapelbar, höchstens 1 Stapelung alle 0,1 s durch Shunsuiken zu erhalten. Dieser Effekt erlischt, wenn Takimeguri Kanka endet.",
+                "Erhöht den Unterbrechungs-WDS von Kamisato Ayato.",
+                "Kann keinen heftigen Schlag oder Angriff aus dem Fall ausführen.",
+                "Takimeguri Kanka erlischt, wenn Ayato ausgewechselt wird, sowie bei Anwendung von Kamisato-Stil – Kyouka im bereits bestehenden Zustand Takimeguri Kanka."
+              ]
+            }
+          ],
+          "stats": [
+            "Shunsuiken-SCH Phase 1|{param1}%",
+            "Shunsuiken-SCH Phase 2|{param2}%",
+            "Shunsuiken-SCH Phase 3|{param3}%",
+            "Dauer von Takimeguri Kanka|{param4}s",
+            "ANG-Bonus von Namisen|{param5}%Max HP / Stack",
+            "Wasserillusions-SCH|{param6}%",
+            "Wasserillusions-Dauer|{param7}s",
+            "Abklingzeit|{param8}s"
+          ]
         },
         {
           "key": "s3",
-          "title": "NA",
-          "description": null,
+          "title": "Kamisato-Stil – Suiyuu",
+          "description": "Erschafft einen Garten der Reinheit, der jeglichen Lärm in seinem Inneren auslöscht.\r\nLässt während der Wirkungsdauer fortlaufend Wasserblütenklingen fallen, die Gegner im Wirkungsbereich angreifen und ihnen Hydro-Schaden zufügen, und erhöht den mit Standardangriffen der Figuren im Wirkungsbereich verursachten Schaden.\r\n",
           "abilities": [],
-          "stats": []
+          "stats": [
+            "Wasserblütenklingen-SCH|{param1}%",
+            "SCH-Bonus für Standardangriffe|{param2}%",
+            "Dauer|{param3}s",
+            "Abklingzeit|{param4}s",
+            "Elementarenergie|{param5}"
+          ]
         }
       ],
       "passives": [
         {
           "key": "p1",
-          "title": "NA",
-          "description": "",
+          "title": "Kamisato-Stil – Alltägliche Gerichte",
+          "description": "Stellt bei der perfekten Zubereitung von Gerichten mit einer Wahrscheinlichkeit von 18 % zusätzlich die misslungene Variante des jeweiligen Gerichts her.\r\n",
           "descriptions": []
         },
         {
           "key": "p2",
-          "title": "NA",
-          "description": "",
-          "descriptions": []
+          "title": "Kamisato-Stil – Mine Wo Matoishi Kiyotaki",
+          "description": "Kamisato-Stil – Kyouka löst folgende Effekte aus:\r\n",
+          "descriptions": [
+            "Kamisato Ayato erhält beim Auslösen 2 Stapelungen des Effekts Namisen.",
+            "Wenn die Wasserillusion explodiert, erhält Ayato eine Menge an Stapelungen des Effekts Namisen, die der höchstmöglichen Anzahl von Stapelungen entspricht."
+          ]
         },
         {
           "key": "p3",
-          "title": "NA",
-          "description": "",
+          "title": "Kamisato-Stil – Michiyuku Hagetsu",
+          "description": "Stellt Kamisato Ayato, wenn er inaktiv in der Truppe ist und weniger als 40 Punkte Elementarenergie hat, pro s 2 Punkte Elementarenergie wieder her.\r\n",
           "descriptions": []
         }
       ],
       "constellations": [
         {
           "key": "c1",
-          "title": "NA",
-          "description": "",
+          "title": "Kyouka Fuushi",
+          "description": "Erhöht den Gegnern mit bis zu 50 % LP mit Shunsuiken zugefügten Schaden um 40 %.\r\n",
           "descriptions": []
         },
         {
           "key": "c2",
-          "title": "NA",
-          "description": "",
+          "title": "Quelle der Welt",
+          "description": "Erhöht die Höchstmenge an Stapelungen von Namisen auf 5. Erhöht, wenn Kamisato Ayato mindestens 3 Namisen-Stapelungen hat, seine maximalen LP um 50 %.\r\n",
           "descriptions": []
         },
         {
           "key": "c3",
-          "title": "NA",
-          "description": "",
+          "title": "Bewunderung der Blumen",
+          "description": "Erhöht die Stufe der Fähigkeit Kamisato-Stil – Kyouka um 3.\r\nHöchststufe 15.\r\n",
           "descriptions": []
         },
         {
           "key": "c4",
-          "title": "NA",
-          "description": "",
+          "title": "Ewiger Fluss",
+          "description": "Erhöht nach dem Auslösen von Kamisato-Stil – Suiyuu die Angriffs-GSW der Standardangriffe aller Truppenmitglieder in der Nähe 15 s lang um 15 %.\r\n",
           "descriptions": []
         },
         {
           "key": "c5",
-          "title": "NA",
-          "description": "",
+          "title": "Bansui Ichiro",
+          "description": "Erhöht die Stufe der Fähigkeit Kamisato-Stil – Suiyuu um 3.\r\nHöchststufe 15.\r\n",
           "descriptions": []
         },
         {
           "key": "c6",
-          "title": "NA",
-          "description": "",
+          "title": "Unerschöpfliche Quelle",
+          "description": "Löst, wenn der nächste Angriff von Kamisato Ayato mit Shunsuiken nach Anwendung von Kamisato-Stil – Kyouka Gegner trifft, 2 weitere Shunsuiken-Angriffe aus, von denen jeder Schaden in Höhe von 450 % von Ayatos ANG zufügt.\r\nDiese beiden Shunsuiken-Angriffe erhalten keine Bonuseffekte von Namisen.\r\n",
           "descriptions": []
         }
       ]
@@ -3192,6 +3421,140 @@
           "key": "c6",
           "title": "Sünde des Stolzes",
           "description": "Erhöht den Kritischen Schaden von Elektro-SCH der Figuren mit dem ANG-Bonus von Tengu Juurai um 60 %.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "kuki-shinobu",
+      "name": "Kuki Shinobu",
+      "title": "Besänftigerin des Leids",
+      "description": "Die fähige und zuverlässige Stellvertreterin der „Arataki-Bande“. Beachte, dass diese Bezeichnungen nicht die Arataki-Bande an sich beschreiben, sondern allein ihre stellvertretende Anführerin.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Shinobus fliegender Schwerthieb",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Standardangriff",
+              "description": "Führt bis zu 4 Schwerthiebe hintereinander aus.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Heftiger Schlag",
+              "description": "Verbraucht eine gewisse Menge Ausdauer und schwingt das Schwert zweimal schnell nach vorn.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Angriff aus dem Fall",
+              "description": "Schlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "SCH Phase 1|{param1}%",
+            "SCH Phase 2|{param2}%",
+            "SCH Phase 3|{param3}%",
+            "SCH Phase 4|{param4}%",
+            "SCH heftiger Schläge|{param5}% + {param6}%",
+            "Ausdauerverbrauch heftiger Schläge|{param7}",
+            "SCH beim Fallen|{param8}%",
+            "SCH beim Fallen aus niedriger/großer Höhe|{param9}% / {param10}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Grasring der Reinigung",
+          "description": "Flechtet auf Kosten eines Teils der eigenen LP einen Grasring, der Gegnern in der Umgebung Elektro-Schaden zufügt.\r\n",
+          "abilities": [
+            {
+              "name": "Grasring",
+              "description": "Folgt der aktuellen Figur, fügt Gegnern in der Umgebung alle 1,5 s Elektro-Schaden zu und stellt basierend auf Kuki Shinobus max. LP den aktuellen Figuren LP wieder her.\r\nVerringert Kuki Shinobus LP beim Auslösen dieser Fähigkeit höchstens auf 20 %.\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Fähigkeits-SCH|{param1}%",
+            "Grasring-Heilung|{param2}% Max HP + {param3}",
+            "Grasring-SCH|{param4}%",
+            "Kosten|{param5}% Current HP",
+            "Dauer|{param6}s",
+            "Abklingzeit|{param7}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Gyoei-Narukami-Kariyama-Ritual",
+          "description": "Stößt die Klinge der Geistervertreibung in den Boden und erschafft vor sich eine Barriere, die das Böse beseitigt und Gegnern darin basierend auf Kuki Shinobus max. LP fortlaufend Elektro-Schaden zufügt.\r\nVerlängert die Wirkungsdauer der Barriere, wenn Kuki Shinobu beim Auslösen der Fähigkeit nicht mehr als 50 % LP hat.\r\n",
+          "abilities": [],
+          "stats": [
+            "Einzel-SCH|{param1}% Max HP",
+            "Gesamt-SCH|{param2}% / {param3}% Max HP",
+            "Dauer|{param4}s / {param5}s",
+            "Abklingzeit|{param6}s",
+            "Elementarenergie|{param7}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Langwierige Gebete",
+          "description": "Bringt bei 20-stündigen Erkundungsentsendungen in Inazuma 25 % mehr Belohnungen.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Wille zur Freiheit",
+          "description": "Erhöht, wenn Kuki Shinobus LP nicht höher als 50 % sind, ihren Heilungsbonus um 15 %.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Ruheplatz des Herzens",
+          "description": "Verleiht Grasring der Reinigung basierend auf Kuki Shinobus Elementarkunde folgende Boni:\r\n",
+          "descriptions": [
+            "Heilungsbonus: 75 % der Elementarkunde",
+            "Schadensbonus: 25 % der Elementarkunde"
+          ]
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Verzicht auf Mitleid",
+          "description": "Vergrößert den Wirkungsbereich von Gyoei-Narukami-Kariyama-Ritual um 50 %.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Verzicht auf Trägheit",
+          "description": "Verlängert die Wirkungsdauer des Grasrings um 3 s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Verzicht auf Empfindlichkeit",
+          "description": "Erhöht die Stufe der Fähigkeit Grasring der Reinigung um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Verzicht auf Verschlossenheit",
+          "description": "Wenn Figuren im Zustand Grasring von Kuki Shinobu Gegner mit Standardangriffen, heftigen Schlägen oder Angriffen aus dem Fall treffen, fällt eine Donnergras-Markierung an der Stelle der getroffenen Gegner herab und verursacht Elektro-Flächenschaden in Höhe von 9,7 % von Kuki Shinobus max. LP.\r\n5 s Abklingzeit.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Verzicht auf Anbiederung",
+          "description": "Erhöht die Stufe der Fähigkeit Gyoei-Narukami-Kariyama-Ritual um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Verzicht auf Weichheit",
+          "description": "Vermeidet, wenn Kuki Shinobu Schaden erleidet, der sie besiegen würde, dass dieser Schaden sie besiegt. Dieser Effekt wird automatisch ausgelöst, wenn Kuki Shinobu nur noch 1 LP hat. 60 s Abklingzeit.\r\nErhöht, wenn Kuki Shinobus LP unter 25 % fallen, ihre Elementarkunde 15 s lang um 150 Punkte. 60 s Abklingzeit.\r\n",
           "descriptions": []
         }
       ]
@@ -4832,6 +5195,146 @@
       ]
     },
     {
+      "key": "shikanoin-heizou",
+      "name": "Shikanoin Heizou",
+      "title": "Mitfühlender Analytiker",
+      "description": "Der begnadete junge Detektiv der Tenryou-Verwaltung, ausgestattet mit scharfem Instinkt und wachem Geist.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Kampf im Fudou-Stil",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Standardangriff",
+              "description": "Kämpft mit der Kraft eines starken Windes gegen den Feind, führt bis zu 5 Angriffe aus und verursacht Anemo-Schaden.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Heftiger Schlag",
+              "description": "Verbraucht eine gewisse Menge Ausdauer und verursacht mit einem über das Feld fegenden Tritt Anemo-Schaden.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Angriff aus dem Fall",
+              "description": "Konzentriert die Kraft des starken Windes, schlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Anemo-Flächenschaden.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "SCH Phase 1|{param1}%",
+            "SCH Phase 2|{param2}%",
+            "SCH Phase 3|{param3}%",
+            "SCH Phase 4|{param4}% + {param5}% + {param6}%",
+            "SCH Phase 5|{param7}%",
+            "SCH heftiger Schläge|{param8}%",
+            "Ausdauerverbrauch heftiger Schläge|{param9}",
+            "SCH beim Fallen|{param10}%",
+            "SCH beim Fallen aus niedriger/großer Höhe|{param11}% / {param12}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Faust der Brüderlichkeit",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Drücken",
+              "description": "Nutzt den schnellen Wind und schlägt mit der Faust der Brüderlichkeit zu, um Anemo-Schaden zu verursachen.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Gedrückt halten",
+              "description": "Sammelt Kraft, um einen noch stärkeren Schlag auszuführen und erhält während des Aufladens fortlaufend den Effekt „Deklination“, der die Stärke der Faust der Brüderlichkeit erhöhen kann. Löst beim Loslassen der Taste oder am Ende des Aufladens die Faust der Brüderlichkeit aus und verursacht nach vorn gerichteten Anemo-Schaden.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Deklination",
+              "description": "Erhöht den mit der nächsten Faust der Brüderlichkeit verursachten Schaden, 4-fach stapelbar.\r\nErschafft bei 4 Stapelungen „Deklination“ den Effekt „Urteilsspruch“, der den mit der nächsten Faust der Brüderlichkeit verursachten Schaden weiter erhöht und ihm einen größeren Wirkungsbereich verleiht.\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Fähigkeits-SCH|{param1}%",
+            "SCH-Bonus von Deklination|{param2}%/stack",
+            "SCH-Bonus von Urteilsspruch|{param3}%",
+            "Dauer von Deklination|{param4}s",
+            "Abklingzeit|{param5}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Tritt des konzentrierten Winds",
+          "description": "Springt in die Luft und führt den Vakuumtritt des Fudou-Stils aus, der beim Treffen eine Explosion auslöst und ein Windloch erschafft, in das Objekte sowie Gegner in der Nähe gezogen werden. Verursacht Anemo-Flächenschaden.\r\nFügt, wenn die mit dem Vakuumtritt des Fudou-Stils getroffenen Gegner von Hydro-, Pyro-, Kryo- oder Elektro-Kraft betroffen sind, diesen Gegnern den Effekt „Auge des konzentrierten Winds“ zu, der nach kurzer Zeit mit einer Explosion erlischt und damit Flächenschaden des jeweiligen Elements verursacht.\r\nDer Vakuumtritt des Fudou-Stils verleiht bis zu 4 getroffenen Gegnern den Effekt „Auge des konzentrierten Winds“. Diese Gegner können zu einem Zeitpunkt nur dem Effekt „Auge des konzentrierten Winds“ eines einzigen Elements ausgesetzt sein.\r\n",
+          "abilities": [],
+          "stats": [
+            "SCH von Vakuumtritt des Fudou-Stils|{param1}%",
+            "SCH von Auge des konzentrierten Winds|{param2}%",
+            "Abklingzeit|{param3}s",
+            "Elementarenergie|{param4}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Verbrechen zuvorkommen",
+          "description": "Verringert die beim Rennen verbrauchte Ausdauer aller eigenen Truppenmitglieder um 20 %.\r\nNicht mit passiven Talenten mit völlig gleichen Effekten stapelbar.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Unterricht der Ablehnung",
+          "description": "Shikanoin Heizou erhält beim Auslösen einer Verwirbelung auf dem Feld eine Stapelung des Effekts „Deklination“ für die Faust der Brüderlichkeit, 0,1 s Abklingzeit.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Durchschauen der Motive",
+          "description": "Erhöht beim Treffen von Gegnern mit der Faust der Brüderlichkeit die Elementarkunde aller Truppenmitglieder (außer Shikanoin Heizou selbst) 10 s lang um 80 Punkte.\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Fallakte eines berüchtigten jungen Mannes",
+          "description": "Erhöht die Angriffs-GSW von Standardangriffen nach dem Einwechseln von Shikanoin Heizou 5 s lang um 15 % und verleiht ihm 1 Stapelung des Effekts „Deklination“ für die Faust der Brüderlichkeit, 10 s Abklingzeit.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Aufdeckung der Hintergründe",
+          "description": "Verstärkt den Anziehungseffekt des Windlochs, das durch Tritt des konzentrierten Winds ausgelöst wird, und verlängert die Dauer des Effekts auf 1 s.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Rätselheft",
+          "description": "Erhöht die Stufe der Fähigkeit Faust der Brüderlichkeit um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Stoff, aus dem Lügen gemacht sind",
+          "description": "Stellt Shikanoin Heizou bei der jeweils ersten Explosion des „Auges des konzentrierten Winds“ von jedem Tritt des konzentrierten Winds 9 Punkte Elementarenergie und bei jeder weiteren Explosion zusätzlich 1,5 Punkte Elementarenergie wieder her.\r\nBis zu 13,5 Punkte Elementarenergie auf diese Weise pro Tritt des konzentrierten Winds für Shikanoin Heizou zu erhalten.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Geheimarchiv",
+          "description": "Erhöht die Stufe der Fähigkeit Tritt des konzentrierten Winds um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Verblüffende Festnahme",
+          "description": "Erhöht beim Auslösen der Faust der Brüderlichkeit die KT dabei für jede Stapelung „Deklination“ um 4 %. Erhöht bei Vorhandensein von „Urteilsspruch“ für Faust der Brüderlichkeit den KSCH der Faust der Brüderlichkeit dieses Mal um 32 %.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "sucrose",
       "name": "Saccharose",
       "title": "Harmlos und süß",
@@ -5289,6 +5792,93 @@
           "key": "c6",
           "title": "Brennendes Herz",
           "description": "Erhöht beim Erhalten oder Aktualisieren von Schild des lodernden Segens den mit Standardangriffen, heftigen Schlägen und Angriffen aus dem Fall aller Truppenmitglieder verursachten Schaden 6 s lang um 15 %.\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "tighnari",
+      "name": "Tighnari",
+      "title": "???",
+      "description": "",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
           "descriptions": []
         }
       ]
@@ -6654,6 +7244,157 @@
       ]
     },
     {
+      "key": "yelan",
+      "name": "Yelan",
+      "title": "Orchidee im tiefen Tal",
+      "description": "Eine mysteriöse Person, die behauptet, für den Rat für Allgemeine Angelegenheiten zu arbeiten, aber auf der Liste des Rats für Allgemeine Angelegenheiten als „nicht existent“ geführt wird.",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "Bogen der Unterströmung",
+          "description": "",
+          "abilities": [
+            {
+              "name": "Standardangriff",
+              "description": "Führt bis zu 4 Pfeilschüsse hintereinander aus.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Heftiger Schlag",
+              "description": "Führt einen gezielten Schuss mit höherem Schaden und höherer Genauigkeit aus.\r\nKonzentriert das fließende Wasser während des Zielens an der Pfeilspitze, die voll aufgeladen Hydro-Schaden verursacht.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Durchstoß",
+              "description": "5 s nach dem Verlassen des Kampfes erhält Yelan den Zustand „Durchstoß“, der die Aufladedauer beim nächsten voll aufgeladenen gezielten Schuss um 80 % verringert und den Pfeil beim Schießen des voll aufgeladenen Schusses in einen „Durchstoßpfeil“ verwandelt, der basierend auf Yelans max. LP Hydro-Flächenschaden verursacht.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Angriff aus dem Fall",
+              "description": "Schießt in der Luft einen Pfeilregen ab, trifft schnell auf dem Boden auf und verursacht dort Flächenschaden.",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "SCH Phase 1|{param1}%",
+            "SCH Phase 2|{param2}%",
+            "SCH Phase 3|{param3}%",
+            "SCH Phase 4|{param4}% + {param5}%",
+            "Gezielte Schüsse|{param6}%",
+            "Voll aufgeladene gezielte Schüsse|{param7}%",
+            "Durchstoßpfeil-SCH|{param8}% Max HP",
+            "SCH beim Fallen|{param9}%",
+            "SCH beim Fallen aus niedriger/großer Höhe|{param10}% / {param11}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "Seil der Todesbotin",
+          "description": "Yelan bewegt sich schnell mit ihrem „todbringenden Seil“ in der Hand, das alle Gegner in ihrer Bahn verknüpft und markiert.\r\nNach der schnellen Bewegung explodiert das „todbringende Seil“, wobei es den markierten Gegnern Hydro-Schaden basierend auf Yelans max. LP zufügt.\r\n",
+          "abilities": [
+            {
+              "name": "Einmaliges Drücken",
+              "description": "Bewegt sich schnell ein Stück nach vorn.\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "Gedrückt halten",
+              "description": "Bewegt sich schnell und fortlaufend und erhöht in diesem Zustand Yelans Unterbrechungs-WDS.\r\nWährend dieser Zeit kann Yelan die Richtung ihrer Bewegung steuern und diesen Zustand durch erneutes Auslösen der Fähigkeit vorzeitig beenden.\r\nDarüber hinaus erhält Yelan bei der Explosion des „todbringenden Seils“ mit gewisser Wahrscheinlichkeit gemäß der Anzahl der markierten Gegner den Zustand „Durchstoß“: Erhöht für jeden markierten Gegner die Wahrscheinlichkeit um 34 %.\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "Fähigkeits-SCH|{param1}% Max HP",
+            "Höchstdauer beim Gedrückthalten|{param2}s",
+            "Abklingzeit|{param3}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "Würfel des Strategems",
+          "description": "Verursacht Hydro-Flächenschaden und beschwört einen „Würfel der Mystik“, der beim Kampf Unterstützung leistet.\r\n",
+          "abilities": [
+            {
+              "name": "Würfel der Mystik",
+              "description": "Folgt der Figur auf Schritt und Tritt und führt unter folgenden Umständen abgestimmte Angriffe aus, die basierend auf Yelans max. LP Hydro-Schaden verursachen: \r\n",
+              "descriptions": [
+                "Wenn eigene aktuelle Truppenmitglieder Standardangriffe ausführen, 1 s Abklingzeit.",
+                "Wenn Yelans „todbringendes Seil“ explodiert und dabei Gegner trifft."
+              ]
+            }
+          ],
+          "stats": [
+            "Fähigkeits-SCH|{param1}% Max HP",
+            "SCH des Würfels der Mystik|{param2}% Max HP ×{param3}",
+            "Dauer|{param4}s",
+            "Abklingzeit|{param5}s",
+            "Elementarenergie|{param6}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "Lange Überlegung",
+          "description": "Bringt bei 20-stündigen Erkundungsentsendungen in Liyue 25 % mehr Belohnungen.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "Beste Gewinnstrategie",
+          "description": "Erhöht die max. LP von Yelan bei Truppenmitgliedern mit 1/2/3/4 verschiedenen Elementartypen zusätzlich um 6/12/18/30 %.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "Glückswürfel",
+          "description": "Erhöht den von eigenen aktuellen Truppenmitgliedern während der Wirkungsdauer von „Würfel der Mystik“ verursachten Schaden um 1 % und danach alle 1 s um 3,5 %, insgesamt um bis zu 50 %.\r\nErneutes Aktivieren von Würfel des Strategems innerhalb der Laufzeit des oben beschriebenen Effekts entfernt diesen.\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "Falle in der Falle",
+          "description": "Ermöglicht 1 weitere Anwendung von Seil der Todesbotin.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "Viel hilft viel",
+          "description": "Schießt beim abgestimmten Angriff von „Würfel der Mystik“ einen zusätzlichen Wasserpfeil ab, der Hydro-Schaden in Höhe von 14 % der max. LP von Yelan verursacht.\r\n1,8 s Abklingzeit.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "Gezinkter Würfel",
+          "description": "Erhöht die Stufe der Fähigkeit Würfel des Strategems um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "Täuschung des Schwindlers",
+          "description": "Erhöht für jeden von dem „todbringenden Seil“ markierten Gegner bei der Explosion die max. LP aller Truppenmitglieder 25 s lang um 10 %. Auf diese Weise können die max. LP um bis zu 40 % erhöht werden.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "Tricks des Bankhalters",
+          "description": "Erhöht die Stufe der Fähigkeit Seil der Todesbotin um 3.\r\nHöchststufe 15.\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "Alles dem Gewinner",
+          "description": "Verleiht Yelan nach dem Auslösen des Würfels des Strategems den Zustand „Gewinnstrategie“:\r\n",
+          "descriptions": [
+            "Yelans Standardangriffe verwandeln sich in spezielle „Durchstoßpfeile“. Diese Pfeile verfügen über ähnliche Eigenschaften wie normale „Durchstoßpfeile“. Ihr Schaden wird als Schaden heftiger Schläge betrachtet und sie verursachen 156 % des Schadens von normalen „Durchstoßpfeilen“.",
+            "Der Zustand „Gewinnstrategie“ hält bis zu 20 s und erlischt, nachdem Yelan 5 Pfeile abgeschossen hat."
+          ]
+        }
+      ]
+    },
+    {
       "key": "yoimiya",
       "name": "Yoimiya",
       "title": "Ausgelassene Flammen",
@@ -7158,6 +7899,18 @@
       "refinements": []
     },
     {
+      "key": "aqua-simulacra",
+      "name": "Aqua Simulacra",
+      "description": "Die Farbe dieses Langbogens ist unberechenbar und fließend wie Wasser. Im Licht nimmt er ein glänzendes, wässriges Blau an.",
+      "refinements": [
+        "Erhöht die LP um {color}16{/color} %. Erhöht, wenn es in der Umgebung Gegner gibt, den durch die mit dieser Waffe ausgerüstete Figur verursachten Schaden um {color}20{/color} %, ganz gleich, ob sie aktiv oder inaktiv ist.",
+        "Erhöht die LP um {color}20{/color} %. Erhöht, wenn es in der Umgebung Gegner gibt, den durch die mit dieser Waffe ausgerüstete Figur verursachten Schaden um {color}25{/color} %, ganz gleich, ob sie aktiv oder inaktiv ist.",
+        "Erhöht die LP um {color}24{/color} %. Erhöht, wenn es in der Umgebung Gegner gibt, den durch die mit dieser Waffe ausgerüstete Figur verursachten Schaden um {color}30{/color} %, ganz gleich, ob sie aktiv oder inaktiv ist.",
+        "Erhöht die LP um {color}28{/color} %. Erhöht, wenn es in der Umgebung Gegner gibt, den durch die mit dieser Waffe ausgerüstete Figur verursachten Schaden um {color}35{/color} %, ganz gleich, ob sie aktiv oder inaktiv ist.",
+        "Erhöht die LP um {color}32{/color} %. Erhöht, wenn es in der Umgebung Gegner gibt, den durch die mit dieser Waffe ausgerüstete Figur verursachten Schaden um {color}40{/color} %, ganz gleich, ob sie aktiv oder inaktiv ist."
+      ]
+    },
+    {
       "key": "aquila-favonia",
       "name": "Windfalke",
       "description": "Die Seele des Ordo Favonius. Selbst nach Jahrtausenden ruft es in dir den Wind der Gerechtigkeit hervor, um das Böse zu bekämpfen, ganz wie bei der letzten Heldin, die es trug.",
@@ -7458,6 +8211,18 @@
       ]
     },
     {
+      "key": "fading-twilight",
+      "name": "Ausklingende Dämmerung",
+      "description": "Ein kostbarer Bogen aus Platin, der mit Kugeln verziert ist, die im Licht der Abenddämmerung schimmern.",
+      "refinements": [
+        "Diese Waffe hat drei Zustände: Zwielicht, Abendröte und Morgengrauen. Diese drei Zustände erhöhen den verursachten Schaden jeweils um {color}6/10/14{/color} %. Nachdem die Figur einen Gegner trifft, wird der aktuelle Zustand deaktiviert und der nächste Zustand wird aktiviert. 7 s Abklingzeit für den Zustandswechsel, der auch ausgelöst werden kann, wenn die mit dieser Waffe ausgerüstete Figur inaktiv ist.",
+        "Diese Waffe hat drei Zustände: Zwielicht, Abendröte und Morgengrauen. Diese drei Zustände erhöhen den verursachten Schaden jeweils um {color}7,5/12,5/17,5{/color} %. Nachdem die Figur einen Gegner trifft, wird der aktuelle Zustand deaktiviert und der nächste Zustand wird aktiviert. 7 s Abklingzeit für den Zustandswechsel, der auch ausgelöst werden kann, wenn die mit dieser Waffe ausgerüstete Figur inaktiv ist.",
+        "Diese Waffe hat drei Zustände: Zwielicht, Abendröte und Morgengrauen. Diese drei Zustände erhöhen den verursachten Schaden jeweils um {color}9/15/21{/color} %. Nachdem die Figur einen Gegner trifft, wird der aktuelle Zustand deaktiviert und der nächste Zustand wird aktiviert. 7 s Abklingzeit für den Zustandswechsel, der auch ausgelöst werden kann, wenn die mit dieser Waffe ausgerüstete Figur inaktiv ist.",
+        "Diese Waffe hat drei Zustände: Zwielicht, Abendröte und Morgengrauen. Diese drei Zustände erhöhen den verursachten Schaden jeweils um {color}10,5/17,5/24,5{/color} %. Nachdem die Figur einen Gegner trifft, wird der aktuelle Zustand deaktiviert und der nächste Zustand wird aktiviert. 7 s Abklingzeit für den Zustandswechsel, der auch ausgelöst werden kann, wenn die mit dieser Waffe ausgerüstete Figur inaktiv ist.",
+        "Diese Waffe hat drei Zustände: Zwielicht, Abendröte und Morgengrauen. Diese drei Zustände erhöhen den verursachten Schaden jeweils um {color}12/20/28{/color} %. Nachdem die Figur einen Gegner trifft, wird der aktuelle Zustand deaktiviert und der nächste Zustand wird aktiviert. 7 s Abklingzeit für den Zustandswechsel, der auch ausgelöst werden kann, wenn die mit dieser Waffe ausgerüstete Figur inaktiv ist."
+      ]
+    },
+    {
       "key": "favonius-codex",
       "name": "Favonius-Kodex",
       "description": "Ein Kodex, der unter den Gelehrten des Ordo Favonius weitergetragen wird. Darin werden die Prinzipien und Kräfte von Elementen und Stoffen erläutert.",
@@ -7614,6 +8379,18 @@
       ]
     },
     {
+      "key": "haran-geppaku-futsu",
+      "name": "Haran Geppaku Futsu",
+      "description": "Ein berühmtes Werk der Futsu-Schmiedefamilie. Der Name „Haran“ kommt von der Art und Weise, in der es den heftigen, aufgewühlten Wellen ähnelt.",
+      "refinements": [
+        "Erhöht den Schaden aller Elemente um {color}12{/color} %. Verleiht der mit dieser Waffe ausgerüsteten Figur bei Anwendung von Elementarfähigkeiten anderer Truppenmitglieder in der Nähe 1 Stapelung des Effekts „Wellenähre“, 2-fach stapelbar, 0,3 s Abklingzeit. Verbraucht bei der Anwendung der Elementarfähigkeit der mit dieser Waffe ausgerüsteten Figur den gesamten Effekt „Wellenähre“, sofern dieser Effekt vorhanden ist, und erhält den Effekt „Wogenprall“: Erhöht den mit Standardangriffen verursachten Schaden pro verbrauchte Stapelung 8 s lang um {color}20{/color} %.",
+        "Erhöht den Schaden aller Elemente um {color}15{/color} %. Verleiht der mit dieser Waffe ausgerüsteten Figur bei Anwendung von Elementarfähigkeiten anderer Truppenmitglieder in der Nähe 1 Stapelung des Effekts „Wellenähre“, 2-fach stapelbar, 0,3 s Abklingzeit. Verbraucht bei der Anwendung der Elementarfähigkeit der mit dieser Waffe ausgerüsteten Figur den gesamten Effekt „Wellenähre“, sofern dieser Effekt vorhanden ist, und erhält den Effekt „Wogenprall“: Erhöht den mit Standardangriffen verursachten Schaden pro verbrauchte Stapelung 8 s lang um {color}25{/color} %.",
+        "Erhöht den Schaden aller Elemente um {color}18{/color} %. Verleiht der mit dieser Waffe ausgerüsteten Figur bei Anwendung von Elementarfähigkeiten anderer Truppenmitglieder in der Nähe 1 Stapelung des Effekts „Wellenähre“, 2-fach stapelbar, 0,3 s Abklingzeit. Verbraucht bei der Anwendung der Elementarfähigkeit der mit dieser Waffe ausgerüsteten Figur den gesamten Effekt „Wellenähre“, sofern dieser Effekt vorhanden ist, und erhält den Effekt „Wogenprall“: Erhöht den mit Standardangriffen verursachten Schaden pro verbrauchte Stapelung 8 s lang um {color}30{/color} %.",
+        "Erhöht den Schaden aller Elemente um {color}21{/color} %. Verleiht der mit dieser Waffe ausgerüsteten Figur bei Anwendung von Elementarfähigkeiten anderer Truppenmitglieder in der Nähe 1 Stapelung des Effekts „Wellenähre“, 2-fach stapelbar, 0,3 s Abklingzeit. Verbraucht bei der Anwendung der Elementarfähigkeit der mit dieser Waffe ausgerüsteten Figur den gesamten Effekt „Wellenähre“, sofern dieser Effekt vorhanden ist, und erhält den Effekt „Wogenprall“: Erhöht den mit Standardangriffen verursachten Schaden pro verbrauchte Stapelung 8 s lang um {color}35{/color} %.",
+        "Erhöht den Schaden aller Elemente um {color}24{/color} %. Verleiht der mit dieser Waffe ausgerüsteten Figur bei Anwendung von Elementarfähigkeiten anderer Truppenmitglieder in der Nähe 1 Stapelung des Effekts „Wellenähre“, 2-fach stapelbar, 0,3 s Abklingzeit. Verbraucht bei der Anwendung der Elementarfähigkeit der mit dieser Waffe ausgerüsteten Figur den gesamten Effekt „Wellenähre“, sofern dieser Effekt vorhanden ist, und erhält den Effekt „Wogenprall“: Erhöht den mit Standardangriffen verursachten Schaden pro verbrauchte Stapelung 8 s lang um {color}40{/color} %."
+      ]
+    },
+    {
       "key": "harbinger-of-dawn",
       "name": "Schwert der Dämmerung",
       "description": "Ein wertvolles Schwert, das einst wie die Sonne glänzte. Hält man es in der Hand, fühlt man sich überaus selbstbewusst. Das leuchtende Material hat sich mit der Zeit abgenutzt.",
@@ -7647,6 +8424,14 @@
         "Erhöht den von dieser Figur verursachten Schaden nach Verursachen von Elementar-SCH 6 s lang um {color}9{/color} %, 2-fach stapelbar. 1 s Abklingzeit.",
         "Erhöht den von dieser Figur verursachten Schaden nach Verursachen von Elementar-SCH 6 s lang um {color}10,5{/color} %, 2-fach stapelbar. 1 s Abklingzeit.",
         "Erhöht den von dieser Figur verursachten Schaden nach Verursachen von Elementar-SCH 6 s lang um {color}12{/color} %, 2-fach stapelbar. 1 s Abklingzeit."
+      ]
+    },
+    {
+      "key": "kagotsurube-isshin",
+      "name": "Kagotsurube Isshin",
+      "description": "Diese im fernen Norden geschmiedete Klinge wurde einst auf ihrem Heimweg im Namen „Isshin“ mit unzähligen Sünden befleckt.",
+      "refinements": [
+        "Wirbelt beim Treffen von Gegnern mit Standardangriffen, heftigen Schlägen oder Angriffen aus dem Fall einen dreschenden Wind auf, der Flächenschaden in Höhe von 180 % ANG verursacht und den ANG 8 s lang um 15 % erhöht. 8 s Abklingzeit."
       ]
     },
     {
@@ -8662,6 +9447,14 @@
       ]
     },
     {
+      "key": "echoes-of-an-offering",
+      "name": "Echo des Opferfests",
+      "bonus": [
+        "Erhöht den ANG um 18 %.",
+        "Löst beim Treffen von Gegnern mit Standardangriffen mit einer Wahrscheinlichkeit von 36 % „Talritual“ aus Erhöht den mit Standardangriffen verursachten Schaden um 70 % ANG. Erlischt 0,05 s nach dem Verursachen von Schaden mit Standardangriffen. Erhöht, wenn der Effekt bei einem Standardangriff nicht ausgelöst wird, die Chance, dass er beim nächsten Mal ausgelöst wird, um 20 %, 0,2 s Abklingzeit."
+      ]
+    },
+    {
       "key": "emblem-of-severed-fate",
       "name": "Wappen des getrennten Schicksals",
       "bonus": [
@@ -8889,6 +9682,14 @@
       ]
     },
     {
+      "key": "vermillion-hereafter",
+      "name": "Vergangenheit des Zinnobers",
+      "bonus": [
+        "Erhöht den ANG um 18 %.",
+        "Verleiht Figuren nach Anwendung von Spezialfähigkeiten den 16 s anhaltenden Effekt „Schleichlicht“ Erhöht den ANG der jeweiligen Figur anfänglich um 8 %. Erhöht den ANG der Figur bei jedem LP-Verlust zusätzlich um 10 %, 0,8 s Abklingzeit. 4 ANG-Boni auf diese Weise möglich. Beendet den Effekt „Schleichlicht“ beim Auswechseln der Figur. Entfernt bei erneuter Anwendung der Spezialfähigkeit während der Wirkungsdauer von „Schleichlicht“ den bisherigen Effekt „Schleichlicht“ vollständig."
+      ]
+    },
+    {
       "key": "viridescent-venerer",
       "name": "Grünlicher Schatten",
       "bonus": [
@@ -9018,8 +9819,8 @@
     },
     {
       "key": "boreal-wolfs-cracked-tooth",
-      "name": "Boreal Wolf's Cracked Tooth",
-      "description": "Weapon Ascension Material.\r\nThe life of a wolf is not without violence, broken bones or cracked teeth are nothing special.\r\nAndrius found humans to be a disappointment, but believed babies to be innocent. If both the wolf pack and the adopted children chose each other, then they become a Lupical, a fated family."
+      "name": "Zersplitterter Zahn des borealischen Wolfs",
+      "description": "Material mit der Kraft, Waffen aufsteigen zu lassen.\r\nDas Leben eines Wolfs wird begleitet vom Tod. Gebrochene Knochen und zersplitterte Zähne sind dabei keine Seltenheit.\r\nFür Andrius brachten die Menschen nichts weiter als Verberben. Allein unschuldige Kinder nahm er auf. Sobald die Wölfe die Kinder und die Kinder die Wölfe akzeptiert haben, wurden sie zu einer „Lupical“, einer durch das Schicksal zusammengeführten Familie."
     },
     {
       "key": "boreal-wolfs-milk-tooth",
@@ -9977,6 +10778,11 @@
       "description": "Einige Eiskristalle vom großen Wolf des Nordens.\r\nDurch dieses Land pfiff einst der eiskalte Wind des Nordens. Wie scharfkantiger Kies sausten die Eiskristalle durch die Luft. Nackte Haut zerschlitzten sie in ihrem wilden Tanz und das Blut erstarrte im Nu. Heute ist der Wolf des Nordens zwar nur noch ein Schatten seiner selbst. Er besitzt aber immer noch die Kraft, das gesamte Land mit Schnee zu bedecken."
     },
     {
+      "key": "runic-fang",
+      "name": "Runenzahn",
+      "description": "Ein „Zahn“, mit dem sich die geheimnisvolle, schlangenartige Maschine von einst in die Tiefen der Berge grub. Darauf sind viele unheilvolle Runen eingemeißelt. Es heißt, dass riesige Schlangen in den dunklen Spalten tief unter der Erde lauern. In ihrem ewigen Groll und ihrer Bosheit gegenüber der Welt da oben graben sie große Tunnel, doch niemand weiß, welche bösen Absichten sie verfolgen ..."
+    },
+    {
       "key": "sakura-bloom",
       "name": "Sakura-Blüte",
       "description": "Blüten der heiligen Sakura am Großen Narukami-Schrein, gefüllt mit einer Vorliebe für Inazuma."
@@ -10554,6 +11360,10 @@
       "name": "Azhdaha"
     },
     {
+      "key": "black-serpent-knight-windcutter",
+      "name": "Schwarzer Schlangenreiter – Wind schneidendes Schwert"
+    },
+    {
       "key": "blazing-axe-mitachurl",
       "name": "Mitachurl mit Feueraxt"
     },
@@ -10696,6 +11506,10 @@
     {
       "key": "fatui-skirmisher-pyroslinger-bracer",
       "name": "Fatui-Plänkler – Pyro-Kanonen-Freischärler"
+    },
+    {
+      "key": "floating-hydro-fungus",
+      "name": "Schwebende Hydro-Pilzbestie"
     },
     {
       "key": "frostarm-lawachurl",
@@ -11016,6 +11830,10 @@
     {
       "key": "ruin-scout",
       "name": "Ruinenspäher"
+    },
+    {
+      "key": "ruin-serpent",
+      "name": "Ruinenschlange"
     },
     {
       "key": "sangonomiya-cohort",

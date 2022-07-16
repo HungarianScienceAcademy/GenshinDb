@@ -148,6 +148,8 @@ extension I18nExtensions on S {
         return healingBonusPercentage(value);
       case StatType.def:
         return def(value);
+      case StatType.dendroDmgBonusPercentage:
+        return xDmgBonusPercentage(value, translateElementType(ElementType.dendro));
       default:
         throw Exception('The provided stat type = $type is not valid');
     }
@@ -620,6 +622,48 @@ extension I18nExtensions on S {
         return goblet;
       case ArtifactType.crown:
         return crown;
+    }
+  }
+
+  String translateBannerHistoryItemType(BannerHistoryItemType type) {
+    switch (type) {
+      case BannerHistoryItemType.character:
+        return characters;
+      case BannerHistoryItemType.weapon:
+        return weapons;
+    }
+  }
+
+  String translateBannerHistorySortType(BannerHistorySortType type) {
+    switch (type) {
+      case BannerHistorySortType.nameAsc:
+        return nameAsc;
+      case BannerHistorySortType.nameDesc:
+        return nameDesc;
+      case BannerHistorySortType.versionAsc:
+        return versionAsc;
+      case BannerHistorySortType.versionDesc:
+        return versionDesc;
+    }
+  }
+
+  String translateChartType(ChartType type) {
+    final star = String.fromCharCode(9734);
+    switch (type) {
+      case ChartType.topFiveStarCharacterMostReruns:
+      case ChartType.topFiveStarWeaponMostReruns:
+        return xStarsWithMostReruns('5$star');
+      case ChartType.topFourStarCharacterMostReruns:
+      case ChartType.topFourStarWeaponMostReruns:
+        return xStarsWithMostReruns('4$star');
+      case ChartType.topFourStarCharacterLeastReruns:
+      case ChartType.topFourStarWeaponLeastReruns:
+        return xStarsWithLeastReruns('4$star');
+      case ChartType.topFiveStarCharacterLeastReruns:
+      case ChartType.topFiveStarWeaponLeastReruns:
+        return xStarsWithLeastReruns('5$star');
+      case ChartType.characterBirthdays:
+        return birthdaysPerMonth;
     }
   }
 }

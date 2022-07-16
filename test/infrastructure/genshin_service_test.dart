@@ -1,9 +1,15 @@
+import 'dart:math';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shiori/domain/app_constants.dart';
 import 'package:shiori/domain/enums/enums.dart';
 import 'package:shiori/domain/extensions/string_extensions.dart';
+import 'package:shiori/domain/models/models.dart';
 import 'package:shiori/domain/services/genshin_service.dart';
 import 'package:shiori/domain/services/locale_service.dart';
+import 'package:shiori/domain/utils/date_utils.dart';
 import 'package:shiori/infrastructure/infrastructure.dart';
 
 import '../common.dart';
@@ -157,7 +163,12 @@ void main() {
         expect(detail.role, character.roleType);
         expect(detail.isComingSoon, character.isComingSoon);
         expect(detail.isNew, character.isNew);
-        expect(detail.tier, isIn(['d', 'c', 'b', 'a', 's', 'ss', 'sss']));
+        if (detail.isComingSoon) {
+          expect(detail.tier, 'na');
+        } else {
+          expect(detail.tier, isIn(['d', 'c', 'b', 'a', 's', 'ss', 'sss']));
+        }
+
         if (isTraveler) {
           checkAsset(detail.fullSecondImagePath!);
         } else {
@@ -338,6 +349,7 @@ void main() {
             expect(ascensionNumber == 6, isTrue);
             break;
         }
+
         var repetitionCount = 0;
         for (var i = 0; i < detail.stats.length; i++) {
           final stat = detail.stats[i];
@@ -609,7 +621,14 @@ void main() {
           checkTranslation(translation.name, canBeNull: false);
           checkTranslation(translation.description, canBeNull: false);
           if (detail.rarity > 2) {
-            expect(translation.refinements, isNotEmpty);
+            //all weapons with a rarity > 2 have 5 refinements except the following
+            //the ps4 sword, the aloy weapon
+            final ignore = ['sword-of-descension', 'predator', 'kagotsurube-isshin'];
+            if (!ignore.contains(detail.key)) {
+              expect(translation.refinements.length, 5);
+            } else {
+              expect(translation.refinements, isNotEmpty);
+            }
           } else {
             expect(translation.refinements, isEmpty);
           }
@@ -670,21 +689,29 @@ void main() {
   });
 
   group('Birthdays', () {
-    test("check Keqing's birthday", () async {
-      final service = _getService();
-      await service.init(AppLanguageType.english);
-      final date = DateTime(2021, 11, 20);
-      final chars = service.getCharactersForBirthday(date);
-      expect(chars, isNotEmpty);
-      expect(chars.first.key, equals('keqing'));
-    });
+    void _checkBirthday(CharacterBirthdayModel birthday) {
+      checkItemKeyNameAndImage(birthday.key, birthday.name, birthday.image);
+      expect(birthday.birthday.isAfter(DateTime.now()), isTrue);
+      expect(birthday.birthdayString.isNotNullEmptyOrWhitespace, isTrue);
+      expect(birthday.daysUntilBirthday > 0, isTrue);
+    }
 
-    test("check Bennet's birthday", () {
+    test("check Bennet's birthday, not using current year", () {
       for (final lang in languages.where((el) => el != AppLanguageType.french)) {
         final service = _getLocaleService(lang);
         final birthday = service.getCharBirthDate('02/29');
         expect(birthday.day, equals(29));
-        expect(birthday.month, equals(2));
+        expect(birthday.month, equals(DateTime.february));
+      }
+    });
+
+    test("check Bennet's birthday, using current year", () {
+      for (final lang in languages.where((el) => el != AppLanguageType.french)) {
+        final service = _getLocaleService(lang);
+        final birthday = service.getCharBirthDate('02/29', useCurrentYear: true);
+        final lastDayOfFebruary = DateUtils.getLastDayOfMonth(DateTime.february);
+        expect(birthday.day, equals(lastDayOfFebruary));
+        expect(birthday.month, equals(DateTime.february));
       }
     });
 
@@ -696,9 +723,50 @@ void main() {
       for (final key in upcoming) {
         final char = service.getCharacter(key);
         final date = localeService.getCharBirthDate(char.birthday);
-        final chars = service.getCharactersForBirthday(date);
+        final chars = service.getCharacterBirthdays(month: date.month, day: date.day);
         expect(chars.any((el) => el.key == key), false);
       }
+    });
+
+    test('check character birthdays, only by month', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final months = List.generate(DateTime.monthsPerYear, (index) => index + 1);
+      for (final month in months) {
+        final birthdays = service.getCharacterBirthdays(month: month);
+        expect(birthdays.isNotEmpty, isTrue);
+        for (final birthday in birthdays) {
+          _checkBirthday(birthday);
+        }
+      }
+    });
+
+    test('check character birthdays, only by day', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final birthdays = service.getCharacterBirthdays(day: 20);
+      expect(birthdays.isNotEmpty, isTrue);
+      for (final birthday in birthdays) {
+        _checkBirthday(birthday);
+      }
+    });
+
+    test('check character birthdays, by month and day', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final birthdays = service.getCharacterBirthdays(month: DateTime.november, day: 20);
+      expect(birthdays.length, 1);
+      expect(birthdays.first.key, equals('keqing'));
+      _checkBirthday(birthdays.first);
+    });
+
+    test('check character birthdays, invalid month and day', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getCharacterBirthdays(), throwsA(isA<Exception>()));
+      expect(() => service.getCharacterBirthdays(month: -1), throwsA(isA<Exception>()));
+      expect(() => service.getCharacterBirthdays(day: -1), throwsA(isA<Exception>()));
+      expect(() => service.getCharacterBirthdays(month: DateTime.february, day: 31), throwsA(isA<Exception>()));
     });
   });
 
@@ -827,6 +895,377 @@ void main() {
           final notComingSoon = allCharacters.where((el) => !el.isComingSoon).length;
           final got = materials.expand((el) => el.characters).map((e) => e.key).toSet().length;
           expect(notComingSoon, equals(got));
+        }
+      }
+    });
+  });
+
+  group('Banner History', () {
+    test('check banner history', () async {
+      const types = BannerHistoryItemType.values;
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+
+      for (final type in types) {
+        final banners = service.getBannerHistory(type);
+        expect(banners.length, banners.where((el) => el.type == type).length);
+        for (final banner in banners) {
+          checkItemKeyAndImage(banner.key, banner.image);
+          checkTranslation(banner.name, canBeNull: false);
+          expect(banner.versions.isNotEmpty, isTrue);
+          expect(banner.rarity >= 4, isTrue);
+          expect(banner.versions.any((el) => el.released), isTrue);
+          for (final version in banner.versions) {
+            if (version.released) {
+              expect(version.number, isNull);
+              expect(version.version >= 1, isTrue);
+            } else if (version.number == 0) {
+              expect(version.released, isFalse);
+            } else {
+              expect(version.released, isFalse);
+              expect(version.number, isNotNull);
+              expect(version.number! >= 1, isTrue);
+            }
+          }
+        }
+      }
+    });
+
+    test('check versions', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+
+      final versions = service.getBannerHistoryVersions(SortDirectionType.asc);
+      expect(versions.length, versions.toSet().length);
+    });
+
+    test('check periods', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+
+      final versions = service.getBannerHistoryVersions(SortDirectionType.asc);
+      final validItemTypes = [ItemType.character, ItemType.weapon];
+      for (final version in versions) {
+        final banners = service.getBanners(version);
+        expect(banners.isNotEmpty, isTrue);
+        for (final banner in banners) {
+          expect(banner.version, version);
+          expect(banner.until.isAfter(banner.from), isTrue);
+          expect(banner.items.isNotEmpty, isTrue);
+
+          final keys = banner.items.map((e) => e.key).toList();
+          expect(keys.toSet().length == keys.length, isTrue);
+
+          for (final item in banner.items) {
+            checkItemKeyAndImage(item.key, item.image);
+            expect(item.rarity >= 4, isTrue);
+            expect(validItemTypes.contains(item.type), isTrue);
+          }
+        }
+      }
+    });
+
+    test('check version, version does not have any banner', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final banners = service.getBanners(1.7);
+      expect(banners.isEmpty, isTrue);
+    });
+
+    test('check version, invalid version', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getBanners(0.1), throwsA(isA<Exception>()));
+    });
+
+    test('check item release history', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+
+      final history = service.getItemReleaseHistory('keqing');
+      expect(history.isNotEmpty, isTrue);
+
+      for (final item in history) {
+        expect(item.dates.isNotEmpty, isTrue);
+        expect(item.version >= 1, isTrue);
+      }
+    });
+
+    test('check item release history, item does not exist', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getItemReleaseHistory('the-item'), throwsA(isA<Exception>()));
+    });
+  });
+
+  group('Charts', () {
+    test('check top charts', () async {
+      final types = ChartType.values.where((el) => el != ChartType.characterBirthdays).toList();
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      for (final type in types) {
+        final tops = service.getTopCharts(type);
+        expect(tops.isNotEmpty, isTrue);
+        final totalPercentage = tops.map((e) => e.percentage).sum;
+        expect(totalPercentage.round(), 100);
+        for (final item in tops) {
+          expect(item.type == type, isTrue);
+          checkKey(item.key);
+          checkTranslation(item.name, canBeNull: false, checkForColor: false);
+          expect(item.value > 0, isTrue);
+          expect(item.percentage > 0 && item.percentage < 100, isTrue);
+
+          final expectedStars = type.name.contains('Five') ? 5 : 4;
+          switch (type) {
+            case ChartType.topFiveStarCharacterMostReruns:
+            case ChartType.topFourStarCharacterMostReruns:
+            case ChartType.topFiveStarCharacterLeastReruns:
+            case ChartType.topFourStarCharacterLeastReruns:
+              final char = service.getCharacter(item.key);
+              expect(char.rarity == expectedStars, isTrue);
+              break;
+            case ChartType.topFiveStarWeaponMostReruns:
+            case ChartType.topFourStarWeaponMostReruns:
+            case ChartType.topFiveStarWeaponLeastReruns:
+            case ChartType.topFourStarWeaponLeastReruns:
+              final weapon = service.getWeapon(item.key);
+              expect(weapon.rarity == expectedStars, isTrue);
+              break;
+            default:
+              throw Exception('Type = $type is not valid');
+          }
+        }
+      }
+    });
+
+    test('check top charts, invalid type', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getTopCharts(ChartType.characterBirthdays), throwsA(isA<Exception>()));
+    });
+
+    test('check birthdays', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final birthdays = service.getCharacterBirthdaysForCharts();
+      expect(birthdays.isNotEmpty, isTrue);
+      expect(birthdays.length, 12);
+
+      final keys = birthdays.expand((el) => el.items).map((e) => e.key).toList();
+      expect(keys.length, keys.toSet().length);
+
+      final charCount = service.getCharactersForCard().where((el) => !el.key.startsWith('traveler') && !el.isComingSoon).length;
+      expect(keys.length, charCount);
+
+      final allMonths = List.generate(DateTime.monthsPerYear, (index) => index + 1);
+      for (final monthBirthdays in birthdays) {
+        expect(monthBirthdays.month, isIn(allMonths));
+        for (final birthday in monthBirthdays.items) {
+          checkItemCommonWithName(birthday);
+        }
+      }
+    });
+
+    test('check elements', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final versions = service.getBannerHistoryVersions(SortDirectionType.asc);
+      final expectedLength = ElementType.values.length - 1;
+
+      final elements = service.getElementsForCharts(versions.first, versions.last);
+      expect(elements.length, expectedLength);
+      expect(elements.map((el) => el.type).toSet().length, expectedLength);
+
+      for (final element in elements) {
+        expect(element.points.isNotEmpty, isTrue);
+
+        for (final point in element.points) {
+          expect(point.y >= 0, isTrue);
+        }
+      }
+    });
+
+    test('check elements, invalid from version', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getElementsForCharts(-1, 2.1), throwsA(isA<Exception>()));
+    });
+
+    test('check elements, invalid until version', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getElementsForCharts(1, -1), throwsA(isA<Exception>()));
+    });
+
+    test('check item ascension stats', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      const validTypes = [ItemType.character, ItemType.weapon];
+      final validForCharacters = getCharacterPossibleAscensionStats();
+      final validForWeapons = getWeaponPossibleAscensionStats();
+      for (final type in validTypes) {
+        final stats = service.getItemAscensionStatsForCharts(type);
+        expect(stats.isNotEmpty, isTrue);
+
+        final statTypes = stats.map((e) => e.type);
+        expect(statTypes.toSet().length, statTypes.length);
+
+        for (final stat in stats) {
+          expect(stat.itemType, type);
+          expect(stat.quantity > 0, isTrue);
+          if (type == ItemType.character) {
+            expect(stat.type, isIn(validForCharacters));
+          } else {
+            expect(stat.type, isIn(validForWeapons));
+          }
+        }
+      }
+    });
+
+    test('check item ascension stats, item type is not valid', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final types = ItemType.values.where((el) => el != ItemType.character && el != ItemType.weapon).toList();
+      for (final type in types) {
+        expect(() => service.getItemAscensionStatsForCharts(type), throwsA(isA<Exception>()));
+      }
+    });
+
+    test('check character regions', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final regions = service.getCharacterRegionsForCharts();
+      expect(regions.isNotEmpty, isTrue);
+      expect(regions.map((e) => e.regionType).toSet().length, RegionType.values.length - 1);
+
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon && el.regionType != RegionType.anotherWorld).toList();
+      for (final region in regions) {
+        expect(region.regionType != RegionType.anotherWorld, isTrue);
+        expect(region.quantity, characters.where((el) => el.regionType == region.regionType).length);
+      }
+    });
+
+    void _validateChartGenderModel(ChartGenderModel gender) {
+      expect(gender.femaleCount >= 0, isTrue);
+      expect(gender.maleCount >= 0, isTrue);
+      expect(gender.regionType != RegionType.anotherWorld, isTrue);
+      if (gender.femaleCount > 0 || gender.maleCount > 0) {
+        expect(gender.maxCount, max(gender.femaleCount, gender.maleCount));
+      } else {
+        expect(gender.maxCount, 0);
+      }
+    }
+
+    test('check character genders', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final genders = service.getCharacterGendersForCharts();
+      expect(genders.isNotEmpty, isTrue);
+      expect(genders.map((e) => e.regionType).toSet().length, RegionType.values.length - 1);
+
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon && el.regionType != RegionType.anotherWorld).toList();
+      for (final gender in genders) {
+        _validateChartGenderModel(gender);
+
+        final expectedCount = characters.where((el) => el.regionType == gender.regionType).length;
+        expect(gender.maleCount + gender.femaleCount, expectedCount);
+      }
+    });
+
+    test('check character gender by region', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final regions = RegionType.values.where((el) => el != RegionType.anotherWorld).toList();
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon && el.regionType != RegionType.anotherWorld).toList();
+      for (final region in regions) {
+        final gender = service.getCharacterGendersByRegionForCharts(region);
+        _validateChartGenderModel(gender);
+
+        final expectedCount = characters.where((el) => el.regionType == region).length;
+        expect(gender.maleCount + gender.femaleCount, expectedCount);
+      }
+    });
+
+    test('check character gender by region, invalid region', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getCharacterGendersByRegionForCharts(RegionType.anotherWorld), throwsA(isA<Exception>()));
+    });
+  });
+
+  group('Common', () {
+    test('check character for items by region', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final regions = RegionType.values.where((el) => el != RegionType.anotherWorld).toList();
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon && el.regionType != RegionType.anotherWorld).toList();
+      for (final region in regions) {
+        final items = service.getCharactersForItemsByRegion(region);
+        final expectedCount = characters.where((el) => el.regionType == region).length;
+        expect(items.length, expectedCount);
+
+        for (final item in items) {
+          checkItemCommonWithName(item);
+        }
+      }
+    });
+
+    test('check character for items by region, invalid region', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getCharactersForItemsByRegion(RegionType.anotherWorld), throwsA(isA<Exception>()));
+    });
+
+    test('check characters for items by region and gender', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final regions = RegionType.values.where((el) => el != RegionType.anotherWorld).toList();
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon && el.regionType != RegionType.anotherWorld).toList();
+      for (final region in regions) {
+        final females = service.getCharactersForItemsByRegionAndGender(region, true);
+        final males = service.getCharactersForItemsByRegionAndGender(region, false);
+        final items = males + females;
+        final expectedCount = characters.where((el) => el.regionType == region).length;
+        expect(items.length, expectedCount);
+
+        for (final item in items) {
+          checkItemCommonWithName(item);
+        }
+      }
+    });
+
+    test('check characters for items by region and gender, invalid region', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      expect(() => service.getCharactersForItemsByRegionAndGender(RegionType.anotherWorld, true), throwsA(isA<Exception>()));
+      expect(() => service.getCharactersForItemsByRegionAndGender(RegionType.anotherWorld, false), throwsA(isA<Exception>()));
+    });
+
+    test('check items ascension stats', () async {
+      final service = _getService();
+      await service.init(AppLanguageType.english);
+      final validForCharacters = getCharacterPossibleAscensionStats();
+      final validForWeapons = getWeaponPossibleAscensionStats();
+      final characters = service.getCharactersForCard().where((el) => !el.isComingSoon).toList();
+      final weapons = service.getWeaponsForCard().where((el) => !el.isComingSoon).toList();
+
+      for (final stat in validForCharacters) {
+        final items = service.getItemsAscensionStats(stat, ItemType.character);
+        expect(items.isNotEmpty, isTrue);
+        expect(items.length, characters.where((el) => el.subStatType == stat).length);
+
+        for (final item in items) {
+          checkItemCommonWithName(item);
+        }
+      }
+
+      for (final stat in validForWeapons) {
+        final items = service.getItemsAscensionStats(stat, ItemType.weapon);
+        expect(items.isNotEmpty, isTrue);
+        expect(items.length, weapons.where((el) => el.subStatType == stat).length);
+
+        for (final item in items) {
+          checkItemCommonWithName(item);
         }
       }
     });

@@ -338,6 +338,26 @@
       ]
     },
     {
+      "key": "black-serpent-knight-windcutter",
+      "image": "black-serpent-knight-windcutter.png",
+      "type": "abyssOrder",
+      "isComingSoon": false,
+      "drops": [
+        {
+          "key": "gloomy-statuette",
+          "type": "material"
+        },
+        {
+          "key": "dark-statuette",
+          "type": "material"
+        },
+        {
+          "key": "deathly-statuette",
+          "type": "material"
+        }
+      ]
+    },
+    {
       "key": "blazing-axe-mitachurl",
       "image": "blazing-axe-mitachurl.png",
       "type": "hilichurl",
@@ -664,18 +684,6 @@
         },
         {
           "key": "ley-line-sprout",
-          "type": "material"
-        },
-        {
-          "key": "gloomy-statuette",
-          "type": "material"
-        },
-        {
-          "key": "dark-statuette",
-          "type": "material"
-        },
-        {
-          "key": "deathly-statuette",
           "type": "material"
         },
         {
@@ -1091,18 +1099,6 @@
         },
         {
           "key": "ley-line-sprout",
-          "type": "material"
-        },
-        {
-          "key": "gloomy-statuette",
-          "type": "material"
-        },
-        {
-          "key": "dark-statuette",
-          "type": "material"
-        },
-        {
-          "key": "deathly-statuette",
           "type": "material"
         },
         {
@@ -1707,6 +1703,13 @@
       ]
     },
     {
+      "key": "floating-hydro-fungus",
+      "image": "floating-hydro-fungus.png",
+      "type": "magicalBeast",
+      "isComingSoon": false,
+      "drops": []
+    },
+    {
       "key": "frostarm-lawachurl",
       "image": "frostarm-lawachurl.png",
       "type": "hilichurl",
@@ -2218,18 +2221,6 @@
         },
         {
           "key": "ley-line-sprout",
-          "type": "material"
-        },
-        {
-          "key": "gloomy-statuette",
-          "type": "material"
-        },
-        {
-          "key": "dark-statuette",
-          "type": "material"
-        },
-        {
-          "key": "deathly-statuette",
           "type": "material"
         },
         {
@@ -2998,7 +2989,104 @@
       "image": "magatsu-mitake-narukami-no-mikoto.png",
       "type": "boss",
       "isComingSoon": false,
-      "drops": []
+      "drops": [
+        {
+          "key": "vajrada-amethyst-sliver",
+          "type": "material"
+        },
+        {
+          "key": "vajrada-amethyst-fragment",
+          "type": "material"
+        },
+        {
+          "key": "vajrada-amethyst-chunk",
+          "type": "material"
+        },
+        {
+          "key": "vajrada-amethyst-gemstone",
+          "type": "material"
+        },
+        {
+          "key": "mudra-of-the-malefic-general",
+          "type": "material"
+        },
+        {
+          "key": "tears-of-the-calamitous-god",
+          "type": "material"
+        },
+        {
+          "key": "the-meaning-of-aeons",
+          "type": "material"
+        },
+        {
+          "key": "northlander-sword-billet",
+          "type": "material"
+        },
+        {
+          "key": "northlander-claymore-billet",
+          "type": "material"
+        },
+        {
+          "key": "northlander-polearm-billet",
+          "type": "material"
+        },
+        {
+          "key": "northlander-bow-billet",
+          "type": "material"
+        },
+        {
+          "key": "northlander-catalyst-billet",
+          "type": "material"
+        },
+        {
+          "key": "berserker",
+          "type": "artifact"
+        },
+        {
+          "key": "instructor",
+          "type": "artifact"
+        },
+        {
+          "key": "the-exile",
+          "type": "artifact"
+        },
+        {
+          "key": "traveling-doctor",
+          "type": "artifact"
+        },
+        {
+          "key": "berserker",
+          "type": "artifact"
+        },
+        {
+          "key": "instructor",
+          "type": "artifact"
+        },
+        {
+          "key": "traveling-doctor",
+          "type": "artifact"
+        },
+        {
+          "key": "gladiators-finale",
+          "type": "artifact"
+        },
+        {
+          "key": "wanderers-troupe",
+          "type": "artifact"
+        },
+        {
+          "key": "gladiators-finale",
+          "type": "artifact"
+        },
+        {
+          "key": "wanderers-troupe",
+          "type": "artifact"
+        },
+        {
+          "key": "mora",
+          "type": "material"
+        }
+      ]
     },
     {
       "key": "maguu-kenki",
@@ -3702,18 +3790,6 @@
         },
         {
           "key": "ley-line-sprout",
-          "type": "material"
-        },
-        {
-          "key": "gloomy-statuette",
-          "type": "material"
-        },
-        {
-          "key": "dark-statuette",
-          "type": "material"
-        },
-        {
-          "key": "deathly-statuette",
           "type": "material"
         },
         {
@@ -4577,6 +4653,18 @@
       ]
     },
     {
+      "key": "ruin-serpent",
+      "image": "ruin-serpent.png",
+      "type": "automaton",
+      "isComingSoon": false,
+      "drops": [
+        {
+          "key": "runic-fang",
+          "type": "material"
+        }
+      ]
+    },
+    {
       "key": "sangonomiya-cohort",
       "image": "sangonomiya-cohort.png",
       "type": "na",
@@ -4588,21 +4676,60 @@
       "image": "shadowy-husk-defender.png",
       "type": "abyssOrder",
       "isComingSoon": false,
-      "drops": []
+      "drops": [
+        {
+          "key": "gloomy-statuette",
+          "type": "material"
+        },
+        {
+          "key": "dark-statuette",
+          "type": "material"
+        },
+        {
+          "key": "deathly-statuette",
+          "type": "material"
+        }
+      ]
     },
     {
       "key": "shadowy-husk-line-breaker",
       "image": "shadowy-husk-line-breaker.png",
       "type": "abyssOrder",
       "isComingSoon": false,
-      "drops": []
+      "drops": [
+        {
+          "key": "gloomy-statuette",
+          "type": "material"
+        },
+        {
+          "key": "dark-statuette",
+          "type": "material"
+        },
+        {
+          "key": "deathly-statuette",
+          "type": "material"
+        }
+      ]
     },
     {
       "key": "shadowy-husk-standard-bearer",
       "image": "shadowy-husk-standard-bearer.png",
       "type": "abyssOrder",
       "isComingSoon": false,
-      "drops": []
+      "drops": [
+        {
+          "key": "gloomy-statuette",
+          "type": "material"
+        },
+        {
+          "key": "dark-statuette",
+          "type": "material"
+        },
+        {
+          "key": "deathly-statuette",
+          "type": "material"
+        }
+      ]
     },
     {
       "key": "shogunate-infantry",

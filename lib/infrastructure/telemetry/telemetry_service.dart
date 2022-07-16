@@ -3,8 +3,8 @@ import 'package:shiori/domain/enums/enums.dart';
 import 'package:shiori/domain/models/models.dart';
 import 'package:shiori/domain/services/device_info_service.dart';
 import 'package:shiori/domain/services/telemetry_service.dart';
+import 'package:shiori/infrastructure/secrets.dart';
 import 'package:shiori/infrastructure/telemetry/flutter_appcenter_bundle.dart';
-import 'package:shiori/infrastructure/telemetry/secrets.dart';
 
 class TelemetryServiceImpl implements TelemetryService {
   final DeviceInfoService _deviceInfoService;
@@ -144,20 +144,34 @@ class TelemetryServiceImpl implements TelemetryService {
   @override
   Future<void> trackCustomBuildSaved(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType) => trackEventAsync(
         'Custom-Build-Saved',
-        {
-          'CharKey': charKey,
-          'RoleType': EnumToString.convertToString(roleType),
-          'SubType': EnumToString.convertToString(subType),
-        },
+        {'Char_RoleType_SubType': '${charKey}_${EnumToString.convertToString(roleType)}_${EnumToString.convertToString(subType)}'},
       );
 
   @override
   Future<void> trackCustomBuildScreenShootTaken(String charKey, CharacterRoleType roleType, CharacterRoleSubType subType) => trackEventAsync(
         'Custom-Build-ScreenShootTaken',
-        {
-          'CharKey': charKey,
-          'RoleType': EnumToString.convertToString(roleType),
-          'SubType': EnumToString.convertToString(subType),
-        },
+        {'Char_RoleType_SubType': '${charKey}_${EnumToString.convertToString(roleType)}_${EnumToString.convertToString(subType)}'},
       );
+
+  @override
+  Future<void> trackPurchase(String userId, String identifier, bool succeed) =>
+      trackEventAsync('Donations-Purchase', {'UserId_Identifier_Succeed': '${userId}_${identifier}_$succeed'});
+
+  @override
+  Future<void> trackRestore(String userId, bool succeed) => trackEventAsync('Donations-Restore', {'UserId_Succeed': '${userId}_$succeed'});
+
+  @override
+  Future<void> trackBannerHistoryOpened() => trackEventAsync('Banner-History-Opened');
+
+  @override
+  Future<void> trackBannerHistoryItemOpened(double version) => trackEventAsync('Banner-History-Item-Opened', {'Version': '$version'});
+
+  @override
+  Future<void> trackItemReleaseHistoryOpened(String itemKey) => trackEventAsync('Banner-History-Item-Release-History-Opened', {'ItemKey': itemKey});
+
+  @override
+  Future<void> trackChartsOpened() => trackEventAsync('Charts-Opened');
+
+  @override
+  Future<void> trackBirthdaysPerMonthOpened(int month) => trackEventAsync('BirthdaysPerMonth-Opened', {'Month': '$month'});
 }

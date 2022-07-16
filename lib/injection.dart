@@ -10,6 +10,7 @@ import 'package:shiori/domain/services/locale_service.dart';
 import 'package:shiori/domain/services/logging_service.dart';
 import 'package:shiori/domain/services/network_service.dart';
 import 'package:shiori/domain/services/notification_service.dart';
+import 'package:shiori/domain/services/purchase_service.dart';
 import 'package:shiori/domain/services/settings_service.dart';
 import 'package:shiori/domain/services/telemetry_service.dart';
 import 'package:shiori/infrastructure/infrastructure.dart';
@@ -136,6 +137,83 @@ class Injection {
     return CustomBuildsBloc(dataService);
   }
 
+  static DonationsBloc get donationsBloc {
+    final purchaseService = getIt<PurchaseService>();
+    final networkService = getIt<NetworkService>();
+    final telemetryService = getIt<TelemetryService>();
+    return DonationsBloc(purchaseService, networkService, telemetryService);
+  }
+
+  static BannerHistoryBloc get bannerHistoryBloc {
+    final genshinService = getIt<GenshinService>();
+    final telemetryService = getIt<TelemetryService>();
+    return BannerHistoryBloc(genshinService, telemetryService);
+  }
+
+  static BannerHistoryItemBloc get bannerHistoryItemBloc {
+    final genshinService = getIt<GenshinService>();
+    final telemetryService = getIt<TelemetryService>();
+    return BannerHistoryItemBloc(genshinService, telemetryService);
+  }
+
+  static ItemReleaseHistoryBloc get itemReleaseHistoryBloc {
+    final genshinService = getIt<GenshinService>();
+    final telemetryService = getIt<TelemetryService>();
+    return ItemReleaseHistoryBloc(genshinService, telemetryService);
+  }
+
+  static ChartTopsBloc get chartTopsBloc {
+    final genshinService = getIt<GenshinService>();
+    final telemetryService = getIt<TelemetryService>();
+    return ChartTopsBloc(genshinService, telemetryService);
+  }
+
+  static ChartBirthdaysBloc get chartBirthdaysBloc {
+    final genshinService = getIt<GenshinService>();
+    return ChartBirthdaysBloc(genshinService);
+  }
+
+  static ChartElementsBloc get chartElementsBloc {
+    final genshinService = getIt<GenshinService>();
+    return ChartElementsBloc(genshinService);
+  }
+
+  static ChartAscensionStatsBloc get chartAscensionStatsBloc {
+    final genshinService = getIt<GenshinService>();
+    return ChartAscensionStatsBloc(genshinService);
+  }
+
+  static CharactersBirthdaysPerMonthBloc get charactersBirthdaysPerMonthBloc {
+    final genshinService = getIt<GenshinService>();
+    final telemetryService = getIt<TelemetryService>();
+    return CharactersBirthdaysPerMonthBloc(genshinService, telemetryService);
+  }
+
+  static ItemsAscensionStatsBloc get itemsAscensionStatsBloc {
+    final genshinService = getIt<GenshinService>();
+    return ItemsAscensionStatsBloc(genshinService);
+  }
+
+  static ChartRegionsBloc get chartRegionsBloc {
+    final genshinService = getIt<GenshinService>();
+    return ChartRegionsBloc(genshinService);
+  }
+
+  static CharactersPerRegionBloc get charactersPerRegionBloc {
+    final genshinService = getIt<GenshinService>();
+    return CharactersPerRegionBloc(genshinService);
+  }
+
+  static ChartGendersBloc get chartGendersBloc {
+    final genshinService = getIt<GenshinService>();
+    return ChartGendersBloc(genshinService);
+  }
+
+  static CharactersPerRegionGenderBloc get charactersPerRegionGenderBloc {
+    final genshinService = getIt<GenshinService>();
+    return CharactersPerRegionGenderBloc(genshinService);
+  }
+
   //TODO: USE THIS PROP
   // static CalculatorAscMaterialsItemBloc get calculatorAscMaterialsItemBloc {
   //   final genshinService = getIt<GenshinService>();
@@ -215,5 +293,9 @@ class Injection {
 
     final changelogProvider = ChangelogProviderImpl(loggingService, networkService);
     getIt.registerSingleton<ChangelogProvider>(changelogProvider);
+
+    final purchaseService = PurchaseServiceImpl(loggingService);
+    await purchaseService.init();
+    getIt.registerSingleton<PurchaseService>(purchaseService);
   }
 }

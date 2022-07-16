@@ -1144,6 +1144,93 @@
       ]
     },
     {
+      "key": "collei",
+      "name": "Collei",
+      "title": "？？？",
+      "description": "测试角色",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "diluc",
       "name": "迪卢克",
       "title": "晨曦的暗面",
@@ -1415,6 +1502,93 @@
             "生命值低于或等于50%时，受治疗加成提升30%；",
             "生命值高于50%时，元素精通提升200。"
           ]
+        }
+      ]
+    },
+    {
+      "key": "dori",
+      "name": "Dori",
+      "title": "？？？",
+      "description": "测试角色",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
         }
       ]
     },
@@ -2724,87 +2898,142 @@
     },
     {
       "key": "kamisato-ayato",
-      "name": "Kamisato Ayato",
-      "title": "",
-      "description": "",
+      "name": "神里绫人",
+      "title": "磐祭叶守",
+      "description": "社奉行神里家年轻有为的现任家主，为人温雅有礼，处事颇有手段。",
       "skills": [
         {
           "key": "s1",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "普通攻击·神里流·转",
+          "description": "",
+          "abilities": [
+            {
+              "name": "普通攻击",
+              "description": "进行至多五段的连续剑击。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "重击",
+              "description": "消耗一定体力，向前冲刺并施展居合。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "下落攻击",
+              "description": "从空中下坠冲击地面，攻击下落路径上的敌人，并在落地时造成范围伤害。",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "一段伤害|{param1}%",
+            "二段伤害|{param2}%",
+            "三段伤害|{param3}%",
+            "四段伤害|{param4}%×{param5}",
+            "五段伤害|{param6}%",
+            "重击伤害|{param7}%",
+            "重击体力消耗|{param8}",
+            "下坠期间伤害|{param9}%",
+            "低空/高空坠地冲击伤害|{param10}% / {param11}%"
+          ]
         },
         {
           "key": "s2",
-          "title": "NA",
-          "description": null,
-          "abilities": [],
-          "stats": []
+          "title": "神里流·镜花",
+          "description": "神里绫人垫步移动并进入「泷廻鉴花」状态。\r\n移动后，神里绫人原本的位置上将产生「水影」。水影完全形成后，将在附近存在敌人或持续时间结束时破裂，造成水元素范围伤害。\r\n",
+          "abilities": [
+            {
+              "name": "泷廻鉴花",
+              "description": "在此状态下，神里绫人将使用瞬水剑进行迅速的攻击，将普通攻击造成的伤害转为无法被附魔覆盖的水元素范围伤害。\r\n此外，具有如下效果：\r\n",
+              "descriptions": [
+                "瞬水剑攻击命中敌人后，将为神里绫人赋予「浪闪」效果，基于神里绫人自己当前的生命值上限，提升瞬水剑造成的伤害。浪闪初始至多叠加4层，每0.1秒至多通过瞬水剑攻击获得一层，将在泷廻鉴花状态结束时消失。",
+                "提高神里绫人的抗打断能力；",
+                "无法施放重击与下落攻击。",
+                "泷廻鉴花状态将在神里绫人退场时解除；处于泷廻鉴花状态下时再次施放神里流  镜花，将移除已有的泷廻鉴花状态。"
+              ]
+            }
+          ],
+          "stats": [
+            "一段瞬水剑伤害|{param1}%",
+            "二段瞬水剑伤害|{param2}%",
+            "三段瞬水剑伤害|{param3}%",
+            "泷廻鉴花持续时间|{param4}s",
+            "浪闪伤害值提高|{param5}%Max HP / Stack",
+            "水影伤害|{param6}%",
+            "水影持续时间|{param7}s",
+            "冷却时间|{param8}s"
+          ]
         },
         {
           "key": "s3",
-          "title": "NA",
-          "description": null,
+          "title": "神里流·水囿",
+          "description": "展开清净之园囿，熄灭其中一切嚣闹。\r\n存在期间，其中会持续降下水花剑，攻击范围内的敌人，造成水元素伤害，并提高其中的角色的普通攻击伤害。\r\n",
           "abilities": [],
-          "stats": []
+          "stats": [
+            "水花剑伤害|{param1}%",
+            "普通攻击伤害提升|{param2}%",
+            "持续时间|{param3}s",
+            "冷却时间|{param4}s",
+            "元素能量|{param5}"
+          ]
         }
       ],
       "passives": [
         {
           "key": "p1",
-          "title": "NA",
-          "description": "",
+          "title": "神里流·日常茶饭",
+          "description": "完美烹饪食物时，有18%概率额外获得一个「奇怪的」品质的同种料理。\r\n",
           "descriptions": []
         },
         {
           "key": "p2",
-          "title": "NA",
-          "description": "",
-          "descriptions": []
+          "title": "神里流·清泷绕峰",
+          "description": "神里流 • 镜花具有如下效果：\r\n",
+          "descriptions": [
+            "施放后，神里绫人会获得2层浪闪效果；",
+            "水影破裂后，神里绫人将获得等同于叠加上限层数的浪闪效果。"
+          ]
         },
         {
           "key": "p3",
-          "title": "NA",
-          "description": "",
+          "title": "神里流·破月渐盈",
+          "description": "神里绫人处于队伍后台时，若元素能量低于40点，每1秒为自己恢复2点元素能量。\r\n",
           "descriptions": []
         }
       ],
       "constellations": [
         {
           "key": "c1",
-          "title": "NA",
-          "description": "",
+          "title": "镜华风姿",
+          "description": "对于生命值低于或等于50%的敌人，瞬水剑造成的伤害提升40%。\r\n",
           "descriptions": []
         },
         {
           "key": "c2",
-          "title": "NA",
-          "description": "",
+          "title": "世有源泉",
+          "description": "浪闪叠加上限提升至5层；神里绫人处于至少3层浪闪状态下时，将提升50%生命值上限。\r\n",
           "descriptions": []
         },
         {
           "key": "c3",
-          "title": "NA",
-          "description": "",
+          "title": "无意弄花",
+          "description": "神里流 • 镜花的技能等级提高3级。\r\n至多提升至15级。\r\n",
           "descriptions": []
         },
         {
           "key": "c4",
-          "title": "NA",
-          "description": "",
+          "title": "不厌细流",
+          "description": "施放神里流 • 水囿后，队伍中附近的角色普通攻击的攻击速度提升15%，持续15秒。\r\n",
           "descriptions": []
         },
         {
           "key": "c5",
-          "title": "NA",
-          "description": "",
+          "title": "万水一露",
+          "description": "神里流 • 水囿的技能等级提高3级。\r\n至多提升至15级。\r\n",
           "descriptions": []
         },
         {
           "key": "c6",
-          "title": "NA",
-          "description": "",
+          "title": "滥觞无底",
+          "description": "施放神里流 • 镜花之后，神里绫人的下一次瞬水剑攻击命中敌人时，将进行2次额外的瞬水剑攻击，各自能造成神里绫人攻击力450%的伤害。\r\n此两次瞬水剑攻击不会受到浪闪的增益。\r\n",
           "descriptions": []
         }
       ]
@@ -3189,6 +3418,140 @@
           "key": "c6",
           "title": "我界",
           "description": "处于天狗咒雷带来的攻击力提升效果状态下的角色，其雷元素伤害的暴击伤害提高60%。\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "kuki-shinobu",
+      "name": "久岐忍",
+      "title": "烦恼刈除",
+      "description": "干练可靠的「荒泷派」的副手——特别注明：干练可靠形容的不是「荒泷派」而是副手。",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "普通攻击·忍流飞刃斩",
+          "description": "",
+          "abilities": [
+            {
+              "name": "普通攻击",
+              "description": "进行至多四段的连续剑击。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "重击",
+              "description": "消耗一定体力，瞬间向前方挥出两剑。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "下落攻击",
+              "description": "从空中下坠冲击地面，攻击下落路径上的敌人，并在落地时造成范围伤害。",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "一段伤害|{param1}%",
+            "二段伤害|{param2}%",
+            "三段伤害|{param3}%",
+            "四段伤害|{param4}%",
+            "重击伤害|{param5}% + {param6}%",
+            "重击体力消耗|{param7}",
+            "下坠期间伤害|{param8}%",
+            "低空/高空坠地冲击伤害|{param9}% / {param10}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "越祓雷草之轮",
+          "description": "编结越祓草轮，消耗一部分生命值，对周围的敌人造成雷元素伤害。\r\n",
+          "abilities": [
+            {
+              "name": "越祓草轮",
+              "description": "将跟随当前场上角色。每1.5秒，对周围的敌人造成雷元素伤害，并为范围内的当前场上角色恢复生命值，回复量受益于久岐忍的生命值上限。\r\n施放该技能所消耗的生命值，至多使久岐忍的生命值降低至20%。\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "技能伤害|{param1}%",
+            "越祓草轮治疗量|{param2}% Max HP + {param3}",
+            "越祓草轮伤害|{param4}%",
+            "技能消耗|{param5}% Current HP",
+            "持续时间|{param6}s",
+            "冷却时间|{param7}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "御咏鸣神刈山祭",
+          "description": "将退邪之刃刺入地面，在前方创造清净邪物的结界，基于久岐忍的生命值上限，对其中的敌人持续造成雷元素伤害。\r\n施放时，若久岐忍的生命值低于或等于50%，结界的持续时间将会延长。\r\n",
+          "abilities": [],
+          "stats": [
+            "单次伤害|{param1}% Max HP",
+            "总伤害|{param2}% / {param3}% Max HP",
+            "持续时间|{param4}s / {param5}s",
+            "冷却时间|{param6}s",
+            "元素能量|{param7}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "久时的祝祷",
+          "description": "在稻妻执行时长为20小时的探索派遣任务时，获得的奖励增加25%。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "破笼之志",
+          "description": "久岐忍的生命值不高于50%时，治疗加成提升15%。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "安心之所",
+          "description": "基于久岐忍的元素精通，越祓雷草之轮获得以下提升：\r\n",
+          "descriptions": [
+            "治疗量提升值：元素精通的75%；",
+            "伤害提升值：元素精通的25%。"
+          ]
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "割舍怜悯之心",
+          "description": "御咏鸣神刈山祭的影响范围提升50%。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "割舍侥幸之心",
+          "description": "越祓草轮的持续时间延长3秒。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "割舍痛苦之心",
+          "description": "越祓雷草之轮的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "割舍封闭之心",
+          "description": "处于久岐忍自己的越祓草轮状态下的角色，在普通攻击、重击或下落攻击命中敌人时，雷草标将落在敌人所在的位置，基于久岐忍生命值上限的9.7%，造成雷元素范围伤害。\r\n该效果每5秒至多触发一次。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "割舍逢迎之心",
+          "description": "御咏鸣神刈山祭的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "割舍软弱之心",
+          "description": "久岐忍承受足以使她倒下的伤害时，此次伤害不会使她倒下，这个效果在久岐忍生命值为1时会自动触发，该效果每60秒只能触发一次。\r\n久岐忍生命值降至25%以下时，会提升自身150点精通，持续15秒，该效果每60秒只能触发一次。\r\n",
           "descriptions": []
         }
       ]
@@ -4828,6 +5191,146 @@
       ]
     },
     {
+      "key": "shikanoin-heizou",
+      "name": "鹿野院平藏",
+      "title": "心朝乂安",
+      "description": "天领奉行的天才少年侦探，直觉敏锐，心思玲珑。",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "普通攻击·不动流格斗术",
+          "description": "",
+          "abilities": [
+            {
+              "name": "普通攻击",
+              "description": "以强风加持的招式与敌人格斗，进行至多五段的攻击，造成风元素伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "重击",
+              "description": "消耗一定体力，使出扬尘踢，造成风元素伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "下落攻击",
+              "description": "凝聚强风的力量，从空中下坠冲击地面，攻击下落路径上的敌人，并在落地时造成风元素范围伤害。",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "一段伤害|{param1}%",
+            "二段伤害|{param2}%",
+            "三段伤害|{param3}%",
+            "四段伤害|{param4}% + {param5}% + {param6}%",
+            "五段伤害|{param7}%",
+            "重击伤害|{param8}%",
+            "重击体力消耗|{param9}",
+            "下坠期间伤害|{param10}%",
+            "低空/高空坠地冲击伤害|{param11}% / {param12}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "勠心拳",
+          "description": "",
+          "abilities": [
+            {
+              "name": "点按",
+              "description": "驱使疾风，向前打出勠心拳，造成风元素伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "长按",
+              "description": "积蓄力量，以施展更为强大的拳势。蓄力期间，将持续获得能提升勠心拳威力的「变格」效果；松开技能或蓄力结束时，会向前打出勠心拳，造成风元素伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "变格",
+              "description": "提升下一次勠心拳造成的伤害，至多叠加4层。\r\n拥有4层「变格」时，将产生「正论」效果，使下一次勠心拳造成的伤害将进一步提高，并拥有更大的影响范围。\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "技能伤害|{param1}%",
+            "变格伤害提升|{param2}%/stack",
+            "正论伤害提升|{param3}%",
+            "变格持续时间|{param4}s",
+            "冷却时间|{param5}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "聚风蹴",
+          "description": "腾跃至空中，向敌人踢出不动流 • 真空弹。不动流 • 真空弹将在命中时炸裂，产生缉拿风穴，牵引附近的物体与敌人，造成风元素范围伤害。\r\n不动流 • 真空弹命中处于水元素/火元素/冰元素/雷元素附着下的敌人时，会为这些敌人施加「聚风真眼」效果，该效果会在片刻后爆发消失，并造成对应元素属性的范围伤害。\r\n不动流 • 真空弹至多对4名命中的敌人施加「聚风真眼」；敌人无法同时处于多种元素属性的「聚风真眼」状态下。\r\n",
+          "abilities": [],
+          "stats": [
+            "不动流·真空弹伤害|{param1}%",
+            "聚风真眼伤害|{param2}%",
+            "冷却时间|{param3}s",
+            "元素能量|{param4}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "在罪之先",
+          "description": "队伍中自己的角色冲刺消耗的体力降低20%。\r\n无法与效果完全相同的固有天赋叠加。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "反论稽古",
+          "description": "鹿野院平藏在场上触发扩散反应时，将获得1层勠心拳的「变格」效果，该效果每0.1秒至多触发一次。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "因由勘破",
+          "description": "勠心拳命中敌人后，队伍中所有角色（不包括鹿野院平藏自己）的元素精通提升80点，持续10秒。\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "称名少年事件簿",
+          "description": "鹿野院平藏登场后的5秒内，普通攻击的攻击速度提升15%，并获得1层勠心拳的「变格」效果，该效果每10秒最多触发一次。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "殊解诸因探案集",
+          "description": "聚风蹴产生的缉拿风穴的牵引效果获得提升，并将持续时间延长至1秒。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "暗文隐语谜题册",
+          "description": "勠心拳的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "虚言假说百物语",
+          "description": "在一次聚风蹴中，「聚风真眼」在第一次爆发后，将为鹿野院平藏恢复9点元素能量，此后每次爆发，都将分别为鹿野院平藏额外恢复1.5点元素能量，\r\n一次聚风蹴，至多通过这种方式为鹿野院平藏恢复13.5点元素能量。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "禁室密所大图鉴",
+          "description": "聚风蹴的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "奇想天开捕物帐",
+          "description": "施放勠心拳时，每层「变格」都将为本次勠心拳提升4%暴击率。拥有「正论」时，本次勠心拳的暴击伤害将提升32%。\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "sucrose",
       "name": "砂糖",
       "title": "无害甜度",
@@ -5281,6 +5784,93 @@
           "key": "c6",
           "title": "炽烧的至心",
           "description": "获取或刷新烈烧佑命护盾时，队伍中所有角色的普通攻击，重击与下落攻击造成的伤害提升15%，持续6秒。\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
+      "key": "tighnari",
+      "name": "Tighnari",
+      "title": "？？？",
+      "description": "测试角色",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s2",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        },
+        {
+          "key": "s3",
+          "title": "NA",
+          "description": null,
+          "abilities": [],
+          "stats": []
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "NA",
+          "description": "",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "NA",
+          "description": "",
           "descriptions": []
         }
       ]
@@ -6636,6 +7226,154 @@
       ]
     },
     {
+      "key": "yelan",
+      "name": "夜兰",
+      "title": "兰生幽谷",
+      "description": "自称供职于总务司的神秘人士，却又是总务司名录里的「不存在之人」。",
+      "skills": [
+        {
+          "key": "s1",
+          "title": "普通攻击·潜形隐曜弓",
+          "description": "",
+          "abilities": [
+            {
+              "name": "普通攻击",
+              "description": "进行至多四段的连续弓箭射击。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "重击",
+              "description": "进行伤害更高、更为精准的瞄准射击。\r\n瞄准时，流水会在箭矢上持续积聚。聚满了激流的箭矢会造成水元素伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "破局",
+              "description": "脱离战斗状态5秒后，夜兰将获得「破局」状态，使下一次满蓄力瞄准射击所需的蓄力时间减少80%，并将在满蓄力时转为发射「破局矢」。破局矢将基于夜兰的生命值上限造成水元素范围伤害。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "下落攻击",
+              "description": "从空中射出箭雨，并迅速下坠冲击地面，在落地时造成范围伤害。",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "一段伤害|{param1}%",
+            "二段伤害|{param2}%",
+            "三段伤害|{param3}%",
+            "四段伤害|{param4}% + {param5}%",
+            "瞄准射击|{param6}%",
+            "满蓄力瞄准射击|{param7}%",
+            "破局矢伤害|{param8}% Max HP",
+            "下坠期间伤害|{param9}%",
+            "低空/高空坠地冲击伤害|{param10}% / {param11}%"
+          ]
+        },
+        {
+          "key": "s2",
+          "title": "萦络纵命索",
+          "description": "牵引「络命丝」疾走，缠络标记途径的敌人。\r\n疾走结束时，「络命丝」将会爆发，基于夜兰的生命值上限，对标记的敌人造成水元素伤害。\r\n",
+          "abilities": [
+            {
+              "name": "点按",
+              "description": "快速向前疾走一段距离。\r\n",
+              "descriptions": []
+            },
+            {
+              "name": "长按",
+              "description": "持续疾走，并在该状态下提高夜兰的抗打断能力。\r\n期间，夜兰可以控制疾走的方向，并能通过再次施放技能，提前结束疾走状态。\r\n此外，「络命丝」爆发时，依照标记敌人的数量，夜兰将有概率获得「破局」状态：每个标记的敌人能使概率提升34%。\r\n",
+              "descriptions": []
+            }
+          ],
+          "stats": [
+            "技能伤害|{param1}% Max HP",
+            "长按最大持续时间|{param2}s",
+            "冷却时间|{param3}s"
+          ]
+        },
+        {
+          "key": "s3",
+          "title": "渊图玲珑骰",
+          "description": "造成水元素范围伤害，并凝聚出「玄掷玲珑」，协助进行战斗。\r\n",
+          "abilities": [
+            {
+              "name": "玄掷玲珑",
+              "description": "将跟随角色，并在以下情况下，进行协同攻击，基于夜兰的生命值上限造成水元素伤害：\r\n",
+              "descriptions": [
+                "队伍中自己的当前场上角色进行普通攻击时，每1秒至多触发一次；",
+                "夜兰自己的「络命丝」爆发并命中敌人时，将进行一次协同攻击。"
+              ]
+            }
+          ],
+          "stats": [
+            "技能伤害|{param1}% Max HP",
+            "玄掷玲珑伤害|{param2}% Max HP ×{param3}",
+            "持续时间|{param4}s",
+            "冷却时间|{param5}s",
+            "元素能量|{param6}"
+          ]
+        }
+      ],
+      "passives": [
+        {
+          "key": "p1",
+          "title": "长考一着",
+          "description": "在璃月执行时长为20小时的探索派遣任务时，获得的奖励增加25%。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p2",
+          "title": "猜先有方",
+          "description": "队伍存在1/2/3/4种元素类型的角色时，夜兰的生命值上限提升6%/12%/18%/30%。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "p3",
+          "title": "妙转随心",
+          "description": "「玄掷玲珑」存在期间，能使队伍中自己的当前场上角色造成的伤害提高1%，并且每1秒进一步提高3.5%，至多使角色造成的伤害提高50%。\r\n效果存在期间重新施放渊图玲珑骰，将移除原有的上述效果。\r\n",
+          "descriptions": []
+        }
+      ],
+      "constellations": [
+        {
+          "key": "c1",
+          "title": "与谋者，以局入局",
+          "description": "萦络纵命索的可使用次数增加1次。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c2",
+          "title": "入彀者，多多益善",
+          "description": "「玄掷玲珑」协同攻击时，会发射一枚额外的水箭，造成相当于夜兰生命值上限14%的水元素伤害。\r\n该效果每1.8秒至多触发一次。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c3",
+          "title": "晃盅者，琼畟药骰",
+          "description": "渊图玲珑骰的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c4",
+          "title": "诓惑者，接树移花",
+          "description": "依照「络命丝」标记敌人的数量，每次标记将在爆发时使队伍中所有角色的生命值上限提升10%，持续25秒。通过这种方式，生命值上限至多获得40%提升。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c5",
+          "title": "坐庄者，三仙戏法",
+          "description": "萦络纵命索的技能等级提高3级。\r\n至多提升至15级。\r\n",
+          "descriptions": []
+        },
+        {
+          "key": "c6",
+          "title": "取胜者，大小通吃",
+          "description": "施放渊图玲珑骰后，夜兰将进入「运筹帷幄」状态：\r\n夜兰的普通攻击将转为发射特殊的「破局矢」。这种箭矢具有与破局矢近似的特性，造成的伤害视为重击伤害，能造成破局矢156%的伤害。\r\n「运筹帷幄」状态至多持续20秒，将在夜兰发射5枚箭矢后移除。\r\n",
+          "descriptions": []
+        }
+      ]
+    },
+    {
       "key": "yoimiya",
       "name": "宵宫",
       "title": "琉焰华舞",
@@ -7140,6 +7878,18 @@
       "refinements": []
     },
     {
+      "key": "aqua-simulacra",
+      "name": "若水",
+      "description": "色泽流移难测的长弓，在光下显现着如水的润蓝。",
+      "refinements": [
+        "生命值提升{color}16{/color}%。周围存在敌人时，装备该武器的角色造成的伤害都会提升{color}20{/color}%，不论该角色处于场上或是处于队伍后台。",
+        "生命值提升{color}20{/color}%。周围存在敌人时，装备该武器的角色造成的伤害都会提升{color}25{/color}%，不论该角色处于场上或是处于队伍后台。",
+        "生命值提升{color}24{/color}%。周围存在敌人时，装备该武器的角色造成的伤害都会提升{color}30{/color}%，不论该角色处于场上或是处于队伍后台。",
+        "生命值提升{color}28{/color}%。周围存在敌人时，装备该武器的角色造成的伤害都会提升{color}35{/color}%，不论该角色处于场上或是处于队伍后台。",
+        "生命值提升{color}32{/color}%。周围存在敌人时，装备该武器的角色造成的伤害都会提升{color}40{/color}%，不论该角色处于场上或是处于队伍后台。"
+      ]
+    },
+    {
       "key": "aquila-favonia",
       "name": "风鹰剑",
       "description": "西风骑士团的灵魂。历经千年仍在呼唤你卷起正义之风，祓除奸邪，一如上一位挥舞此剑的女杰。",
@@ -7440,6 +8190,18 @@
       ]
     },
     {
+      "key": "fading-twilight",
+      "name": "落霞",
+      "description": "以白金精制而成的宝弓，其上镶嵌着霞光闪烁的宝珠。",
+      "refinements": [
+        "具有夕暮、流霞、朝晖三种状态，分别能使造成的伤害提升{color}6%/10%/14%{/color}。攻击命中敌人后，将转换为下一种状态，每7秒至多转换一次状态。装备该武器的角色处于队伍后台时该效果依旧能触发转换。",
+        "具有夕暮、流霞、朝晖三种状态，分别能使造成的伤害提升{color}7.5%/12.5%/17.5%{/color}。攻击命中敌人后，将转换为下一种状态，每7秒至多转换一次状态。装备该武器的角色处于队伍后台时该效果依旧能触发转换。",
+        "具有夕暮、流霞、朝晖三种状态，分别能使造成的伤害提升{color}9%/15%/21%{/color}。攻击命中敌人后，将转换为下一种状态，每7秒至多转换一次状态。装备该武器的角色处于队伍后台时该效果依旧能触发转换。",
+        "具有夕暮、流霞、朝晖三种状态，分别能使造成的伤害提升{color}10.5%/17.5%/24.5%{/color}。攻击命中敌人后，将转换为下一种状态，每7秒至多转换一次状态。装备该武器的角色处于队伍后台时该效果依旧能触发转换。",
+        "具有夕暮、流霞、朝晖三种状态，分别能使造成的伤害提升{color}12%/20%/28%{/color}。攻击命中敌人后，将转换为下一种状态，每7秒至多转换一次状态。装备该武器的角色处于队伍后台时该效果依旧能触发转换。"
+      ]
+    },
+    {
       "key": "favonius-codex",
       "name": "西风秘典",
       "description": "西风骑士团的学者间流传的秘典，记载着元素与物质的道理和力量。",
@@ -7596,6 +8358,18 @@
       ]
     },
     {
+      "key": "haran-geppaku-futsu",
+      "name": "Haran Geppaku Futsu",
+      "description": "经津传奉命锻造的名作。因其如汹涌海涛般的气度，而得「波乱」之名。",
+      "refinements": [
+        "获得{color}12{/color}%所有元素伤害加成；队伍中附近的其他角色在施放元素战技时，会为装备该武器的角色产生1层「波穗」效果，至多叠加2层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，如果有积累的「波穗」效果，则将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升{color}20{/color}%普通攻击伤害，持续8秒。",
+        "获得{color}15{/color}%所有元素伤害加成；队伍中附近的其他角色在施放元素战技时，会为装备该武器的角色产生1层「波穗」效果，至多叠加2层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，如果有积累的「波穗」效果，则将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升{color}25{/color}%普通攻击伤害，持续8秒。",
+        "获得{color}18{/color}%所有元素伤害加成；队伍中附近的其他角色在施放元素战技时，会为装备该武器的角色产生1层「波穗」效果，至多叠加2层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，如果有积累的「波穗」效果，则将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升{color}30{/color}%普通攻击伤害，持续8秒。",
+        "获得{color}21{/color}%所有元素伤害加成；队伍中附近的其他角色在施放元素战技时，会为装备该武器的角色产生1层「波穗」效果，至多叠加2层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，如果有积累的「波穗」效果，则将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升{color}35{/color}%普通攻击伤害，持续8秒。",
+        "获得{color}24{/color}%所有元素伤害加成；队伍中附近的其他角色在施放元素战技时，会为装备该武器的角色产生1层「波穗」效果，至多叠加2层，每0.3秒最多触发1次。装备该武器的角色施放元素战技时，如果有积累的「波穗」效果，则将消耗已有的「波穗」，获得「波乱」：根据消耗的层数，每层提升{color}40{/color}%普通攻击伤害，持续8秒。"
+      ]
+    },
+    {
       "key": "harbinger-of-dawn",
       "name": "黎明神剑",
       "description": "一把曾经耀若朝阳的宝剑，掌握它的人会获得「自我感觉良好」的力量加持。剑身上的发光材料已经褪去。",
@@ -7629,6 +8403,14 @@
         "造成元素伤害后的6秒内，角色造成的伤害提高{color}9{/color}%，该效果最多叠加2层。该效果每1秒可以触发一次。",
         "造成元素伤害后的6秒内，角色造成的伤害提高{color}10.5{/color}%，该效果最多叠加2层。该效果每1秒可以触发一次。",
         "造成元素伤害后的6秒内，角色造成的伤害提高{color}12{/color}%，该效果最多叠加2层。该效果每1秒可以触发一次。"
+      ]
+    },
+    {
+      "key": "kagotsurube-isshin",
+      "name": "笼钓瓶一心",
+      "description": "于遥远北国诞生之名刀，曾在归乡路上沾染无数罪恶，只为「一心」二字。",
+      "refinements": [
+        "普通攻击、重击或下落攻击命中敌人时，将卷起切落风，造成180%攻击力的范围伤害，并且使攻击力提升15%，持续8秒。该效果每8秒至多触发一次。"
       ]
     },
     {
@@ -8543,14 +9325,14 @@
     },
     {
       "key": "windblume-ode",
-      "name": "风花之颂",
-      "description": "点缀以无名花朵的弓，承载着同样无名之人的殷切希望。",
+      "name": "風花之頌",
+      "description": "點綴以無名花朵的弓，承載著同樣無名之人的殷切希望。",
       "refinements": [
-        "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升{color}16{/color}%，持续6秒。",
-        "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升{color}20{/color}%，持续6秒。",
-        "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升{color}24{/color}%，持续6秒。",
-        "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升{color}28{/color}%，持续6秒。",
-        "施放元素战技时，获得风之花的悠古愿望加持，攻击力提升{color}32{/color}%，持续6秒。"
+        "施放元素戰技時，獲得風之花的悠古願望加持，攻擊力提升{color}16{/color}%，持續6秒。",
+        "施放元素戰技時，獲得風之花的悠古願望加持，攻擊力提升{color}20{/color}%，持續6秒。",
+        "施放元素戰技時，獲得風之花的悠古願望加持，攻擊力提升{color}24{/color}%，持續6秒。",
+        "施放元素戰技時，獲得風之花的悠古願望加持，攻擊力提升{color}28{/color}%，持續6秒。",
+        "施放元素戰技時，獲得風之花的悠古願望加持，攻擊力提升{color}32{/color}%，持續6秒。"
       ]
     },
     {
@@ -8641,6 +9423,14 @@
       "bonus": [
         "防御力提高30%。",
         "队伍里每有不同一种元素类型的自己的角色，自身获得30%相应的元素抗性。"
+      ]
+    },
+    {
+      "key": "echoes-of-an-offering",
+      "name": "来歆余响",
+      "bonus": [
+        "攻击力提高18%。",
+        "普通攻击命中敌人时，有36%概率触发「幽谷祝祀」：普通攻击造成的伤害提高，伤害提高值为攻击力的70%，该效果将在普通攻击造成伤害后的0.05秒后清除。普通攻击未触发「幽谷祝祀」时，会使下次触发概率提升20%；0.2秒内至多判定1次触发与否。"
       ]
     },
     {
@@ -8868,6 +9658,14 @@
       "bonus": [
         "角色受到的治疗效果提高20%。",
         "施放元素爆发时，恢复20%生命值。"
+      ]
+    },
+    {
+      "key": "vermillion-hereafter",
+      "name": "辰砂往生录",
+      "bonus": [
+        "攻击力提高18%。",
+        "施放元素爆发后，将产生持续16秒的「潜光」效果：攻击力提升8%；并在角色的生命值降低时，攻击力进一步提升10%，至多通过这种方式提升4次，每0.8秒至多触发一次。「潜光」效果将在角色退场时消失；持续期间再次施放元素爆发，将移除原有的「潜光」。"
       ]
     },
     {
@@ -9959,6 +10757,11 @@
       "description": "从北风的伟大王狼身上，取来的些许凝冰。\r\n这片大地曾经北风呼啸，呼气凝霜。如砂砾的冰与雪在寒风中嚣叫，飞舞着将肌肤撕裂，让血液凝结。如今的北风王狼力量虽然不如往昔，却仍有能将大地冰封的力量。"
     },
     {
+      "key": "runic-fang",
+      "name": "符纹之齿",
+      "description": "神秘的蛇状古代机械用于掘削山壁的「齿」，其上篆刻着无解的不祥符文。\r\n相传在大地的深黑裂缝中潜藏着庞大的虺类，它们永远怀着对地上世界的憎恨与恶意，抱着不可知的险恶目的，发掘着宏大的隧道…"
+    },
+    {
       "key": "sakura-bloom",
       "name": "绯樱绣球",
       "description": "从鸣神大社的神樱上飘落的花瓣，怀着稻妻大地的眷顾。"
@@ -10505,35 +11308,39 @@
   "monsters": [
     {
       "key": "abyss-herald-wicked-torrents",
-      "name": "深淵使徒·激流"
+      "name": "深渊使徒·激流"
     },
     {
       "key": "abyss-lector-fathomless-flames",
-      "name": "深淵詠者·淵火"
+      "name": "深渊咏者·渊火"
     },
     {
       "key": "abyss-lector-violet-lightning",
-      "name": "深淵詠者·紫電"
+      "name": "深渊咏者·紫电"
     },
     {
       "key": "anemo-hypostasis",
-      "name": "無相之風"
+      "name": "无相之风"
     },
     {
       "key": "anemo-samachurl",
-      "name": "風丘丘薩滿"
+      "name": "风丘丘萨满"
     },
     {
       "key": "anemo-slime",
-      "name": "風史萊姆"
+      "name": "风史莱姆"
     },
     {
       "key": "anemo-specter",
-      "name": "風飄浮靈"
+      "name": "风飘浮灵"
     },
     {
       "key": "azhdaha",
-      "name": "若陀龍王"
+      "name": "若陀龙王"
+    },
+    {
+      "key": "black-serpent-knight-windcutter",
+      "name": "黑蛇骑士·斩风之剑"
     },
     {
       "key": "blazing-axe-mitachurl",
@@ -10541,11 +11348,11 @@
     },
     {
       "key": "bolteater-bathysmal-vishap",
-      "name": "深海龍蜥·吞雷"
+      "name": "深海龙蜥·吞雷"
     },
     {
       "key": "bolteater-bathysmal-vishap-hatchling",
-      "name": "深海龍蜥幼體·吞雷"
+      "name": "深海龙蜥幼体·吞雷"
     },
     {
       "key": "childe",
@@ -10557,15 +11364,15 @@
     },
     {
       "key": "cryo-abyss-mage",
-      "name": "冰深淵法師"
+      "name": "冰深渊法师"
     },
     {
       "key": "cryo-cicin",
-      "name": "冰螢"
+      "name": "冰萤"
     },
     {
       "key": "cryo-hilichurl-grenadier",
-      "name": "冰彈丘丘人"
+      "name": "冰弹丘丘人"
     },
     {
       "key": "cryo-hilichurl-shooter",
@@ -10573,47 +11380,47 @@
     },
     {
       "key": "cryo-hypostasis",
-      "name": "無相之冰"
+      "name": "无相之冰"
     },
     {
       "key": "cryo-regisvine",
-      "name": "急凍樹"
+      "name": "急冻树"
     },
     {
       "key": "cryo-samachurl",
-      "name": "冰丘丘薩滿"
+      "name": "冰丘丘萨满"
     },
     {
       "key": "cryo-slime",
-      "name": "冰史萊姆"
+      "name": "冰史莱姆"
     },
     {
       "key": "cryo-specter",
-      "name": "冰飄浮靈"
+      "name": "冰飘浮灵"
     },
     {
       "key": "cryo-whopperflower",
-      "name": "冰霜騙騙花"
+      "name": "冰霜骗骗花"
     },
     {
       "key": "dendro-samachurl",
-      "name": "草丘丘薩滿"
+      "name": "草丘丘萨满"
     },
     {
       "key": "dendro-slime",
-      "name": "草史萊姆"
+      "name": "草史莱姆"
     },
     {
       "key": "electro-abyss-mage",
-      "name": "雷深淵法師"
+      "name": "雷深渊法师"
     },
     {
       "key": "electro-cicin",
-      "name": "雷螢"
+      "name": "雷萤"
     },
     {
       "key": "electro-hilichurl-grenadier",
-      "name": "雷彈丘丘人"
+      "name": "雷弹丘丘人"
     },
     {
       "key": "electro-hilichurl-shooter",
@@ -10621,95 +11428,99 @@
     },
     {
       "key": "electro-hypostasis",
-      "name": "無相之雷"
+      "name": "无相之雷"
     },
     {
       "key": "electro-samachurl",
-      "name": "雷丘丘薩滿"
+      "name": "雷丘丘萨满"
     },
     {
       "key": "electro-slime",
-      "name": "雷史萊姆"
+      "name": "雷史莱姆"
     },
     {
       "key": "electro-specter",
-      "name": "雷飄浮靈"
+      "name": "雷飘浮灵"
     },
     {
       "key": "electro-whopperflower",
-      "name": "電氣騙騙花"
+      "name": "电气骗骗花"
     },
     {
       "key": "eye-of-the-storm",
-      "name": "狂風之核"
+      "name": "狂风之核"
     },
     {
       "key": "fatui-cryo-cicin-mage",
-      "name": "愚人眾·冰螢術士"
+      "name": "愚人众·冰萤术士"
     },
     {
       "key": "fatui-electro-cicin-mage",
-      "name": "愚人眾·雷螢術士"
+      "name": "愚人众·雷萤术士"
     },
     {
       "key": "fatui-pyro-agent",
-      "name": "愚人眾·火之債務處理人"
+      "name": "愚人众·火之债务处理人"
     },
     {
       "key": "fatui-skirmisher-anemoboxer-vanguard",
-      "name": "愚人眾先遣隊·風拳前鋒軍"
+      "name": "愚人众先遣队·风拳前锋军"
     },
     {
       "key": "fatui-skirmisher-cryogunner-legionnaire",
-      "name": "愚人眾先遣隊·冰銃重衛士"
+      "name": "愚人众先遣队·冰铳重卫士"
     },
     {
       "key": "fatui-skirmisher-electrohammer-vanguard",
-      "name": "愚人眾先遣隊·雷錘前鋒軍"
+      "name": "愚人众先遣队·雷锤前锋军"
     },
     {
       "key": "fatui-skirmisher-geochanter-bracer",
-      "name": "愚人眾先遣隊·岩使游擊兵"
+      "name": "愚人众先遣队·岩使游击兵"
     },
     {
       "key": "fatui-skirmisher-hydrogunner-legionnaire",
-      "name": "愚人眾先遣隊·水銃重衛士"
+      "name": "愚人众先遣队·水铳重卫士"
     },
     {
       "key": "fatui-skirmisher-pyroslinger-bracer",
-      "name": "愚人眾先遣隊·火銃游擊兵"
+      "name": "愚人众先遣队·火铳游击兵"
+    },
+    {
+      "key": "floating-hydro-fungus",
+      "name": "浮游水蕈兽"
     },
     {
       "key": "frostarm-lawachurl",
-      "name": "丘丘霜鎧王"
+      "name": "丘丘霜铠王"
     },
     {
       "key": "geo-hypostasis",
-      "name": "無相之岩"
+      "name": "无相之岩"
     },
     {
       "key": "geo-samachurl",
-      "name": "岩丘丘薩滿"
+      "name": "岩丘丘萨满"
     },
     {
       "key": "geo-slime",
-      "name": "岩史萊姆"
+      "name": "岩史莱姆"
     },
     {
       "key": "geo-specter",
-      "name": "岩飄浮靈"
+      "name": "岩飘浮灵"
     },
     {
       "key": "geovishap",
-      "name": "岩龍蜥"
+      "name": "岩龙蜥"
     },
     {
       "key": "geovishap-hatchling",
-      "name": "幼岩龍蜥"
+      "name": "幼岩龙蜥"
     },
     {
       "key": "golden-wolflord",
-      "name": "黃金王獸"
+      "name": "黄金王兽"
     },
     {
       "key": "hilichurl",
@@ -10717,7 +11528,7 @@
     },
     {
       "key": "hilichurl-berserker",
-      "name": "衝鋒丘丘人"
+      "name": "冲锋丘丘人"
     },
     {
       "key": "hilichurl-fighter",
@@ -10725,7 +11536,7 @@
     },
     {
       "key": "hilichurl-grenadier",
-      "name": "爆彈丘丘人"
+      "name": "爆弹丘丘人"
     },
     {
       "key": "hilichurl-shooter",
@@ -10733,19 +11544,19 @@
     },
     {
       "key": "hydro-abyss-mage",
-      "name": "水深淵法師"
+      "name": "水深渊法师"
     },
     {
       "key": "hydro-cicin",
-      "name": "水螢"
+      "name": "水萤"
     },
     {
       "key": "hydro-hypostasis",
-      "name": "無相之水"
+      "name": "无相之水"
     },
     {
       "key": "hydro-mimic-boar",
-      "name": "幻形豕獸·水"
+      "name": "幻形豕兽·水"
     },
     {
       "key": "hydro-mimic-crab",
@@ -10753,7 +11564,7 @@
     },
     {
       "key": "hydro-mimic-crane",
-      "name": "幻形鶴·水"
+      "name": "幻形鹤·水"
     },
     {
       "key": "hydro-mimic-ferret",
@@ -10773,19 +11584,19 @@
     },
     {
       "key": "hydro-mimic-raptor",
-      "name": "幻形飛鳶·水"
+      "name": "幻形飞鸢·水"
     },
     {
       "key": "hydro-samachurl",
-      "name": "水丘丘薩滿"
+      "name": "水丘丘萨满"
     },
     {
       "key": "hydro-slime",
-      "name": "水史萊姆"
+      "name": "水史莱姆"
     },
     {
       "key": "hydro-specter",
-      "name": "水飄浮靈"
+      "name": "水飘浮灵"
     },
     {
       "key": "ice-shield-hilichurl-guard",
@@ -10797,11 +11608,11 @@
     },
     {
       "key": "kairagi-dancing-thunder",
-      "name": "海亂鬼·雷騰"
+      "name": "海乱鬼·雷腾"
     },
     {
       "key": "kairagi-fiery-might",
-      "name": "海亂鬼·炎威"
+      "name": "海乱鬼·炎威"
     },
     {
       "key": "la-signora",
@@ -10809,71 +11620,71 @@
     },
     {
       "key": "large-anemo-slime",
-      "name": "大型風史萊姆"
+      "name": "大型风史莱姆"
     },
     {
       "key": "large-cryo-slime",
-      "name": "大型冰史萊姆"
+      "name": "大型冰史莱姆"
     },
     {
       "key": "large-dendro-slime",
-      "name": "大型草史萊姆"
+      "name": "大型草史莱姆"
     },
     {
       "key": "large-electro-slime",
-      "name": "大型雷史萊姆"
+      "name": "大型雷史莱姆"
     },
     {
       "key": "large-geo-slime",
-      "name": "大型岩史萊姆"
+      "name": "大型岩史莱姆"
     },
     {
       "key": "large-hydro-slime",
-      "name": "大型水史萊姆"
+      "name": "大型水史莱姆"
     },
     {
       "key": "large-pyro-slime",
-      "name": "大型火史萊姆"
+      "name": "大型火史莱姆"
     },
     {
       "key": "lupus-boreas-dominator-of-wolves",
-      "name": "北風的王狼，奔狼的領主"
+      "name": "北风的王狼，奔狼的领主"
     },
     {
       "key": "magatsu-mitake-narukami-no-mikoto",
-      "name": "禍津御建鳴神命"
+      "name": "祸津御建鸣神命"
     },
     {
       "key": "maguu-kenki",
-      "name": "魔偶劍鬼"
+      "name": "魔偶剑鬼"
     },
     {
       "key": "maguu-kenki-galloping-frost",
-      "name": "魔偶劍鬼·霜馳"
+      "name": "魔偶剑鬼·霜驰"
     },
     {
       "key": "maguu-kenki-lone-gale",
-      "name": "魔偶劍鬼·孤風"
+      "name": "魔偶剑鬼·孤风"
     },
     {
       "key": "maguu-kenki-mask-of-terror",
-      "name": "魔偶劍鬼·兇面"
+      "name": "魔偶剑鬼·凶面"
     },
     {
       "key": "millelith-sergeant",
-      "name": "千岩軍教頭"
+      "name": "千岩军教头"
     },
     {
       "key": "millelith-soldier",
-      "name": "千岩軍士兵"
+      "name": "千岩军士兵"
     },
     {
       "key": "mirror-maiden",
-      "name": "愚人眾·藏鏡仕女"
+      "name": "愚人众·藏镜仕女"
     },
     {
       "key": "mutant-electro-slime",
-      "name": "變異雷史萊姆"
+      "name": "变异雷史莱姆"
     },
     {
       "key": "nobushi-hitsukeban",
@@ -10881,15 +11692,15 @@
     },
     {
       "key": "nobushi-jintouban",
-      "name": "野伏·陣刀番"
+      "name": "野伏·阵刀番"
     },
     {
       "key": "nobushi-kikouban",
-      "name": "野伏·機巧番"
+      "name": "野伏·机巧番"
     },
     {
       "key": "oceanid",
-      "name": "純水精靈"
+      "name": "纯水精灵"
     },
     {
       "key": "ochimusha-cankered-flame",
@@ -10901,23 +11712,23 @@
     },
     {
       "key": "perpetual-mechanical-array",
-      "name": "恒常機關陣列"
+      "name": "恒常机关阵列"
     },
     {
       "key": "primo-geovishap",
-      "name": "古岩龍蜥"
+      "name": "古岩龙蜥"
     },
     {
       "key": "primordial-bathysmal-vishap",
-      "name": "深海龍蜥·原種"
+      "name": "深海龙蜥·原种"
     },
     {
       "key": "primordial-bathysmal-vishap-hatchling",
-      "name": "深海龍蜥幼體·原種"
+      "name": "深海龙蜥幼体·原种"
     },
     {
       "key": "pyro-abyss-mage",
-      "name": "火深淵法師"
+      "name": "火深渊法师"
     },
     {
       "key": "pyro-hilichurl-shooter",
@@ -10925,35 +11736,35 @@
     },
     {
       "key": "pyro-hypostasis",
-      "name": "無相之火"
+      "name": "无相之火"
     },
     {
       "key": "pyro-regisvine",
-      "name": "爆炎樹"
+      "name": "爆炎树"
     },
     {
       "key": "pyro-slime",
-      "name": "火史萊姆"
+      "name": "火史莱姆"
     },
     {
       "key": "pyro-specter",
-      "name": "火飄浮靈"
+      "name": "火飘浮灵"
     },
     {
       "key": "pyro-whopperflower",
-      "name": "熾熱騙騙花"
+      "name": "炽热骗骗花"
     },
     {
       "key": "raiden-shogun",
-      "name": "雷電將軍"
+      "name": "雷电将军"
     },
     {
       "key": "rimebiter-bathysmal-vishap",
-      "name": "深海龍蜥·囓冰"
+      "name": "深海龙蜥·啮冰"
     },
     {
       "key": "rimebiter-bathysmal-vishap-hatchling",
-      "name": "深海龍蜥幼體·囓冰"
+      "name": "深海龙蜥幼体·啮冰"
     },
     {
       "key": "rock-shield-hilichurl-guard",
@@ -10965,63 +11776,67 @@
     },
     {
       "key": "rockfond-rifthound",
-      "name": "嗜岩·獸境獵犬"
+      "name": "嗜岩·兽境猎犬"
     },
     {
       "key": "rockfond-rifthound-whelp",
-      "name": "嗜岩·獸境幼獸"
+      "name": "嗜岩·兽境幼兽"
     },
     {
       "key": "ruin-cruiser",
-      "name": "遺蹟巡弋者"
+      "name": "遗迹巡弋者"
     },
     {
       "key": "ruin-defender",
-      "name": "遺蹟防衛者"
+      "name": "遗迹防卫者"
     },
     {
       "key": "ruin-destroyer",
-      "name": "遺蹟殲擊者"
+      "name": "遗迹歼击者"
     },
     {
       "key": "ruin-grader",
-      "name": "遺蹟重機"
+      "name": "遗迹重机"
     },
     {
       "key": "ruin-guard",
-      "name": "遺蹟守衛"
+      "name": "遗迹守卫"
     },
     {
       "key": "ruin-hunter",
-      "name": "遺蹟獵者"
+      "name": "遗迹猎者"
     },
     {
       "key": "ruin-scout",
-      "name": "遺蹟偵察者"
+      "name": "遗迹侦察者"
+    },
+    {
+      "key": "ruin-serpent",
+      "name": "遗迹巨蛇"
     },
     {
       "key": "sangonomiya-cohort",
-      "name": "珊瑚宮眾"
+      "name": "珊瑚宫众"
     },
     {
       "key": "shadowy-husk-defender",
-      "name": "黯色空殼·近衛"
+      "name": "黯色空壳·近卫"
     },
     {
       "key": "shadowy-husk-line-breaker",
-      "name": "黯色空殼·破陣"
+      "name": "黯色空壳·破阵"
     },
     {
       "key": "shadowy-husk-standard-bearer",
-      "name": "黯色空殼·旗令"
+      "name": "黯色空壳·旗令"
     },
     {
       "key": "shogunate-infantry",
-      "name": "幕府足輕"
+      "name": "幕府足轻"
     },
     {
       "key": "shogunate-infantry-captain",
-      "name": "幕府足輕頭"
+      "name": "幕府足轻头"
     },
     {
       "key": "stonehide-lawachurl",
@@ -11029,19 +11844,19 @@
     },
     {
       "key": "stormterror",
-      "name": "裂空的魔龍"
+      "name": "裂空的魔龙"
     },
     {
       "key": "thunder-manifestation",
-      "name": "雷音權現"
+      "name": "雷音权现"
     },
     {
       "key": "thundercraven-rifthound",
-      "name": "嗜雷·獸境獵犬"
+      "name": "嗜雷·兽境猎犬"
     },
     {
       "key": "thundercraven-rifthound-whelp",
-      "name": "嗜雷·獸境幼獸"
+      "name": "嗜雷·兽境幼兽"
     },
     {
       "key": "thunderhelm-lawachurl",
@@ -11049,67 +11864,67 @@
     },
     {
       "key": "treasure-hoarder-wallenstein",
-      "name": "盜寶團·「瓦倫斯坦」"
+      "name": "盗宝团·「瓦伦斯坦」"
     },
     {
       "key": "treasure-hoarders-boss",
-      "name": "盜寶團·「大姐頭」"
+      "name": "盗宝团·「大姐头」"
     },
     {
       "key": "treasure-hoarders-carmen",
-      "name": "盜寶團·「卡門」"
+      "name": "盗宝团·「卡门」"
     },
     {
       "key": "treasure-hoarders-crusher",
-      "name": "盜寶團·粉碎者"
+      "name": "盗宝团·粉碎者"
     },
     {
       "key": "treasure-hoarders-cryo-potioneer",
-      "name": "盜寶團·冰之藥劑師"
+      "name": "盗宝团·冰之药剂师"
     },
     {
       "key": "treasure-hoarders-electro-potioneer",
-      "name": "盜寶團·雷之藥劑師"
+      "name": "盗宝团·雷之药剂师"
     },
     {
       "key": "treasure-hoarders-gravedigger",
-      "name": "盜寶團·掘墓者"
+      "name": "盗宝团·掘墓者"
     },
     {
       "key": "treasure-hoarders-handyman",
-      "name": "盜寶團·雜工"
+      "name": "盗宝团·杂工"
     },
     {
       "key": "treasure-hoarders-hydro-potioneer",
-      "name": "盜寶團·水之藥劑師"
+      "name": "盗宝团·水之药剂师"
     },
     {
       "key": "treasure-hoarders-liuliu",
-      "name": "盜寶團·「溜溜」"
+      "name": "盗宝团·「溜溜」"
     },
     {
       "key": "treasure-hoarders-marksman",
-      "name": "盜寶團·神射手"
+      "name": "盗宝团·神射手"
     },
     {
       "key": "treasure-hoarders-pugilist",
-      "name": "盜寶團·拳術家"
+      "name": "盗宝团·拳术家"
     },
     {
       "key": "treasure-hoarders-pyro-potioneer",
-      "name": "盜寶團·火之藥劑師"
+      "name": "盗宝团·火之药剂师"
     },
     {
       "key": "treasure-hoarders-raptor",
-      "name": "盜寶團·「怪鳥」"
+      "name": "盗宝团·「怪鸟」"
     },
     {
       "key": "treasure-hoarders-scout",
-      "name": "盜寶團·斥候"
+      "name": "盗宝团·斥候"
     },
     {
       "key": "treasure-hoarders-seaman",
-      "name": "盜寶團·海上男兒"
+      "name": "盗宝团·海上男儿"
     },
     {
       "key": "unusual-hilichurl",
@@ -11125,7 +11940,7 @@
     },
     {
       "key": "yoriki-samurai",
-      "name": "寄騎武士"
+      "name": "寄骑武士"
     }
   ]
 }
